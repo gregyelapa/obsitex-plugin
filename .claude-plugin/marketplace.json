@@ -1,0 +1,14 @@
+{
+  "name": "obsitex",
+  "description": "The Obsitex plugin for Claude Code: scaffold a thesis vault and keep its Markdown convertible to LaTeX.",
+  "owner": {
+    "name": "Gregor Masshardt"
+  },
+  "plugins": [
+    {
+      "name": "obsitex",
+      "source": "./",
+      "description": "Set up and write a thesis or paper as an Obsidian vault that Obsitex converts to LaTeX and PDF."
+    }
+  ]
+}

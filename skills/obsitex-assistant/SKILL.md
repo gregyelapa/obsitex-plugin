@@ -61,7 +61,7 @@ Only in a vault whose order the Flexplorer plugin carries — with number prefix
 names there is nothing to enter, the name alone places the file.
 
 `{vaultRoot}/.obsidian/plugins/flexplorer/data.json`, key `items`. Every key is a folder:
-`"/"` for the vault root, otherwise its path **from the vault root** (`"Thesis/Backmatter"`).
+`"/"` for the vault root, otherwise its path **from the vault root** (`"Manuscript/Backmatter"`).
 Insert the new file name into that folder's `customOrder` array, at the position the user
 asked for. Nothing else changes — per-file entries are optional, the plugin fills its own
 defaults.

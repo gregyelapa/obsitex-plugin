@@ -14,14 +14,14 @@ document and PDF. This skill lays down everything the converter needs — docume
 ## Two words, used everywhere
 
 Use exactly these two terms — in this file, in the chat, in the report and in the READMEs.
-Never invent synonyms ("target folder", "root folder", "the `10 Thesis` folder"); the whole
+Never invent synonyms ("target folder", "root folder", "the thesis folder"); the whole
 point is that the user hears the same word every time.
 
 - **project folder** (de: *Projektordner*) — the folder the whole work lives in. Obsidian
   opens *this* one, so it is also the vault; `.obsidian` (and later `.git`) sit here.
 - **the manuscript** (de: *das Manuskript*) — the subfolder Obsitex turns into the document.
-  Its name on disk depends on the template (`Thesis`, `10 Thesis`, `Paper`), the term does
-  not. Everything outside it never reaches the PDF.
+  On disk it carries that same name, whatever the template: `Manuscript` (de: `Manuskript`),
+  or `10 Manuscript` in variant B. Everything outside it never reaches the PDF.
 
 The remaining folders get **no collective term** — name them individually (Organisation,
 Research, Interviews, Data, Exports) or say "the other folders in the project folder".
@@ -209,7 +209,7 @@ rest.
 | Reordering | drag & drop in Obsidian | rename the file (see the renaming rules in the report) |
 
 In **variant A**, strip the leading `^\d+\s+` from every file and folder name while
-copying — including the top-level folders (`Organisation`, `Thesis`, `Research`, `Interviews`,
+copying — including the top-level folders (`Organisation`, `Manuscript`, `Research`, `Interviews`,
 `Data`, `Exports`) and the manuscript subfolders (`Frontmatter`, `Backmatter`). The single
 exception is `00 Document Setup.md`: it must sort first even when the add-on is not running,
 because the converter reads its settings at the position where they stand. Mention this in
@@ -247,8 +247,8 @@ having to name a hierarchy at all. **Then explain the difference**, using the mo
 list further down.
 
 **Say "your document", not "your work".** In German especially, *„deine Arbeit"* is too vague
-— it also just means *task* — and it collides with the manuscript folder's name. *„dein
-Dokument"* is unambiguous and is what actually comes out at the end.
+— it also just means *task*. *„dein Dokument"* is unambiguous and is what actually comes out
+at the end.
 
 ### How to ask it — the illustration is mandatory
 
@@ -694,20 +694,36 @@ automatically (no `skip: true` needed outside).
 Unless the user opted out, create these six folders in the project folder. Folder names
 follow the **chat language** — see "Which language governs what" above; nobody but the author
 ever sees them. The numbers below apply to **variant B**; in variant A drop them
-(`Organisation`, `Thesis`, `Research`, …):
+(`Organisation`, `Manuscript`, `Research`, …):
 
 | English | German | Purpose |
 |---|---|---|
 | `00 Organisation` | `00 Organisation` | proposal/exposé, schedule, open tasks, meeting notes, supervisor feedback |
-| `10 Thesis` (academic-paper: `10 Paper`) | `10 Arbeit` (academic-paper: `10 Paper`) | **the manuscript — the folder the user selects in Obsitex**; the template is copied in here |
+| `10 Manuscript` | `10 Manuskript` | **the manuscript — the folder the user selects in Obsitex**; the template is copied in here |
 | `20 Research` | `20 Recherche` | literature notes per source, source PDFs, interim analyses |
 | `30 Interviews` | `30 Interviews` | guides, transcripts, evaluations |
 | `40 Data` | `40 Daten` | raw data, analysis scripts, figure source files (draw.io, Excalidraw, …) |
 | `90 Exports` | `90 Exporte` | frozen PDF states (e.g. "draft sent to supervisor") |
 
+- **The manuscript folder carries the same name for every template** — never `Thesis`,
+  never `Paper`, never `Arbeit`. The user hears "the manuscript" and sees `Manuskript`; one
+  word for one thing is the whole point of the two terms above.
 - Put a short `README.md` into each project folder (in the **chat language**): one or two
   sentences on what belongs there — plain Markdown, these folders are outside the
   converter, so no remark blocks and no converter conventions apply.
+- **The manuscript's README needs `skip: true` as its first property** — it is the one README
+  that lies *inside* the converted folder, so without it the explanatory text becomes a section
+  of the thesis (measured 16.08.2026: it did). Write the frontmatter first, then the text:
+
+  ```
+  ---
+  skip: true
+  ---
+  ```
+
+  Let the file teach its own mechanism: name `skip: true` in the text as the way to take any
+  file out of the document temporarily, and say that this README carries it. The other READMEs
+  sit outside the manuscript and need nothing.
 - The manuscript's README must state the boundary rule that actually matters:
   **only the Markdown files inside this folder become the document.** Text written in the
   other project folders never lands in the PDF, and a wikilink to a note outside this
@@ -852,19 +868,27 @@ Obsidian  ⚙ Settings (bottom left)
         ├─ [Turn on community plugins]     ← only on a new vault, with a security notice
         └─ Installed plugins
              └─ Flexplorer            ( ●— )   ← switch on
+
+then: close Obsidian and open it again      ← without this the order stays hidden
 ```
 
 Explain the security notice instead of glossing over it: community plugins are third-party
 code, Obsidian asks once whether they may run at all — that consent is deliberate and must
 never be pre-set through a config file.
 
-Then **ask for confirmation** before moving on: does `00 Document Setup` sit at the top, with the
-chapters in document order? If the user is unsure whether the plugin is running at all, a
-simpler check: right-click a file — the entries *Pin* and *Hide* only appear with
-Flexplorer active.
+**The restart is part of the instruction, not an afterthought.** Switching the add-on on
+leaves the file tree exactly as it was — folders on top, everything alphabetical — because
+the tree was already built. Say this *before* the user looks, otherwise the unchanged sidebar
+reads as a broken setup (measured 16.08.2026: it did).
 
-**If the order is wrong:** have the user close Obsidian **completely** (a running plugin
-rewrites the file on the next save), write the `data.json` again, then reopen Obsidian.
+Only **then ask for confirmation**: does `00 Document Setup` sit at the top, with the chapters
+in document order? If the user is unsure whether the plugin is running at all, a simpler
+check: right-click a file — the entries *Pin* and *Hide* only appear with Flexplorer active.
+
+**If the order is wrong,** ask first whether Obsidian was really restarted — that is the
+common cause, and rewriting the file fixes nothing. Only if it was: have the user close
+Obsidian **completely** (a running plugin rewrites the file on the next save), write the
+`data.json` again, then reopen Obsidian.
 
 ## Seed the Flexplorer order
 
@@ -887,16 +911,16 @@ the plugin's own defaults on first load, so leaving it out is both correct and s
   "items": {
     "/": {
       "sortOrder": "custom",
-      "customOrder": ["Organisation", "Thesis", "Research",
+      "customOrder": ["Organisation", "Manuscript", "Research",
                       "Interviews", "Data", "Exports"]
     },
-    "Thesis": {
+    "Manuscript": {
       "sortOrder": "custom",
       "customOrder": ["00 Document Setup.md", "Frontmatter", "Main Matter.md",
                       "Introduction.md", "Backmatter",
                       "README.md", "refs.bib"]
     },
-    "Thesis/Frontmatter": {
+    "Manuscript/Frontmatter": {
       "sortOrder": "custom",
       "customOrder": ["Front Matter.md", "Cover Page.md", "Abstract.md"]
     }
@@ -908,7 +932,7 @@ the plugin's own defaults on first load, so leaving it out is both correct and s
 Rules for building it:
 
 - Keys are folders only — never files. The project folder is the key `"/"`; every other key
-  is a folder path relative to it, with `/` separators (e.g. `Thesis/Backmatter`).
+  is a folder path relative to it, with `/` separators (e.g. `Manuscript/Backmatter`).
 - The names must match what was actually written to disk — in variant A the stripped form
   shown above, with `00 Document Setup.md` as the one exception that keeps its number.
 - **Order only folders the scaffold created.** The project folder is the vault, so the `"/"`
@@ -922,7 +946,7 @@ Rules for building it:
 - Include only folders where the order matters. Skip the project folders that hold just a
   README (`20 Research`, `30 Interviews`, …) — there is nothing to sort there.
 - With the manuscript-only opt-out, the manuscript files are the children of `"/"` and the
-  subfolder keys lose the `10 Thesis/` prefix.
+  subfolder keys lose the `10 Manuscript/` prefix.
 - Keep `"newItemPlacement": "bottom"` — it is the actual cause of the reversal and also
   makes files the user adds later appear at the bottom instead of jumping to the top.
 - Names must match the files on disk exactly (including the German renames, if applied).
@@ -1007,10 +1031,10 @@ Projektordner                   ← Obsidian opens this one (the vault)
   handles it if they ever ask.
 - Next steps: open the project folder in Obsidian as a vault, fill in
   the chapters top-down, replace `refs.bib` with their own export (e.g. from Zotero), then
-  run Obsitex — sign in, **pick the manuscript** (`Thesis` / `10 Thesis`; with the
+  run Obsitex — sign in, **pick the manuscript** (`Manuscript` / `10 Manuscript`; with the
   opt-out, the project folder itself), Convert, and export (Overleaf / download).
 - **Variant A only — switching the add-on on:** the plugin files are copied in but Obsidian
-  will not run them until the user does two manual clicks (Claude cannot do these — no UI access to the app, only
+  will not run them until the user does this by hand (Claude cannot — no UI access to the app, only
   the filesystem). Give this exact sequence:
   1. Settings (gear icon, bottom left) → "Community plugins" ("Community-Erweiterungen")
      in the left sidebar.
@@ -1019,11 +1043,15 @@ Projektordner                   ← Obsidian opens this one (the vault)
      Erweiterungen aktivieren"). This consent screen is intentional — never try to
      pre-set it via a config file.
   3. Under "Installed plugins", find "Flexplorer" in the list and toggle it on.
-  Until both steps are done, Obsidian's explorer shows folders above files in alphabetical
-  order. Once switched on, the order is already set up correctly (it was
-  written along with the plugin), and it can be changed by drag & drop. Updates come
-  through Obsidian's plugin manager; deleting `.obsidian/plugins/flexplorer/` removes the
-  plugin entirely.
+  4. **Close Obsidian and open it again.** Switching the add-on on is not enough — the file
+     tree has already been built by then, and the prepared order only takes effect on the
+     next start.
+  **Say what the user will see, or they will think the setup failed** (measured 16.08.2026 —
+  it did read as a defect): until step 4, the explorer keeps showing folders above files in
+  alphabetical order, exactly as before. The order itself is ready and correct from the
+  moment the files are written; the restart is what makes it visible. Afterwards it can be
+  changed by drag & drop. Updates come through Obsidian's plugin manager; deleting
+  `.obsidian/plugins/flexplorer/` removes the plugin entirely.
 - **Variant A only — where the order lives:** the seed file written next to the plugin now
   holds the order of the whole work. It is worth keeping: do not delete it, and include it
   in backups or version control. Should it ever be lost, the files fall back to

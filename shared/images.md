@@ -60,7 +60,7 @@ file by this command, and read back as the same picture.
       it.
 
    **Which level: inside the manuscript, never beside it.** Where the folder has to be created or
-   chosen, it belongs *within* the manuscript folder (`Thesis/attachments`), not in the project
+   chosen, it belongs *within* the manuscript folder (`Manuscript/attachments`), not in the project
    folder next to it. The reason is portability: the manuscript is the unit that gets copied,
    archived and handed on, and it has to carry everything the document needs. An attachment one
    level up survives no such move — the notes keep finding it as long as the original folder sits

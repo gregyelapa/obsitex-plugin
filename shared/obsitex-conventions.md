@@ -15,8 +15,9 @@ should hear the same word every time.
 
 - **project folder** (de: *Projektordner*) — the folder the whole work lives in. Obsidian opens
   *this* one, so it is also the vault; `.obsidian` (and later `.git`) sit here.
-- **the manuscript** (de: *das Manuskript*) — the subfolder Obsitex turns into the document. Its
-  name on disk depends on the template (`Thesis`, `10 Thesis`, `Paper`), the term does not.
+- **the manuscript** (de: *das Manuskript*) — the subfolder Obsitex turns into the document. On
+  disk it is called `Manuscript` (de: `Manuskript`), or `10 Manuscript` where the folders are
+  numbered; projects scaffolded before that rule may still carry `Thesis`, `Arbeit` or `Paper`.
 
 What follows from the split — and what goes silently wrong when it is forgotten:
 
@@ -43,7 +44,7 @@ What has to happen, in this order:
 1. Move the project folder into the existing vault (a plain folder move).
 2. Merge the entries from the project's `data.json` into the existing vault's
    `.obsidian/plugins/flexplorer/data.json` — **keys get the full path from that vault's
-   root**, e.g. `Projects/Master Thesis/Thesis`. Back the file up first; it holds the order
+   root**, e.g. `Projects/Master Thesis/Manuscript`. Back the file up first; it holds the order
    of everything the user already has.
 3. **Drop the `"/"` entry.** In the project's own vault it listed just the six scaffold
    folders; in the bigger vault it would reorder the user's entire top level, because the

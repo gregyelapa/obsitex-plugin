@@ -71,6 +71,27 @@ Two rules follow, and both are there because a violation already cost real work:
 Full reasoning, the measured token costs and the incidents behind these rules:
 `PLUGIN_WISSENSARCHITEKTUR.md` in the Obsidian docs.
 
+## Two repositories — the workbench and the shop window
+
+| | Repo | Holds | Who sees it |
+|---|---|---|---|
+| **workbench** | `gregyelapa/ObsitexPlugin` (private) | the full history, **every** version | the maintainer |
+| **shop window** | `gregyelapa/obsitex-plugin` (public, MIT) | **one commit per published release** | everyone; this is what users install from |
+
+Work happens here, in the workbench — the loop below is unchanged. A version becomes public
+only when the maintainer says so:
+
+```
+bash tools/publish-release.sh --dry-run    # what would go out
+bash tools/publish-release.sh              # one commit "Release vX.Y.Z" + tag
+```
+
+The script publishes the **committed** state (it refuses to run on a dirty tree), through a
+release clone at `../ObsitexPluginRelease`. **It appends, it never rewrites.** Installed users
+update by pulling, and a rewritten public history would break that — so the public repo grows
+a list of releases, never the intermediate versions. Not every version has to be published;
+skipping one is normal.
+
 ## Development loop — edits do NOT take effect immediately
 
 The installation is a **git clone of GitHub**, not a link to this folder. Changing a file
@@ -106,7 +127,7 @@ nothing. The four-command sequence below therefore only helps once that declarat
 ```
 claude plugin uninstall obsitex@obsitex
 claude plugin marketplace remove obsitex
-claude plugin marketplace add gregyelapa/ObsitexPlugin
+claude plugin marketplace add gregyelapa/obsitex-plugin
 claude plugin install obsitex@obsitex
 ```
 

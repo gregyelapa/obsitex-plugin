@@ -50,10 +50,14 @@ not. To keep two literal hyphens, separate them or escape one.
 
 ## Traps
 
-- **Emoji break the compilation.** `✅` or `❌` produce `Unicode character not set up for use
-  with LaTeX`, one error per occurrence; pdflatex continues and the character is simply
-  missing from the PDF. On Overleaf the user sees a red error panel *and* a result, which is
-  confusing. Also affects emoji in headings, where they become `___` in the label.
-  **Typographic characters are safe:** `→`, `—` and `…` compile fine.
+- **Emoji cost you twice, and Obsitex warns you about them.** They are written to the `.tex`
+  exactly as you typed them, nothing is removed. But LaTeX cannot print them: `✅` or `❌`
+  produce `Unicode character not set up for use with LaTeX`, one error per occurrence, and the
+  character is simply missing from the PDF. And an editor may refuse to let you edit a file that
+  holds an emoji. Overleaf does, for the whole file, because of a single character. The
+  conversion result names every note that contains one, so you can replace them and export
+  again. Also affects emoji in headings, where they become `___` in the label.
+  **Typographic characters are safe:** `→`, `—`, `…`, `©`, `®`, `™` and `°` all compile fine,
+  and so does everything mathematical.
 - **A `%` inside inline backticks comments out the rest of the LaTeX line** — silently
   swallowing text. This is the most damaging form of the backtick trap.

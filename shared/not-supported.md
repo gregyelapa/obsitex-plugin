@@ -77,11 +77,21 @@ correctly, and a golden-file comparison only says "changed", not "wrong".
 
 ## Emoji
 
-`✅` and `❌` produce `Unicode character not set up for use with LaTeX` — one error per
-occurrence. pdflatex carries on and emits a PDF with the character missing, so on Overleaf the
-user sees a red error panel *and* a result.
+Emoji are **not removed**. They go into the `.tex` exactly as you typed them, and Obsitex warns
+you about them: the conversion result names every note that contains one. What it cannot do is
+make them work, and there are two separate problems.
 
-**Typographic characters are safe:** `→`, `—`, `…` compile fine. It is only real emoji.
+`✅` and `❌` produce `Unicode character not set up for use with LaTeX`, one error per
+occurrence. pdflatex carries on and emits a PDF with the character missing. And an editor may
+refuse to let you edit a file that holds an emoji. Overleaf does, for the whole file, because of
+a single character.
+
+If either gets in your way, replace the characters in your vault and export again. A future
+engine (LuaLaTeX or XeLaTeX with an emoji font) can print them, which is why nothing is deleted
+on your behalf.
+
+**Typographic characters are safe:** `→`, `—`, `…`, `©`, `®`, `™` and `°` compile fine, and so
+does everything mathematical. It is only real emoji.
 
 ## Note transclusion
 

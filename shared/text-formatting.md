@@ -77,7 +77,9 @@ accept the plain escaped version or write `` `\texttt{…}` `` deliberately.
 
 - **Emphasis over a line break is silent** (see above) — the single most invisible defect in
   this file, because it compiles and Obsidian shows it right.
-- **Emoji break the compilation.** `✅` or `❌` produce `Unicode character not set up for use
-  with LaTeX` — one error per occurrence. pdflatex carries on and emits a PDF with the
-  character simply missing. Typographic characters are **not** affected: `→`, `—` and `…`
-  compile fine. Avoid emoji in body text and headings.
+- **Emoji are kept, but they cost you twice.** They go into the `.tex` unchanged and Obsitex
+  names every note that holds one. Still, `✅` or `❌` produce `Unicode character not set up for
+  use with LaTeX`, one error per occurrence, and the character is missing from the PDF. On top
+  of that an editor may refuse to edit a file that holds an emoji, Overleaf among them.
+  Typographic characters are **not** affected: `→`, `—`, `…`, `©`, `®`, `™` and `°` compile
+  fine. Best avoided in body text and headings.

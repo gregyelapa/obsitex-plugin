@@ -32,9 +32,11 @@ files is something the converter actually understands.
 
 ## Working in the user's vault
 
-- **Creating a note is two steps, never one.** A new `.md` file that nothing points at is
-  invisible to the order: write the file **and** enter it in the Flexplorer `data.json` —
-  procedure below. Ask first where it goes; do not choose folder, position and name yourself.
+- **Creating a note is not finished when the file exists.** It also has to sit in the right
+  place in the Flexplorer order, and **who puts it there depends on whether Obsidian is
+  running** — procedure below, check before you act. Ask first where it goes, and ask for the
+  **position inside the folder** as well; do not choose folder, position and name yourself.
+  Appending it and saying "drag it if you want it elsewhere" is choosing.
 - **Do not rename or move a note on your own.** Both break every wikilink pointing at it
   (resolution is file-name based, `links.md`), on top of the `data.json` entry. Only on an
   explicit request, and then all three in one operation: file, entry, and every link that
@@ -62,25 +64,41 @@ names there is nothing to enter, the name alone places the file.
 
 `{vaultRoot}/.obsidian/plugins/flexplorer/data.json`, key `items`. Every key is a folder:
 `"/"` for the vault root, otherwise its path **from the vault root** (`"Manuscript/Backmatter"`).
-Insert the new file name into that folder's `customOrder` array, at the position the user
-asked for. Nothing else changes — per-file entries are optional, the plugin fills its own
-defaults.
+The folder's `customOrder` array is the order. Nothing else changes — per-file entries are
+optional, the plugin fills its own defaults.
+
+**First check whether Obsidian is running** (`Get-Process Obsidian`). It decides the whole
+procedure, and both branches were measured on 28.08.2026:
+
+| Obsidian | What happens by itself | What you do |
+|---|---|---|
+| **running** | Flexplorer appends the new file to `customOrder` **within a second**, at the **end** of its folder. It does this even when the folder is collapsed and never opened. | Nothing, **if the end is where the file belongs**. Say that it landed at the end. Otherwise write the position yourself and read the restart note below. |
+| **closed** | **nothing at all** | Write the entry yourself, at the position the user asked for. It survives the next start unchanged, at that position. |
+
+The deletion is symmetrical: with Obsidian running, removing a `.md` file removes its entries
+within a second too.
 
 - **No entry for that folder, or no `"sortOrder": "custom"`?** Then the folder is not
   custom-sorted and the file name decides. Leave the file alone and say so — do not impose a
   custom order on a folder that has none.
 - **A file missing from `customOrder` is not an error, and that is the danger.** It sorts to
   the **end of its folder** in the document, alphabetically among the other unlisted ones. No
-  warning appears, in Obsitex or in Obsidian.
+  warning appears, in Obsitex or in Obsidian. With Obsidian running this state barely occurs
+  any more; with Obsidian closed it is the normal outcome of writing a file and stopping there.
 - **A pinned file goes ahead of the whole `customOrder`** — in the document too, not only in
   the sidebar.
-- **Then tell the user to restart Obsidian.** Flexplorer reads `data.json` when Obsidian
-  starts and keeps the order in memory; a running Obsidian never sees our entry. Two
-  consequences: the sidebar shows the new note in the wrong place, and the next drag & drop
-  there writes the remembered old order back over our entry. The conversion is unaffected —
-  Obsitex reads the stored `data.json`, never what Obsidian holds in memory, so the PDF has
-  the right order at once — which is exactly why the mismatch goes unnoticed. Closing Obsidian
-  completely and reopening it makes display and file agree. Measured 15.08.2026.
+- **Writing into a running Obsidian is not overwritten on the spot** (measured, 45 seconds
+  untouched). The risk is later and it is the reason for the restart note: Flexplorer reads
+  `data.json` at start and keeps the order in memory, so **the sidebar still shows the old
+  place, and the next drag & drop in that folder writes the remembered order back over our
+  entry.** The conversion is unaffected — Obsitex reads the stored `data.json`, never what
+  Obsidian holds in memory, so the PDF is right at once, which is exactly why the mismatch goes
+  unnoticed. **So whenever you write into a running Obsidian, tell the user to close it
+  completely and reopen it.** Measured 15.08.2026.
+- **Do not invent a reason not to write.** A session once skipped the entry and explained that
+  Flexplorer would otherwise overwrite it. The outcome was right by luck, the reason was made
+  up, and the file silently went to the end (28.08.2026). If you are unsure what happens, read
+  `data.json` before and after — it is one file.
 
 ## Hard rules for anything you write
 
@@ -99,6 +117,15 @@ defaults.
   identical on screen; the damage is visible only in the PDF. Check this before every write
   or edit of body text. Wrapping is fine inside ` ```remark `, ` ```latex ` and ` ```dds `
   blocks. It applies to LIST ITEMS too - a wrapped item gets the same forced break. Background: `shared/obsitex-conventions.md`.
+- **Type the straight `"` in manuscript text, never the typographic ones.** Writing `„…"` or
+  `«…»` yourself looks more finished and is the wrong instinct here: those characters pass
+  through untouched, so the DDS quotation setting never reaches them. Change the quotation
+  style later and exactly the spots you wrote stay behind, silently. The converter turns a
+  straight `"` into the right character on its own (`shared/quotation-marks.md`).
+  **One exception, and check for it before you write:** if the file already carries typed
+  characters, match what is there. Mixing the two is the damaging case, because the converter
+  counts marks across the whole document — one straight `"` added into a hand-typed file
+  inverts every pair after it, to the end of the thesis. Nothing warns; it shows in the PDF.
 - Only supported Markdown. When unsure, check — do not guess.
 - **Never write a `.md` file whose first heading has more than one `#`.** One `#` always
   means "the level of the folder I am in".

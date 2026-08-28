@@ -29,14 +29,32 @@ usually only shows up in the finished PDF.
 **1 — Type straight `"`.** Convenient; the converter does the rest. Fine for plain
 sequential quotes.
 
-**2 — Type the real characters yourself** (`«…»`, `„…"`). They pass through untouched. Safer
-in a long document, and required for straight `"` in the PDF (inches, code).
+**2 — Type the real characters yourself** (`«…»`, `„…"`). They pass through untouched, so no
+stray mark elsewhere can invert them. That immunity is also the price: they are outside the
+DDS setting for good (see "Pick one and stay with it"). Required for a straight `"` that has
+to stay straight in the PDF, such as inches or code.
 
 **3 — `\enquote{…}` in backticks.** `csquotes` is in the standard preamble and knows the
 levels itself, so nesting is automatic and a missing brace is a build error rather than a
 silent inversion. **But:** special characters inside are not escaped, so a `%` or `&` in the
 quote breaks the build; the characters come from the babel language, not from the DDS keys;
 and another backtick in the same paragraph pairs wrongly. Powerful but brittle.
+
+### Pick one and stay with it — for the whole document
+
+The three ways are alternatives, not a menu to choose from per sentence. **Mixing them is the
+one thing that actually breaks**, because the count runs across the whole document: a straight
+`"` dropped into a passage written with typed characters inverts every pair after it, to the
+end of the thesis (see "Traps").
+
+Way 1 is the default and the one to recommend, for one reason that only shows up later: **only
+a straight `"` is still under the DDS setting.** Characters typed by hand are finished text.
+Switch the document from `«»` to `„"` a year in, and every hand-typed spot stays as it was —
+no warning, no list of them.
+
+**When you write into the user's manuscript, this is a hard rule and not a preference**
+(`obsitex-assistant/SKILL.md`, "Hard rules"): type the straight `"`, unless the file already
+carries typed characters, in which case match what is there.
 
 ## Nested quotes — the mixed form
 

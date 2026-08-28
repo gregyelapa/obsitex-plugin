@@ -84,6 +84,14 @@ defaults.
 
 ## Hard rules for anything you write
 
+- **Never write a `.md` file through the shell.** An unquoted heredoc (`<<EOF`), `echo`,
+  `printf` or a `sed` replacement eats one backslash of every pair: `\\` silently becomes
+  `\`. In a ` ```latex ` block that deletes the forced line break the `\\` stands for, and in
+  a ` ```dds ` block it breaks the JSON. **Nothing warns**, because damaged LaTeX still
+  compiles: on a cover page the `tabbing` lines then print on top of each other (measured
+  24.08.2026). Use the file tools (Write, Edit) for every `.md` file. After editing a file
+  that holds a ` ```latex ` or ` ```dds ` block, check that the backslash pairs survived:
+  `grep -c '\\\\' "<file>"`.
 - **Write every paragraph as ONE unbroken line.** A single newline inside a paragraph
   becomes `\\` in the output — a forced line break in the middle of the printed sentence.
   Wrapping prose at 80 or 90 columns is a reflex almost everywhere else, and it is wrong
@@ -101,6 +109,9 @@ defaults.
 - Do not add preamble packages on your own. If a wish needs one, add the `\usepackage` line
   to `00 Document Setup.md` with a `%` comment and tell the user.
 - Guidance for the user belongs in ` ```remark ` blocks (ignored by the converter).
+- The user's prose is theirs. Never restyle their wording or punctuation, and never strip or
+  add dashes in manuscript text. Change only what would break the conversion, and say what
+  you changed.
 
 ## How to answer
 
@@ -114,3 +125,8 @@ instead of a rendered table or figure. That surprises people.
 Two plugins come up in this project and they are different things — always name the
 environment: the **Flexplorer** plugin **in Obsidian** (file order) and the **Obsitex**
 plugin **in Claude Code** (this skill). Never say just "the plugin".
+
+Write your answers without dashes, neither the long one (em dash) nor the short one (en dash).
+Use a full stop, a comma, a colon or brackets instead. A dash pushes a side thought into the
+middle of a sentence, and the sentence then has to be read twice. Hyphens in compound words
+are fine. This applies to what you say, never to what the user has written.

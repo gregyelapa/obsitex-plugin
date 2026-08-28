@@ -30,15 +30,42 @@ actually understands — which is not always the Markdown Obsidian renders.
 
 ## Install
 
-Two commands in Claude Code. The plugin is installed once per user and is then available in
-every folder:
+Two commands in Claude Code:
 
 ```
 /plugin marketplace add gregyelapa/obsitex-plugin
 /plugin install obsitex@obsitex
 ```
 
-Then run `/obsitex:obsitex-init` in the folder where the vault should be created.
+The first command installs nothing. It only makes this repository known as a source of
+plugins — a *marketplace*, which is no more than a list of what is on offer here. The second
+command installs the one plugin on that list. `obsitex@obsitex` looks doubled because it
+reads *plugin@marketplace*, and here both carry the same name.
+
+Claude Code asks you to trust the repository before adding it. That is expected — a plugin
+brings code with it.
+
+The plugin is installed once per user, not per project. After that, `/obsitex:obsitex-init`
+is available in every folder. Run it in the folder where the vault should be created.
+
+**Without typing the ids:** `/plugin` opens a menu. Choose *Add marketplace*, enter
+`gregyelapa/obsitex-plugin`, then pick the plugin from the list.
+
+**From a terminal**, without a Claude Code session open:
+
+```
+claude plugin marketplace add gregyelapa/obsitex-plugin
+claude plugin install obsitex@obsitex
+```
+
+### Updating
+
+```
+claude plugin update obsitex@obsitex     ← the full id; "obsitex" alone fails
+```
+
+A session that is already running keeps the copy it started with, so **restart the session**
+afterwards. `/clear` does not do it — that empties the conversation, not the loaded plugin.
 
 ## What you get
 

@@ -71,6 +71,81 @@ manuscript at once — then just say "your folder".
    the bundled Flexplorer plugin files and its seed `data.json`, both described in
    "Install the Flexplorer plugin" below.
 
+## Open with this
+
+Before the first question, greet the user with the text below, **in the chat language**. The
+English wording here is the original; translate it, never paste it untranslated into a German
+conversation. This is the one place where the two central terms are introduced, so do not
+shorten it away and do not fold it into the first question.
+
+Five things to adapt, then send it as one message:
+
+- **The address `www.obsitex.com` is translated into nothing and dropped from nothing.** It is
+  the one place the user is told where the app actually lives, and someone who reads the
+  greeting and then looks for Obsitex has no other pointer.
+- **The example names in the sketch follow the chat language** (`Thesis` / `Masterarbeit`,
+  `Manuscript` / `Manuskript`, …), exactly like the folders you will create later.
+- **Re-align the dotted lines** after translating. They are aligned with fixed-width
+  characters, so a longer word pushes them out of line.
+- **Do not number the folders in the sketch.** Variant A or B is the last question of the
+  interview, so the answer is not known yet; "roughly like this" covers it.
+- **Project scaffold opt-out:** if the user has already made clear they want a single folder,
+  drop the sketch and the two bullet points under it. There is only one folder then, and
+  nothing to distinguish; say "your folder" instead.
+
+The wording:
+
+<!-- greeting -->
+
+**Setting up your writing project**
+
+I am your personal Obsitex assistant. AI-supported writing starts before the first word here,
+and it does not stop until the PDF is done. I know the logic of the converter: which Markdown
+becomes a heading, a numbered figure or a citation, and which one quietly falls apart on the
+way. That is two jobs, and I do both.
+
+- **Now: setting the work up.** A few questions, then your thesis has its shape before you
+  write the first word. Chapters, sections, bibliography and layout are all in place.
+- **Later: writing it.** You never have to call me by name. Just ask how something is done.
+  Say you want a table with a grey header row, and you get the table plus the one line that
+  produces the shading. The same goes for a figure with a caption, a citation, a footnote or a
+  cross-reference to a chapter.
+
+Obsitex builds the finished document. It is a web app at **www.obsitex.com** that turns your
+Obsidian vault into LaTeX and a PDF: numbered chapters, a table of contents, figures and
+tables with captions, cross-references and a bibliography from your reference manager. You
+write in Markdown, the app does the typesetting. No LaTeX knowledge needed, and you can send
+the result to Overleaf if you ever want to hand-tune it.
+
+I will build a workspace for the whole thesis, not just for the text. Roughly like this:
+
+```
+Thesis                    ←── THE PROJECT FOLDER
+│
+├── Organisation .......... schedule, tasks, feedback
+│
+├── Manuscript            ←── THE MANUSCRIPT
+│
+├── Research .............. literature notes, source PDFs
+├── Interviews ............ guides, transcripts
+├── Data .................. raw data, figure source files
+└── Exports ............... PDF versions you send out
+```
+
+Six folders. Two of them have names you will hear from me again and again:
+
+- **The project folder** is the whole work. Obsidian opens this one, so this is your vault.
+- **The manuscript** is the one subfolder Obsitex converts. This folder, and nothing else,
+  becomes your PDF.
+
+The other four are yours to fill as you go. Nothing you put in them ever reaches the PDF, and
+that is exactly the point: your notes, your data and your transcripts stay out of the document
+without any effort from you.
+
+A few short questions and I will lay it out for you.
+
+<!-- /greeting -->
+
 ## Interview — keep it short
 
 **Assume the user does not know LaTeX.** Everything they read — questions, option
@@ -79,12 +154,16 @@ chapters, headings, page numbers and the table of contents, not about document c
 packages, environments or DDS. Where a technical name is unavoidable, put it in
 parentheses after the plain wording.
 
-**Step 1 — languages first.** Before anything else, ask these two questions together in a
+**Block 1 — languages first.** Before anything else, ask these two questions together in a
 single AskUserQuestion dialog:
 
-1. **Chat language** — which language should the conversation use? If the user has
-   already visibly written in a language in this session, offer that language as the top
-   option — or skip this question and simply use it.
+1. **Chat language** — which language should the conversation use? **Always ask this, and
+   always inside the same dialog as the document language.** If the user has already written
+   in a language in this session, put that language first as the top option, but still let
+   them confirm it. **Never skip the question, never infer the answer silently** — the chat
+   language also decides the folder names on disk, and a decision that visible must not be
+   made behind the user's back. A dialog that shows only one question is the bug, not a
+   shortcut.
 2. **Document language** — which language will the thesis/paper be written in? It may
    differ from the chat language. **No default** — list English first, then German.
    Affects babel options, DDS quotation marks, and the visible headings (see adaptation
@@ -94,8 +173,77 @@ single AskUserQuestion dialog:
 
 From here on, communicate in the chat language — including the remaining questions.
 
-**Step 2 — these nine questions** (AskUserQuestion works well), then use defaults and tell
-the user everything can be changed later. All nine apply to every template:
+**Blocks 2 and 3 — these nine questions** (AskUserQuestion works well), then use defaults
+and tell the user everything can be changed later. All nine apply to every template. Keep the
+blocks in this order: first what the finished document looks like, then how Obsitex lays the
+files out and keeps them in order.
+
+**The numbers are the order, not a list.** Ask 3, 4, 5, 6, 7, 8, then 9, 10, 11. **Question 8,
+the cover data, is the one that drifts:** it is the only free-text question, it needs no
+decision, and after it the interview is over, so it reads like a natural closing question. It is
+not one. It says what the document *is*, which is block 2, and block 3's whole promise is that
+the document is settled before the files come up. Measured 26.08.2026: it was asked after
+question 11, as "almost done, one more thing".
+
+### One question per dialog
+
+**Every question from 3 on opens its own AskUserQuestion. The language pair is the only
+exception.** So: one dialog for questions 1 and 2 together, then one dialog each. Ten in all,
+nine when the template question falls away.
+
+AskUserQuestion can hold four questions at once, and bundling would save clicks. Do not use it.
+**The reason is the chat message.** Every question here is prepared by a message written for it
+— a sketch, a comparison, a tip. A bundled dialog opens on the first tab while the message
+belongs to all of them, and the second question arrives with nothing in front of it. The user
+reads a message and answers the question that message prepared. That is the whole mechanism.
+
+**Why the languages may share one dialog:** they are one decision in two halves, asked before
+any explanation exists, and neither carries a sketch. Nothing precedes them that could get lost.
+
+**What bundling cost when it was allowed** — kept here because each one shipped and was found by
+the user, not by review:
+
+- **The contents-list depth beside the numbering depth.** Its options and its recommendation are
+  both written out of the numbering answer. Side by side, they could only be phrased
+  conditionally ("at 1.1.1 I recommend this, from 1.1.1.1 on that"), leaving the user to work
+  out which half applied — exactly the work the dialog exists to take off their hands.
+- **The project structure beside the splitting.** The two heaviest questions of the interview,
+  each needing its own picture, arriving as two tabs. The second tab opened while the user was
+  still reading the first sketch.
+- **Across the block boundary.** Blocks 2 and 3 promise that the document is settled before the
+  files come up. A dialog that opens on the contents list with the folder split in the next tab
+  breaks that promise in the one place the user actually looks.
+
+**One tip per dialog** still holds (see "Tips" below) — with one question per dialog it is
+simply never in question again.
+
+### Option letters — the anchor between the message and the dialog
+
+**Every question that carries a mockup labels its options `A`, `B`, `C`, in the chat message
+and in the dialog alike.** The four are: chapters or sections, the project structure, the
+splitting, variant A or B.
+
+The letter exists because the two lists need not be in the same order. The chat message is free
+to run from coarse to fine, the dialog has to put the recommended option first (the topmost
+option holds the focus when the dialog opens, so a quick confirmation must land on the
+recommendation). Without an anchor the user has to match sketch to button themselves. With one,
+both orders can be right at the same time.
+
+Three rules, or it makes things worse instead of better:
+
+- **The letter always sits directly in front of the name, never on its own.** "A, the folder per
+  chapter" — never "take A". A bare letter sends the reader back up to look it up, which is the
+  work the letter was supposed to remove.
+- **Letters, not numbers.** The splitting question already counts levels 1, 2, 3. An "option 3"
+  next to "three levels" is a trap.
+- **The same letter for the same thing in both places**, whatever the order. `A` in the sketch
+  and `A` in the dialog, even when `A` sits second in the message and first in the dialog.
+
+The letters are per question. Question 11 uses `A` and `B` too, for something else entirely —
+that is fine, they live in different dialogs, and the rule above keeps every mention readable
+on its own.
+
+**Block 2 — how the document looks**
 
 3. **Top structural level — chapters or sections?** Ask this *before* the template
    question; it decides which templates remain. Details and the illustration the user
@@ -104,41 +252,79 @@ the user everything can be changed later. All nine apply to every template:
    - with chapters → `professional-thesis` (numbered chapters, front matter with roman
      page numbers, lettered appendices — for master theses and dissertations). This is
      currently the only one; skip the question and say in one sentence what they get.
-     It ships in two shapes, picked by the next question: `professional-thesis-nested`
-     (default — a folder per chapter) and `professional-thesis` (one file per chapter).
+     It ships in two shapes, picked by the splitting question in block 3:
+     `professional-thesis-nested` (default — a folder per chapter) and
+     `professional-thesis` (one file per chapter).
    - without chapters → `simple-thesis` (cover page, table of contents, lists of figures
      and tables, chapters, bibliography, appendix — for seminar papers and shorter
      theses) or `academic-paper` (lean: abstract, chapters, bibliography — no cover
      page, no table of contents).
-5. **How the parts are split up** — one file each, or a folder of files? **Default: a
-   folder per part, two levels.** Asked for **every** template, but produced differently:
-   `professional-thesis` has two shipped shapes, the flat templates are transformed by
-   rule after copying. Wording, reasoning and the rules: see "Splitting into folders"
-   below.
-6. **Numbering depth** — how deep should headings be numbered? Default and recommendation:
+5. **Numbering depth** — how deep should headings be numbered? Default and recommendation:
    up to `1.1.1` in every class. **The option list differs with and without chapters** —
    see "Sectioning depth" below for both tables, the reasoning, and the cross-reference
    limitation that has to be named with the recommendation.
-7. **Contents list depth** — same depth as the numbering, or one level shallower? Never
-   deeper. Which one is recommended follows from the previous answer; see "Sectioning
-   depth" below.
-8. **Project structure** — full project scaffold (recommended default): six top-level
+6. **Contents list depth** — same depth as the numbering, or one level shallower? Never
+   deeper. Asked **after** answer 5 is in, because the option labels and the recommendation are
+   both written out of it; see "Sectioning depth" below.
+7. **Citation style** — numeric (default), author–year, or verbose. Maps to the biblatex
+   `style=` option in the preamble. Send this tip with the question (see "Tips" below):
+   *"💡 **Tip:** If your university asks for a different style, just tell me. It is one word
+   in the setup and every citation in the document follows."*
+8. **Cover data** (professional-thesis and simple-thesis) — title, subtitle, document
+   type (e.g. Seminar Paper / Master Thesis), degree program, author, supervisor. Offer
+   to keep the placeholders if the user does not want to decide now. Send this tip with the
+   question (see "Tips" below): *"💡 **Tip:** No final title yet? Leave the placeholders
+   standing. Tell me any time and I will fill them in."*
+
+**Block 3 — how Obsitex lays the files out and orders them**
+
+This block goes from large to small: first the whole project folder, then how its parts are
+split up, then the order of the single files.
+
+9. **Project structure** — full project scaffold (recommended default): six top-level
    folders for the whole research project, with the manuscript in its own subfolder
    (see "Project scaffold" below) — or manuscript only, files straight into the folder.
-   **Introduce the two terms here**, because without them the choice cannot be judged. Say
-   it roughly like this, in the chat language: *"A thesis is more than its text. I would set
-   up a **project folder** that holds everything — and inside it **the manuscript**, the
-   only folder Obsitex turns into your document. Next to it come folders for organisation
-   (proposal, schedule, meeting notes), research, interviews, data and exports. Whatever
-   you write outside the manuscript never lands in the PDF — which is exactly what keeps
-   the document clean."*
-9. **Citation style** — numeric (default), author–year, or verbose. Maps to the biblatex
-   `style=` option in the preamble.
-10. **Cover data** (professional-thesis and simple-thesis) — title, subtitle, document
-    type (e.g. Seminar Paper / Master Thesis), degree program, author, supervisor. Offer
-    to keep the placeholders if the user does not want to decide now.
+   **A folder sketch on both options.** Wording and the two sketches:
+   see "Project scaffold" → "How to ask it" below.
+10. **How the parts are split up** — one file per part, or a folder of files, and how deep?
+    **Three options, default two levels.** Asked for **every** template, but produced
+    differently: `professional-thesis` has two shipped shapes, the flat templates are
+    transformed by rule after copying. **A folder sketch on every option.** Wording, the
+    sketches, the depth note and the rules: see "Splitting into folders" below.
 11. **How the file order is controlled — variant A or B.** Ask this **last**, but before
     scaffolding: it decides the file names. See "Ordering: variant A or B" below.
+
+## Tips — the hint element
+
+Some settings are worth naming while the user decides, but they must not become a paragraph
+nobody reads. For those there is **one** recognisable element: a quote block opened by a light
+bulb.
+
+```
+> 💡 **Tip:** the sentence, in the chat language.
+> A second line at most.
+```
+
+**What a tip says, always:** *this is adjustable, tell me and I will change it.* Nothing else.
+No reasoning, no LaTeX command, no package name. The command is the skill's business, never the
+user's.
+
+Rules, so the element keeps working:
+
+- **At most one tip per question.** Two in a row and the eye starts skipping them, which is the
+  very problem this element solves.
+- **Two or three lines**, never more.
+- It sits **directly under the message it belongs to**, never collected at the end.
+- **Never inside `description` or `preview` of an option.** A tip must not tilt a choice. It is
+  the reassurance that the choice is not final.
+- **A tip that holds for only one of the options says so in its own bold label**, before the
+  first word of the sentence: *"Tip, if you go with chapters:"*. Standing under a comparison
+  list, an unlabelled tip reads as if it applied to both sides.
+- Translate the word "Tip" into the chat language (German: "Tipp"), and keep the tip text free
+  of dashes like the rest of the user-facing wording.
+
+Four questions carry a tip today: chapters or sections, numbering depth, citation style and the
+cover data. Each one is written out at its own question.
 
 ## Ordering: variant A or B (last question)
 
@@ -150,16 +336,20 @@ the answer must be known before any file is written.
 message next to the question ("I'd strongly recommend the first one"). Still no automatic
 default: the user chooses.
 
-- **A — "Change the order freely by drag & drop" (strongly recommended).** A small
+- **`A: Change the order freely by drag & drop` (strongly recommended).** A small
   Obsidian add-on (Flexplorer) does the sorting; the skill brings it along and walks the
   user through switching it on. File names stay clean, without numbers.
-- **B — "Control the order through the file names".** Nothing to install. Every file gets
+- **`B: Control the order through the file names`.** Nothing to install. Every file gets
   a number in front (10, 20, 30 …), and reordering means renaming.
+
+The letters are the user's here too, not just the skill's shorthand — they go into the labels
+and above the two sketches, exactly as in the other three mockup questions (see "Option
+letters").
 
 Show the difference the same way as for the chapters question — **as a chat message before
 the call, and as `preview` on both options** (never only in `description`):
 
-*Variant A:*
+*A — drag & drop:*
 
 ```
 ┌────────────────────────────┐
@@ -175,7 +365,7 @@ the call, and as `preview` on both options** (never only in `description`):
  rearrange by dragging
 ```
 
-*Variant B:*
+*B — numbers in the file names:*
 
 ```
 ┌────────────────────────────┐
@@ -267,7 +457,7 @@ Show them **twice**, both steps are required:
 
 Keep the mockups roughly like this:
 
-*With chapters:*
+*A — with chapters:*
 
 ```
 ┌────────────────────────┐
@@ -285,7 +475,7 @@ Keep the mockups roughly like this:
  page, title sits low
 ```
 
-*Without chapters:*
+*B — without chapters:*
 
 ```
 ┌────────────────────────┐
@@ -309,18 +499,24 @@ The level consequence belongs in the option itself, not only in the list: it is 
 of this decision the mockups cannot show, and the reason the question is not about wording.
 Roughly:
 
-> *With chapters — like a book.* Each main part starts on a new page with a large number.
+> *A — with chapters, like a book.* Each main part starts on a new page with a large number.
 > Below it you still have section, subsection and more.
 >
-> *With sections — like an essay.* The main parts run on within the text, no page break.
+> *B — with sections, like an essay.* The main parts run on within the text, no page break.
 > One outline level less below.
+
+**The dialog labels carry the same letters**, `A: With chapters` and `B: With sections` (see
+"Option letters" above). This question has no recommendation, so the two orders match anyway —
+the letters are here because all four mockup questions use them, and a system that holds only
+sometimes is not one.
 
 - **Look:** with chapters, every chapter starts on a fresh page and its title sits far
   down the page with a big number above it; without chapters, headings simply continue
   in the running text.
-- **One more level of depth:** with chapters, `#` is a chapter, `##` a section, `###` a
-  subsection — numbers like 2.1.3.4 are possible. Without chapters, `#` is already a
-  section, so the useful depth ends one level earlier.
+- **How many heading levels you get:** chapters add a level at the top, so a document with chapters
+  can go six heading levels deep and one without chapters five. Name both numbers and stop
+  there — which `#` becomes what, and how deep it is worth going, are not questions for this
+  point in the interview.
 - **Length of the document:** for a short paper (roughly under 30 pages) chapters create a
   lot of empty space; from about 40–50 pages they give the document structure. A rule of
   thumb, not a rule.
@@ -331,6 +527,19 @@ Roughly:
 - **Figures, tables and page headers:** with chapters, figures are counted per chapter
   (Figure 2.1, 2.2) and the page header shows the current chapter title; without
   chapters they are counted straight through (Figure 1, 2, 3).
+
+**Send one tip with the chat message of step 1** (the element and its rules: see "Tips"
+above). It belongs directly under the difference list, because the large gap above a chapter
+title is the one thing in the mockup that looks final and is not:
+
+> 💡 **Tip, if you go with chapters:** That big gap above each chapter title is the classic
+> book look. If it feels too much like a book to you, tell me later and I will move the titles
+> up, for all chapters at once.
+
+**How you keep that promise** (do not explain this to the user): the line already sits in the
+preamble of both professional templates, commented out. Uncomment
+`\RedeclareSectionCommand[beforeskip=-1\baselineskip, afterskip=1\baselineskip]{chapter}`
+in `00 Document Setup.md`. It is a KOMA command, so it exists with chapters only.
 
 Also tell them honestly, before they choose: **changing this later is real work** — it
 affects the document setup, the appendix and page-numbering switches, and the number of
@@ -437,7 +646,7 @@ folder directly into the manuscript after `Appendix.md` (`\appendix` is a switch
 after it becomes an appendix, whatever folder it sits in), or set `latex-heading-offset: -1` in
 **every** file of that appendix.
 
-**The options — default is two levels:**
+**The options — three of them, default is two levels:**
 
 - **One file per chapter (flat).** Simplest to look at; a long chapter becomes a long file,
   and its sections sit inside it as `##`. → template `professional-thesis`
@@ -446,8 +655,12 @@ after it becomes an appendix, whatever folder it sits in), or set `latex-heading
   → template `professional-thesis-nested`
 - **Three levels.** As above, plus: a section that has subsections of its own keeps its own
   folder (with its own `Subchapters` inside), so it takes its parts along when moved.
-  → same template plus the `\setcounter` lines below; the user adds the third level as the
-  work grows — the template ships with two.
+  → same template plus the `\setcounter` lines below; the template ships with two, so the
+  third level is built on top after copying.
+
+**A "level" here is a heading level that gets its own files** — not a folder in the tree. The
+collector folder carries no heading and therefore never counts. Count it and every number in
+this skill shifts by one.
 
 The nested template mixes both styles on purpose: five chapters are folders with a
 `Subchapters` folder, `80 Conclusion and Future Work.md` stays a single file with its two
@@ -455,10 +668,139 @@ sections as `##` inside. Point that out — it shows that no chapter *has* to be
 and that both forms produce the same `\chapter` + `\section` in the PDF. Every file, in both
 forms, starts with a single `#`.
 
-**Why two is the default, and three the maximum** — this is not a taste question. Beyond
-three folder levels the deepest files land where LaTeX stops setting headings as headings
-(see "Sectioning depth" below). Two levels leave room for a `##` or `###` inside the file
-before that line is reached.
+### How to ask it — a sketch per option, then the depth note
+
+**Use the word from question 3**: "chapter" for the templates with chapters, "section" for the
+flat ones. A third word for the same thing is how this question loses people.
+
+**The chat message before the dialog** does two things: it puts the two shapes side by side,
+and it says they produce the **same PDF**. The second half is what takes the weight out of the
+question — the answer decides how the user works, not how the document looks.
+
+> A chapter grows. So the question is whether a chapter is one file, or a folder with several
+> files in it.
+>
+> ```
+> A  A folder per chapter             B  One file per chapter
+>
+> 30 Introduction/                    30 Introduction.md
+>    30 Introduction.md                   # Introduction
+>    Subchapters/                         ## Motivation
+>       10 Motivation.md                  ## Problem Statement
+>       20 Problem Statement.md
+>
+> 3 files. Reorder without cutting.   1 file. Reorder by cutting and pasting.
+>
+> C  Like A, one level deeper: a section that grows can have its own folder too.
+> ```
+>
+> All three give exactly the same PDF:
+>
+> ```
+> 1     Introduction
+> 1.1   Motivation
+> 1.2   Problem Statement
+> ```
+>
+> So you are choosing how you work, not how the document looks. And if a section grows big
+> later, it gets its own folder then. Nothing has to be settled about that now.
+
+**C belongs in the message too, not only in the dialog.** It is a third of the choice, and a
+letter with nothing to point back to is worse than no letter. One line is enough — the full
+sketch is in its `preview`.
+
+**Then AskUserQuestion with three options, each carrying a `preview`.** The previews label the
+levels down the left edge — that is what makes "two levels" mean anything. The collector folder
+is marked as not being a level, right in the sketch. **The three sketches stand here in dialog
+order** (recommendation first), which is not the order of the chat message — that is exactly
+what the letters are for.
+
+*A — two levels (recommended):*
+
+```
+Level 1   30 Introduction/            ← the chapter
+             30 Introduction.md          its own text
+             Subchapters/                collector, not a level of its own
+Level 2         10 Motivation.md      ← a section, its own file
+                20 Problem Statement.md
+```
+
+*B — one file per chapter:*
+
+```
+Level 1   30 Introduction.md          ← the whole chapter
+             # Introduction
+             ## Motivation            ← a section, just a line inside
+             ## Problem Statement
+```
+
+*C — three levels:*
+
+```
+Level 1   30 Introduction/
+             30 Introduction.md
+             Subchapters/
+Level 2         10 Motivation/        ← grew on its own, so it gets a folder
+                   10 Motivation.md
+                   Subchapters/
+Level 3               10 Background.md
+```
+
+Labels and `description`, two lines each, in dialog order:
+
+- **`A: A folder per chapter, two levels` (recommended)** — "Most sections become files of
+  their own, so you rearrange them without cutting text."
+- **`B: One file per chapter`** — "One file per chapter, with all its sections written inside
+  it. Reordering sections means cutting and pasting text."
+- **`C: Three levels`** — "Subsections can become files of their own too. For long work with a
+  fine structure."
+
+**Two things the first two lines deliberately do not say**, because both would be untrue:
+
+- **Not "every section".** A section with no structure of its own may stay inside the chapter
+  file — the nested template does exactly that with `80 Conclusion and Future Work.md` — and
+  R10 forbids folders in `Frontmatter` and `Backmatter` altogether, so sections there are
+  always inside their file. "Most" is the honest word.
+- **Not "reorder by dragging".** Dragging belongs to the drag & drop variant of **question 11**
+  — three questions later, and not the same letters as the ones above. Pick the other one there
+  and the order comes from the number in the file name, so reordering is renaming. This option
+  must not promise something that has not been decided yet. All three lines therefore compare
+  the one thing that holds either way: whether you have to cut text.
+
+**After the answer, send the depth note** as plain chat text — not as a tip (a tip may only say
+"this is adjustable", see "Tips"). Hardly anyone wants every level as folders. The note is not
+there to sell the depth; it is there so the ceiling is visible and the system stops looking
+arbitrary.
+
+*With chapters:*
+
+> Deeper is possible. Folders nest as far down as your document class has headings.
+>
+> **Your work has chapters, so there are six levels:** chapter, section, subsection,
+> sub-subsection, paragraph, subparagraph. LaTeX has nothing below that.
+>
+> Folder depth and `#` lines add up: a file on level 2 with a `##` inside it sits on level 3.
+>
+> Want to go deeper at some point? Tell me and I will set up what it takes.
+
+*Without chapters* — the same note, one level lower throughout, because the chapter in front is
+missing:
+
+> **Your work has no chapters, so there are five levels:** section, subsection, sub-subsection,
+> paragraph, subparagraph.
+
+**Keep the note to the levels themselves.** What "what it takes" means — numbering has to be
+deepened past level 3 or a cross-reference points at the wrong place, and from level 5 (level 4
+without chapters) the heading runs into the body text — is a LaTeX matter, not a folder matter.
+Two warnings about typesetting inside a question about folders is more than the user can hold,
+and the numbering was already settled in block 2. **Say it only if the user actually goes
+deeper**, and then follow "Sectioning depth" below.
+
+**Three levels is as deep as the skill builds.** Deeper is the user's own move later, and the
+note is what turns it into a move they can make instead of a wall they run into. Beyond three,
+the deepest files land where LaTeX stops setting headings as headings and the numbering
+question has to be reopened — see "Sectioning depth" below. Two levels leave room for a `##` or
+`###` inside the file before that line is reached, which is why two is the default.
 
 ### Building it by rule — `simple-thesis` and `academic-paper`
 
@@ -587,24 +929,56 @@ are fixed, the run-in look is not, and changing that would need the `titlesec` p
 **Name the limitation with the recommendation:** at the recommended depth, links work down to
 `1.1.1` and no deeper. Whoever wants to link to finer sections needs the next option.
 
+**Send one tip with question A** (the element and its rules: see "Tips" above):
+
+> 💡 **Tip:** Numbers that run deep quickly make a text look technical. If it bothers you once
+> you see the PDF, tell me and I will change the depth.
+
 ### Question B — contents list depth
+
+**Opened after answer A is in** — answer A is what makes this question answerable at all. Like
+every question here it gets its own dialog (see "One question per dialog").
 
 | Option | `tocdepth` |
 |---|---|
 | Same depth as the numbering | = `secnumdepth` |
 | One level shallower | = `secnumdepth` − 1 |
 
+**Label the options with the actual numbers, not with a comparison.** Option 1 is answer A's
+number as it stands; option 2 is that number with one segment taken off (`1.1.1` → `1.1`).
+That arithmetic is the same with and without chapters. The comparison belongs in the
+description line underneath, where it explains the number instead of replacing it. After
+answer A = `1.1.1`, in the chat language:
+
+> **Also down to 1.1.1** *(recommended)*
+> As deep as the numbering. Three levels stay easy to take in.
+>
+> **Only down to 1.1**
+> One level shallower than the numbering.
+
+**Exactly one option carries the recommendation, and answer A decides which:** at `1.1.1`
+recommend *same depth* (three levels are already sparse); at `1.1.1.1` or deeper recommend
+*one level shallower*, or the list outgrows a page and stops giving an overview. Never write
+both cases into the option texts — that is the conditional wording the split exists to avoid.
+
 **Never offer a contents list deeper than the numbering.** Its entries would sit unnumbered
 at the same indent as their siblings' titles, and the indentation stops showing the hierarchy.
-
-Which option carries the recommendation depends on answer A: at `1.1.1` recommend *same
-depth* (three levels are already sparse); at `1.1.1.1` or deeper recommend *one level
-shallower*, or the list outgrows a page and stops giving an overview.
 
 ### The block to write
 
 Always write it, in every case — at the recommended depth every line stays commented out.
 Comments in **English**, like the rest of the preamble, whatever the chat language was.
+
+**One exception, and it is not a comment: the two words inside `\crefname` are printed.** They
+follow the **document** language, so in a German document the block carries
+`\crefname{paragraph}{Absatz}{Absätze}` and
+`\crefname{subparagraph}{Unterabsatz}{Unterabsätze}`. Write the block in the document language
+from the start; do not write English and translate later. Leaving the English pair in a German
+document raises no error — it prints `paragraph 1.1.1.1.1` in the middle of a German sentence
+(measured 26.08.2026). Every other level looks after itself: a reference to a `\subsection`
+prints `Abschnitt 1.1.1` on its own, because `cleveref` ships the German names.
+`\paragraph` and `\subparagraph` are the two it does not know — which is why they are the only
+ones that need a `\crefname`, and the only ones that can come out in the wrong language.
 
 **Put the block at the very end of the `latex-preamble` block.** `\crefname` is defined by
 `cleveref`, which the template loads late (deliberately: varioref → hyperref → cleveref).
@@ -691,6 +1065,59 @@ sources, interviews, planning). Obsitex converts exactly one selected folder, so
 manuscript gets its own subfolder and everything else stays out of the conversion
 automatically (no `skip: true` needed outside).
 
+### How to ask it — point back, then show both folders
+
+The two terms are **not** introduced here. The greeting already did that, with the same sketch
+(see "Open with this"). Repeating the introduction reads as if the user had not been paying
+attention. **Point back to it instead**, then let the two sketches carry the choice.
+
+The chat message before the dialog, in the chat language, roughly:
+
+> Back to the two folders from the beginning. Now you decide whether I actually lay them out
+> that way.
+>
+> The **project folder** holds everything. **The manuscript** is the one folder inside it that
+> becomes your PDF. Anything outside stays out of the document, without you doing a thing.
+
+Then AskUserQuestion with **a sketch as `preview` on both options** — same mechanics as the
+chapters question: both options need one, or the dialog does not switch to the side-by-side
+layout. Example names follow the chat language, folder numbers are left out (variant A or B is
+not settled yet).
+
+*A — full project scaffold (recommended):*
+
+```
+Master Thesis/          ←── the vault you open in Obsidian
+├── Organisation/
+├── Manuscript/         ←── this one becomes your PDF
+├── Research/
+├── Interviews/
+├── Data/
+└── Exports/
+```
+
+*B — manuscript only:*
+
+```
+Master Thesis/          ←── the vault, and the manuscript in one
+├── 00 Document Setup.md
+├── Introduction.md
+├── Methodology.md
+└── …
+
+everything in here becomes your PDF
+```
+
+Labels and `description`, two lines each:
+
+- **`A: Full project scaffold` (recommended)** — "Six folders for the whole project. Only the
+  manuscript becomes the PDF, everything else stays out by itself."
+- **`B: Manuscript only`** — "One folder, just the text files. Notes, sources and data you file
+  somewhere else yourself."
+
+**Name the two sketches `A` and `B` in the chat message as well** (see "Option letters"), so
+the sketch above and the button below are visibly the same thing.
+
 Unless the user opted out, create these six folders in the project folder. Folder names
 follow the **chat language** — see "Which language governs what" above; nobody but the author
 ever sees them. The numbers below apply to **variant B**; in variant A drop them
@@ -744,7 +1171,9 @@ ever sees them. The numbers below apply to **variant B**; in variant A drop them
 1. Copy every file of the chosen folder under `templates/` into the **manuscript**
    (project scaffold) or directly into the project folder (opt-out),
    **verbatim first** — the templates are tested wholes; do not improvise structure.
-2. Then adapt in place:
+   Copy with a plain `cp`, never by reading a template and writing its content out again.
+2. Then adapt in place **with the Edit tool, never through the shell** (see "Hard rules":
+   the shell eats one backslash of every `\\` pair and silently flattens the cover page):
    - **Citation style:** in `00 Document Setup.md`, set the biblatex option — **and, for the
      two non-default styles, add the matching redefinition on the next line.** The converter
      always emits `\cite{…}`, and `\cite` means something different in every biblatex style:
@@ -789,7 +1218,9 @@ ever sees them. The numbers below apply to **variant B**; in variant A drop them
 
 | Where | Change |
 |---|---|
-| `00 Document Setup.md`, babel/varioref/cleveref | option `english` → `ngerman` |
+| `00 Document Setup.md`, **babel** | option `english` → `english, main=ngerman`. `english` **stays in the list**, and `main=` names the document language explicitly so the order inside the brackets does not matter. Dropping `english` breaks the build under TeX Live 2026: varioref always executes its own `english` option, and without babel's English `\extrasenglish` is an empty shell (`\relax`) that varioref turns into an endless self-call at `\begin{document}`. Put the reason on the line so it can be removed later: `% english only for latex2e#2112 (varioref under TL2026), obsolete once v1.6j ships`. Fixed upstream in varioref v1.6j, LaTeX release 2026-11-01. |
+| `00 Document Setup.md`, **varioref/cleveref** | option `english` → `ngerman` (these two really do switch over) |
+| `00 Document Setup.md`, **`\crefname` in the sectioning-depth block** | `{paragraph}{paragraph}{paragraphs}` → `{paragraph}{Absatz}{Absätze}`, and `{subparagraph}{subparagraph}{subparagraphs}` → `{subparagraph}{Unterabsatz}{Unterabsätze}`. These two words are **printed**, unlike the comments around them. Applies whether the lines are commented out or live — a commented line is the one someone uncomments later. All other levels need nothing: `cleveref` ships the German names and prints `Abschnitt 1.1.1` by itself. Measured 26.08.2026. |
 | `00 Document Setup.md`, dds block | `openingQuotationMark` → `„` and `closingQuotationMark` → `“` (German quotes) |
 | Visible headings in the chapter files | Abstract → Zusammenfassung · Acknowledgements → Danksagung · List of Abbreviations → Abkürzungsverzeichnis · Introduction → Einleitung · Motivation → Motivation · Background / Context → Hintergrund und Kontext · Background and Related Work → Hintergrund und Forschungsstand · Problem Statement → Problemstellung · Research Questions → Forschungsfragen · Literature Review → Literaturübersicht · Methods / Methodology → Methodik · Results → Ergebnisse · Discussion → Diskussion · Conclusion → Fazit · Conclusion and Future Work → Fazit und Ausblick · Bibliography / References → Literaturverzeichnis · Appendix → Anhang · Survey Questionnaire → Fragebogen · Interview Transcripts → Interviewtranskripte · Declaration of Authorship → Selbstständigkeitserklärung |
 | Visible **placeholder texts** in the manuscript | translate to German — they are draft body text and will be printed |
@@ -955,6 +1386,16 @@ Rules for building it:
 
 ## Hard rules
 
+- **Never write a `.md` file through the shell.** An unquoted heredoc (`<<EOF`), `echo`,
+  `printf` or a `sed` replacement eats one backslash of every pair: `\\` silently becomes
+  `\`. In a ` ```latex ` block that deletes the forced line break the `\\` stands for, and in
+  a ` ```dds ` block it breaks the JSON. **Nothing warns**, because damaged LaTeX still
+  compiles: on the cover page the three `tabbing` lines then print on top of each other
+  (measured 24.08.2026, professional-thesis). Use the file tools (Write, Edit) for every
+  `.md` file. Copy templates with a plain `cp`, which does not touch the content, and edit
+  the copy afterwards. Whenever you touched a file that holds a ` ```latex ` or ` ```dds `
+  block, compare it against its template before you report done:
+  `grep -c '\\\\' "<file>"` must give the same number for both.
 - **Write every paragraph as ONE unbroken line.** A single newline inside a paragraph
   becomes `\\` in the output — a forced line break in the middle of the printed sentence.
   Wrapping prose at 80 or 90 columns is a reflex almost everywhere else, and it is wrong
@@ -962,6 +1403,18 @@ Rules for building it:
   identical on screen; the damage is visible only in the PDF. This holds for the templates
   and for any body text written later. Wrapping is fine inside ` ```remark `, ` ```latex `
   and ` ```dds ` blocks. It applies to LIST ITEMS too - a wrapped item gets the same forced break.
+- **Ask the eleven questions in their numbered order.** No question is held back for the end
+  because it feels like a good closing question. The cover data (8) is the one this happens to,
+  and it happened: asked after question 11, as "almost done, one more thing". It belongs in
+  block 2, before a single file question.
+- **One question per dialog, from question 3 on.** Never two in one AskUserQuestion, however
+  well they seem to pair. Each one is prepared by a chat message written for it; a second tab
+  arrives with nothing in front of it. The language pair is the only exception, and it is the
+  next rule.
+- **The first dialog always carries both language questions.** Chat language and document
+  language, together, before anything else. Reading the chat language off what the user has
+  written so far is an offer for the top option, never a reason to drop the question: it also
+  names the folders on disk. One question alone in that dialog means the rule was broken.
 - Only supported Markdown (see `shared/obsitex-conventions.md` and the topic files it points
   to). **If a construct appears in none of them, it is unsupported** — do not invent it, tell
   the user Obsitex does not know it and offer the nearest thing that works.
@@ -994,6 +1447,11 @@ Rules for building it:
   `%` comment explaining what it is for — never inject silently.
 - Guidance for the user belongs in ` ```remark ` blocks (ignored by the converter).
   Visible placeholder text must be obviously replaceable ("Replace this paragraph with …").
+
+Write your answers without dashes, neither the long one (em dash) nor the short one (en dash).
+Use a full stop, a comma, a colon or brackets instead. A dash pushes a side thought into the
+middle of a sentence, and the sentence then has to be read twice. Hyphens in compound words
+are fine. This applies to what you say, never to what the user has written.
 
 ## Wrap up
 

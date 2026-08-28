@@ -106,6 +106,24 @@ At `secnumdepth 5` — `\subparagraph`, the deepest level LaTeX has — the same
 a second time, with `subparagraph` in place of `paragraph`. Without it that level prints its
 own `??`.
 
+**The two words inside `\crefname` are printed, so they follow the DOCUMENT language.** In a
+German document the line reads:
+
+```latex
+\crefname{paragraph}{Absatz}{Absätze}
+\crefname{subparagraph}{Unterabsatz}{Unterabsätze}
+```
+
+Leaving the English pair in a German document does not produce an error — it produces
+`paragraph 1.1.1.1.1` in the middle of a German sentence (measured 26.08.2026, scrbook with
+`main=ngerman`). **Every other level takes care of itself:** a reference to a `\subsection`
+prints `Abschnitt 1.1.1` without anything being declared, because `cleveref` ships the German
+names. `\paragraph` and `\subparagraph` are the two it does not know, which is why they are the
+only ones needing a `\crefname` — and the only ones that can end up in the wrong language.
+
+**`\crefname` only works in the preamble.** After `\begin{document}` it is ignored without a
+warning and the `??` stays (measured the same day).
+
 **In `article` only the `\crefname` half exists.** `\RedeclareSectionCommand` is a KOMA
 command and is undefined there, so the run-in look stays (the `titlesec` package would be
 needed for it). The cross-reference, which is the part that actually misleads a reader, is

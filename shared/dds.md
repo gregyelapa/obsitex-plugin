@@ -55,15 +55,23 @@ The same four work in `pdfCmdText`, `bibliographyCmdText` and `bibliographyBodyC
 
 **`\label` must come AFTER `\caption`, always.** They do two different jobs: `\label` supplies
 the name you point at, `\caption` supplies the number, because a caption is what steps the
-counter. Put `\label` first and it grabs whatever was stepped last -- the enclosing section --
+counter. Put `\label` first and it grabs whatever was stepped last (the enclosing section),
 so `\vref` prints "section 1" for a table. It compiles, there is no warning, and the reference
 is simply wrong. Measured 01.09.2026. **Never reorder those two when editing a template for a
 user**, and if their template already has them the wrong way round, that is the bug.
 
-A caption is therefore not decoration: **no caption, no number.** An empty `%caption%` also
-takes `\label` with it (the converter drops the whole command rather than leave `\caption{}`
-behind), so an uncaptioned table carries no label at all and cannot be referenced. Images never
-hit this: without a caption the converter uses the file name as the caption.
+A caption is therefore not decoration. And be precise about what its absence costs: the
+reference does not lose its number, **it inherits the wrong one.** `\vref` on a label with no
+caption prints `section 1`, a complete, clickable, plausible-looking reference to the
+enclosing section. Nothing prints `??`, so proofreading does not catch it.
+
+The converter shields users from this by accident of design: an empty `%caption%` takes
+`\label` with it (the whole command is dropped rather than left as `\caption{}`), so an
+uncaptioned table carries no label at all and a wikilink to it stays plain text. No reference
+beats a reference to the wrong place. **A user who hand-writes `\label` inside a ` ```latex `
+block has no such protection**. If they do, check that a `\caption` precedes it.
+
+Images never hit this: without a caption the converter uses the file name as the caption.
 
 **Placement is `[!htbp]` in every template.** The `!` switches off LaTeX's fill rules, so
 "here" succeeds far more often than with a plain `[htbp]`; the four letters keep every escape

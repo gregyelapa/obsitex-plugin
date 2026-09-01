@@ -180,6 +180,10 @@ captioned table:
 note names, and a caption that happens to match a note name would silently steal the link.
 Write the `#`.
 
+**What the reader sees is "table 3 on the preceding page"**, not a bare number: the type
+word comes from `cleveref`, the position from `varioref`, and the position is dropped when
+the target is on the same page. Anatomy and the language trap: `links.md`.
+
 **An image without a caption is reachable too.** The converter turns the file name into the
 caption, so `![[photo.jpg]]` carries `\label{fig:photo}` and `[[#photo]]` finds it. There is no
 image that cannot be referred to.

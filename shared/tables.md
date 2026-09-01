@@ -217,6 +217,10 @@ at the caption after a `#`, exactly as you would at a heading.
 **A table without a caption cannot be referred to at all** — no caption, no label. If a user
 wants a reference, they need a caption first.
 
+**What the reader sees is "table 3 on the preceding page"**, not a bare number: the type
+word comes from `cleveref`, the position from `varioref`, and the position is dropped when
+the target is on the same page. Anatomy and the language trap: `links.md`.
+
 **In Obsidian this link looks dead — that is expected, not a bug.** Obsidian resolves a `#`
 only to **headings** (and `#^` to block ids); it knows nothing about captions. So the link is
 painted as unresolved and hovering it says "… not found". **Obsitex still converts it

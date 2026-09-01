@@ -131,9 +131,11 @@ in the preamble.
 | `createCrossReferenceCmd` | `true` | Off: falls back to plain `\ref` |
 | `crossReferenceCmdText` | `\vref{%labelref%}` | The command a resolved wikilink becomes |
 
-Placeholder: `%labelref%`. `\vref` (from `varioref`) adds the page reference automatically
-("on the next page"); `\cref` from `cleveref` would insert the type name ("Section 3.2")
-instead. Both packages are loaded.
+Placeholder: `%labelref%`. Both `varioref` and `cleveref` are loaded, and because cleveref
+comes **after** varioref it rewrites `\vref`. The result therefore already carries the type
+name **and** the page reference: "table 3 on the preceding page". Measured 01.09.2026 — do
+not tell a user to switch to `\cref` to get the word "table"; it is already there. Full
+anatomy of a printed reference: `links.md`.
 
 ## Quotation marks
 

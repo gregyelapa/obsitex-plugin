@@ -29,6 +29,43 @@ lowercased). `title:` and `aliases:` do **not** count — there is no need to se
 label is built path-uniquely from file path **plus** heading, byte-identical at definition and
 reference — so several files with a `# Introduction` do not collide.
 
+### What the reader actually sees — four parts, three packages
+
+A resolved reference prints something like this (measured 01.09.2026):
+
+```
+table 3 on the preceding page
+^^^^^ ^ ^^^^^^^^^^^^^^^^^^^^
+type  no      position
+```
+
+1. **The type word** — from **`cleveref`**, not from `\vref`. "table", "figure", "section".
+2. **The number** — from the counter, and a counter is stepped by a **caption**. No caption,
+   no number (see `tables.md`).
+3. **The position** — from **`varioref`**. It chooses between "on the preceding page",
+   "on page 12" and **nothing at all** when the target sits on the same page. So a reference
+   that reads just "figure 2" is not broken; the figure is simply on that page.
+4. **The jump** — from **`hyperref`**. Invisible, but clickable.
+
+**`\vref` on its own gives only 2 and 3.** The type word appears because the standard preamble
+loads `cleveref` **after** `varioref`, and cleveref rewrites `\vref`. Measured with and without:
+
+| Preamble | `\vref{tab:t}` prints |
+|---|---|
+| `varioref` only | `1` |
+| `varioref` + `cleveref` | `table 1` |
+| the same with `ngerman` | `Tabelle 1` |
+
+**Two things that matter for a thesis in another language.** Both are easy to get wrong and
+neither produces an error:
+
+- **The language of the type word lives in the package options**, not in babel. Switching the
+  document to German means `\usepackage[ngerman]{varioref}` **and**
+  `\usepackage[noabbrev,ngerman]{cleveref}`. Change babel alone and the text stays German
+  while every reference keeps saying "table".
+- **`noabbrev` is not decoration.** Without it cleveref abbreviates: "tab. 1" instead of
+  "table 1". The standard preamble sets it.
+
 External links: `[text](https://…)` → `\href`; a bare URL in running text → `\url`, clickable.
 
 ## What does not link — and stays as readable text

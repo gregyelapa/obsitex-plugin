@@ -65,9 +65,9 @@ Read the matching file **when the topic comes up** — not in advance. Each is s
 
 | Topic | File |
 |---|---|
-| Tables, column alignment, cell contents, colour | `tables.md` |
+| Tables, column alignment, cell contents, colour, where a table lands on the page | `tables.md` |
 | Bulleted, numbered and task lists | `lists.md` |
-| Images, captions, referring to a figure, saving an image pasted into the chat | `images.md` |
+| Images, captions, size, where a figure lands on the page, saving an image pasted into the chat | `images.md` |
 | Embedding whole PDF documents, page orientation, saving a PDF dropped into the chat | `pdf-embeds.md` |
 | Heading levels, folders, depth, unnumbered headings | `headings.md` |
 | Wikilinks, cross-references, external URLs | `links.md` |
@@ -96,6 +96,12 @@ carries over from the state above. It takes effect from that position on and nev
 retroactively — so put the value back afterwards, or everything below inherits the change.
 Exception: `documentClass` cannot be changed mid-document (first block wins, warning 92870).
 Invalid JSON leaves the state untouched.
+
+**Every LaTeX command inside a `dds` block needs TWO backslashes.** The block is JSON, and
+JSON reads a backslash as an escape character: `"\begin"` is invalid, `"\\begin"` is
+correct. `\n` is the line break. **The failure is silent** — no warning, no marker in the
+PDF, the setting simply does not take effect. Before writing a `dds` block with LaTeX in it,
+run the line through `JSON.parse` once.
 
 **Before reaching for level 3, read the preamble.** Never decide from memory which packages
 are loaded — open `00 Document Setup.md` in the user's own vault and look. Loading a package

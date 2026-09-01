@@ -58,10 +58,10 @@ appeared (measured 15.08.2026). Saving the attachment and then stopping is the w
 Same form as an image embed: the file must be in the vault, and the embed must stand **alone
 in its own paragraph**.
 
-**A caption after the pipe is parsed but usually thrown away.** It fills the `%name%`
+**A caption after the pipe is parsed but usually thrown away.** It fills the `%caption%`
 placeholder of `pdfCmdText` — and the standard template is `\includepdf[pages=-]{%path%}`,
-which has no `%name%` in it. So the text silently disappears. Either leave it out, or add
-`%name%` to the template (see below).
+which has no `%caption%` in it. So the text silently disappears. Either leave it out, or add
+`%caption%` to the template (see below).
 
 ## What it produces
 

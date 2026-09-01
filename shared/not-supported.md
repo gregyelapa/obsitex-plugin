@@ -106,5 +106,5 @@ appears in the PDF — deliberately, so it is noticed.
 
 ## Block references
 
-`[[Note#^blockid]]` is not resolved; the note name is shown. Only **headings** can be linked
-to. For a figure, use the raw `\vref{fig:…}` — see `images.md`.
+`[[Note#^blockid]]` is not resolved; the note name is shown. Link to a **heading**, a **table
+caption** or an **image caption** instead — see `links.md`, `tables.md`, `images.md`.

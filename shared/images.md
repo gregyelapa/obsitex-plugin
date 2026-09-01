@@ -126,8 +126,9 @@ part of the caption — so a caption may itself contain a pipe.
 **The size does not reach the PDF yet.** Obsitex recognises it and keeps it out of the caption,
 but does not pass it to LaTeX: the width still comes from `figureEnvironmentText` (full text
 width by default). The author therefore sees the image smaller in Obsidian than in the PDF.
-**Say so** if they ask for a specific size — the only way today is the preamble template, which
-changes every figure.
+**Say so** if they ask for a specific size, and change it where it actually lives: for one
+figure a ` ```dds ` block before it and a second one after putting the width back, for every
+figure the block in `00 Document Setup.md`.
 
 ## What it produces
 
@@ -139,19 +140,82 @@ the source file, the `\label` from the caption** — two separate sources, both 
 run. Two images may therefore share a caption; they get distinguishable labels
 (`fig:…`, `fig:…_2`).
 
+**The caption runs through inline rendering** (since 29.08.2026), the same as a table cell:
+
+- Special characters are safe. `Costs_A and B & 50 %` prints as written. Before that date a
+  single underscore broke the build with the default template.
+- `**bold**`, `*italic*`, `[[links]]` and `[@cite]` work inside a caption.
+- Backticks are still the way to raw LaTeX: `` ![[img.png|Formula `$a^2$` shown]] ``. A LaTeX
+  command written **without** backticks now prints as text instead of running.
+- The `\label` is built from the **raw** caption, not the rendered one, so markup never lands
+  inside it.
+
+## Placement: why a figure moves
+
+A figure is a **float**, exactly like a table, and the mechanism is the same one: `[!htbp]`,
+never backwards, `[H]` from the `float` package to pin it. The full explanation lives once, in
+`tables.md`, "Placement: why a table moves" — read it there before answering.
+
+**With images the placement letter is rarely the real problem.** The template sets
+`width=\textwidth`. A square picture then becomes nearly page-high and fits in no gap on any
+page, so LaTeX carries it along whatever you write in the brackets. Measured, not guessed.
+
+So when a user says an image jumped to another page, **check the size first**. Making it
+narrower (see "Caption and size" above) puts it back into the running text and costs nothing.
+Reach for `[H]` only when the picture is already small and still moves — pinning a page-high
+figure just leaves a bigger hole.
+
 ## Referring to a figure
 
-A `[[…]]` link only ever hits **headings**, never figures. A cross-reference to an image needs
-the raw LaTeX command in backticks:
+**Since 01.09.2026 a wikilink reaches a figure by its caption**, exactly the way it reaches a
+captioned table:
+
+| Written | Result |
+|---|---|
+| `[[#A test image]]` (same note) | `\vref{fig:a_test_image}` |
+| `[[Note#A test image]]` | the same, across notes |
+| `[[#A test image\|the test image]]` | `\hyperref[fig:a_test_image]{the test image}` |
+
+**A bare `[[A test image]]` is NOT a figure reference, on purpose.** That namespace belongs to
+note names, and a caption that happens to match a note name would silently steal the link.
+Write the `#`.
+
+**An image without a caption is reachable too.** The converter turns the file name into the
+caption, so `![[photo.jpg]]` carries `\label{fig:photo}` and `[[#photo]]` finds it. There is no
+image that cannot be referred to.
+
+**In Obsidian this link looks dead — that is expected, not a bug.** Obsidian resolves a `#`
+only to **headings** (and `#^` to block ids); it knows nothing about captions. So the link is
+painted as unresolved and hovering it says "… not found". **Obsitex still converts it
+correctly** and the reference appears in the PDF. Measured 01.09.2026.
+
+Two consequences, both silent, and worth saying out loud when a user writes one of these:
+
+- **No click while writing.** The reference cannot be checked before converting.
+- **Obsidian does not follow a renamed caption.** Change the caption and the link breaks
+  without a warning; it shows up in the PDF as plain text where a number should be.
+
+So when you edit a caption, **search the vault for links pointing at it** and update them in
+the same breath. Nothing else will.
+
+The name after `fig:` is built from the **raw** caption: lowercased, every character other than
+a letter or digit becomes `_`. "A test image" → `fig:a_test_image`. Two images sharing a
+caption get `fig:…` and `fig:…_2`, and a link hits the **first** of them. **Changing the caption
+changes the label**, so warn the user when you edit a caption something might point at. The
+wikilink form survives that edit far better than a hand-written label, which is the reason to
+prefer it.
+
+The raw command in backticks still works and remains the way out for anything the wikilink form
+does not cover:
 
 ```markdown
 … is shown in `\vref{fig:a_test_image}`.
 ```
 
-The name after `fig:` is built from the **caption**: lowercased, every character other than a
-letter or digit becomes `_`. "A test image" → `fig:a_test_image`. **Changing the caption
-changes the label**, so any reference has to be updated with it — warn the user when you edit
-a caption that something might point at.
+**A figure only has a label if the template emits one.** `figureEnvironmentText` carries
+`%label%` in the standard setup. A custom template without it produces no label; a wikilink to
+that image then stays plain text instead of pointing at a label that does not exist. The same
+holds for `pdfCmdText` (PDF embeds) and the two bibliography fields.
 
 ## When no image appears
 

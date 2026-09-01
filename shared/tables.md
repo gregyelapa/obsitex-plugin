@@ -40,7 +40,7 @@ land raw in the PDF — see `not-supported.md`.
 
 **It needs a paragraph column — the default template does not give you one.** Each `<br>`
 becomes a paragraph break in the `.tex`, and a paragraph break only breaks a line in a
-`p{…}` column. The standard `tableEnvironmentText` builds its columns from `%getcolumns%`,
+`p{…}` column. The standard `tableEnvironmentText` builds its columns from `%columnspec%`,
 which yields `l`/`c`/`r` — and an `l` cell is set in LR mode, where no line break is possible
 at all. **The break is then lost without any error**: TeX ignores the paragraph break in that
 mode, so both halves print on one line separated by a space, and the PDF looks merely wrong,
@@ -52,11 +52,11 @@ the same `dds` sandwich as everywhere else, with the reset after it:
 
 ````markdown
 ```dds
-{"tableEnvironmentText":"\\begin{table}[h]\n    \\centering\n    \\begin{tabular}{|p{3cm}|p{6cm}|}\n        %tablestring%\n    \\end{tabular}\n\\end{table}\n\n"}
+{"tableEnvironmentText":"\\begin{table}[!htbp]\n    \\centering\n    \\begin{tabular}{|p{3cm}|p{6cm}|}\n        %tablebody%\n    \\end{tabular}\n\\end{table}\n\n"}
 ```
 ````
 
-The column widths are yours to choose, and the placeholder `%getcolumns%` is deliberately
+The column widths are yours to choose, and the placeholder `%columnspec%` is deliberately
 gone — that is the whole point, the alignment markers cannot produce a `p` column. For a long
 table use `longtable` with `p{…}` columns the same way; it also lifts the footnote
 restriction under "Traps".
@@ -82,6 +82,55 @@ put the value back, or every later table inherits the change:
 {"tableGridVertical": false}
 ```
 ````
+
+## Placement: why a table moves
+
+A table is a **float**. LaTeX does not print it at the spot in the source; it looks for a place
+where the page breaks well. The author sees the table a page later, or at the top of the page
+above the very sentence that announces it, and reads that as a bug. It is not. Explain the
+mechanism before you change anything.
+
+The templates set `[!htbp]`. What the letters mean and why exactly this combination was chosen:
+`dds.md`, "Placement". Two facts settle most questions:
+
+- **A float never travels backwards.** It moves down, or up to the top of the page it is
+  already on, never to an earlier page.
+- **A bare `[h]` is the one to avoid.** LaTeX cannot honour it, silently rewrites it to `[ht]`
+  and warns once per float.
+
+**Nailing one table down.** `[H]` from the `float` package does not negotiate. It needs a
+` ```dds ` block before the table and a **second one after it** putting `tableEnvironmentText`
+back, or every later table is pinned too:
+
+````markdown
+```dds
+{"tableEnvironmentText": "\\begin{table}[H]\n    \\centering\n    \\begin{tabular}{%columnspec%}\n        %tablebody%\n    \\end{tabular}\n    \\caption{%caption%}\n    \\label{tab:%label%}\n\\end{table}\n\n"}
+```
+````
+
+Two things to check and to say out loud when you do this:
+
+- **`[H]` needs the `float` package. Read the user's own preamble before you assume it is
+  there.** All four `obsitex-init` templates load it, but a hand-built or older
+  `00 Document Setup.md` often does not (measured 29.08.2026). If it is missing, add
+  `\usepackage{float}` with a `%` comment saying what it is for, and tell the user. Never
+  silently — `obsitex-conventions.md`.
+- A pinned table that no longer fits the rest of the page jumps to the next page whole and
+  leaves the remainder of this one empty. That is the price of `[H]`.
+
+**Build the second block from the value you actually found**, not from the example above. The
+reset has to restore *this* vault's `tableEnvironmentText` character for character, so copy it
+out of `00 Document Setup.md` (or out of the last `dds` block above the table) and change only
+the placement letters.
+
+**Do not try to keep a table below its text by dropping the `t`.** `[!hbp]` was measured and is
+worse: floats keep their order, so one waiting table holds up every later one and they collect
+at the foot of the page, far from the headings they belong to. If a table must not move, pin it.
+
+**Going back to the standard** is the same move in reverse: one ` ```dds ` block setting
+`tableEnvironmentText` back to `[!htbp]`, or removing the blocks that pinned it. Worth
+offering before the manuscript is printed or handed in — gaps read worse than a table one page
+on.
 
 ## Colour without giving up the Markdown table
 
@@ -117,44 +166,78 @@ The standard preamble already carries `array`, `booktabs`, `tabularx`, `longtabl
 `\cellcolor`. So most table wishes need **no** new package. That list describes the template,
 not necessarily this vault; check the user's own preamble.
 
-## What a Markdown table cannot have: a caption
+## Captions (since 29.08.2026)
 
-`tableEnvironmentText` has no caption placeholder — only `%getcolumns%` and `%tablestring%`.
-Figures have `%name%`; tables have nothing equivalent. So a Markdown table gets **no
-`\caption`, no `\label`, and no entry in the List of Tables**.
+A Markdown table CAN carry a caption. Write it on the line right after the table, opened
+with `:`, `Table:` or `table:` and one space. This is Pandoc's spelling, not an Obsitex
+invention.
 
-That is the one thing a raw block still buys, and it matters in a thesis whose front matter
-has a List of Tables. **Say this out loud when it applies** and let the user choose:
-
-| | Markdown table + `\rowcolor` | raw LaTeX block |
-|---|---|---|
-| Editing | a normal Markdown table | LaTeX by hand |
-| Obsidian preview | renders | shows source |
-| Colour | yes | yes |
-| Caption, label, List of Tables | **no** | yes |
-
-The raw-block form, when they pick it:
-
-````markdown
-```latex
-% table with a caption so it appears in the List of Tables
-\begin{table}[h]
-    \centering
-    \caption{Overview of the research design}
-    \label{tab:research-design}
-    \begin{tabular}{|l|c|r|}
-    \hline
-    \rowcolor{gray!25}
-    Material & Amount & Price \\
-    \hline
-    Screws & 100 & 5 \% \\
-    \hline
-    \end{tabular}
-\end{table}
+```markdown
+| Material | Amount | Price |
+|:---------|-------:|------:|
+| Screws   |    100 |   5 % |
+table: Overview of the research design
 ```
-````
 
-The `\caption` and `\label` lines are the whole reason to choose this form.
+That yields `\caption{…}` and `\label{tab:overview_of_the_research_design}`, so the table
+appears in the List of Tables. **A raw LaTeX block is no longer needed for a caption.**
+
+Four things worth knowing:
+
+- **A blank line between table and caption is allowed but not required.** Without one the
+  caption sits closer to the table in Obsidian's preview, which reads better. With one it is
+  also valid Pandoc. Both produce the same LaTeX.
+- **Position binds, not the pattern.** A line starting with `: ` anywhere else stays ordinary
+  text. Only a line directly after a table becomes a caption.
+- **The caption runs through inline rendering.** `**bold**`, `[[links]]` and `[@cite]` work
+  in it. The label is built from the raw text, so markup never lands inside `\label`.
+- **No caption means no `\caption{}` either.** The empty value takes the whole command with
+  it. A table without a caption looks exactly as it did before.
+
+Two tables sharing one caption get `_2`, `_3` on the label. Table labels live in their own
+pot, separate from figure labels: `tab:` and `fig:` are different namespaces in LaTeX.
+
+**Referring to a table** works like referring to a heading, since 29.08.2026:
+
+```markdown
+The split is shown in [[#Overview of the research design]].
+```
+
+That becomes `\vref{tab:overview_of_the_research_design}`. Three forms exist:
+
+| Written | Result |
+|---|---|
+| `[[#Caption]]` (same note) | `\vref{tab:…}` |
+| `[[Note#Caption]]` | the same, across notes |
+| `[[#Caption\|the split]]` | `\hyperref[tab:…]{the split}` |
+
+**A bare `[[Caption]]` does NOT work, on purpose.** That namespace belongs to note names. Point
+at the caption after a `#`, exactly as you would at a heading.
+
+**A table without a caption cannot be referred to at all** — no caption, no label. If a user
+wants a reference, they need a caption first.
+
+**In Obsidian this link looks dead — that is expected, not a bug.** Obsidian resolves a `#`
+only to **headings** (and `#^` to block ids); it knows nothing about captions. So the link is
+painted as unresolved and hovering it says "… not found". **Obsitex still converts it
+correctly** and the reference appears in the PDF. Measured 01.09.2026.
+
+Two consequences, both silent, and worth saying out loud when a user writes one of these:
+
+- **No click while writing.** The reference cannot be checked before converting.
+- **Obsidian does not follow a renamed caption.** Change the caption and the link breaks
+  without a warning; it shows up in the PDF as plain text where a number should be.
+
+So when you edit a caption, **search the vault for links pointing at it** and update them in
+the same breath. Nothing else will.
+
+**Images work the same way since 01.09.2026**: `[[#Caption]]` reaches a figure and produces
+`\vref{fig:…}`. An image without a caption is reachable too, because the converter makes its
+file name the caption. Details in `images.md`.
+
+A raw LaTeX block is still the answer for a table that needs a structure the DDS template
+cannot express (`tabularx` for one table only, `multirow`, a sideways table). Not for a
+caption.
 
 ## Traps
 
@@ -173,3 +256,48 @@ The `\caption` and `\label` lines are the whole reason to choose this form.
 
 Keep the source readable: pad the columns so the pipes line up. Obsidian and the converter
 do not care, but the author edits this file for months.
+
+### Building a new one: what to ask, what to decide
+
+**Most of a table is not a question.** Alignment, grid, header and placement all have defaults
+that are right nearly every time, and asking about them costs the author a decision they did
+not want to make. Ask about the two things only they know, decide the rest, and say in one line
+what you decided so they can correct it.
+
+**First, which of the two cases is it.** They read the same to the user and need different
+questions:
+
+| | They already have the data | They want an empty frame |
+|---|---|---|
+| Comes with | pasted numbers, a list, a paragraph | nothing but an intention |
+| Columns | **read them off the data**, ask nothing | **ask** — see below |
+| Rows | as many as the data has | ask roughly how many |
+| Caption | offer one drawn from the surrounding text | ask, in the same question |
+
+**Ask for the column headings. Never invent them.** They are the author's own words and they
+end up in a thesis: "Sample", "n", "p value" is a different table from "Group", "Count",
+"Share". A guessed heading looks finished, which is exactly why it survives to the printed
+version. Same for the caption: it is a sentence about the author's own work.
+
+Put it in **one** structured question, not three in a row: what are the columns called, roughly
+how many rows, and what should the caption say. Offer an example in the question text so they
+see the form of an answer, and make clear the example is a form and not a proposal.
+
+**Decide these yourself**, then name them in one line:
+
+| Decide | Default | When to depart from it |
+|---|---|---|
+| Alignment per column | numbers and dates right, everything else left | the author says otherwise |
+| Grid | whatever `tableGridHorizontal` / `tableGridVertical` are set to in this vault | never on your own |
+| Header row | the first row, as a normal row: the Markdown table has no separate header markup | shading is a separate wish, see "Colour" above |
+| Placement | leave `tableEnvironmentText` alone | never on your own |
+
+**Never ask whether the table should float or sit fixed.** The author does not know what a
+float is, and a question they cannot answer is worse than a default. It also comes too early:
+whether the placement bothers them shows up in the PDF, not while writing. If it does, the
+answer is in "Placement: why a table moves" above, and it starts by explaining the mechanism.
+
+**An empty frame still needs at least one body row**, so the author has somewhere to type and
+can see the column widths. Fill it with nothing, not with sample values: a table with invented
+numbers in it reads as data, and invented data in a thesis is the one mistake worth being
+paranoid about.

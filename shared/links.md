@@ -5,9 +5,10 @@
 
 ## The core idea
 
-**A wikilink always points at a heading — a `#` line.** In the PDF it becomes a clickable
+**A wikilink points at a heading — a `#` line.** In the PDF it becomes a clickable
 cross-reference ("Section 3.2"). The file name in the link **never appears** in the PDF; it
-only says which file the heading is in.
+only says which file the heading is in. **A table caption and an image caption work the same
+way** after the `#`; that is the "Traps" section below and `tables.md` / `images.md`.
 
 | Written | Points at |
 |---|---|
@@ -50,9 +51,17 @@ None of these break anything; they simply print instead of linking:
 
 ## Traps
 
-- **Only headings can be targets.** There is no way to link to a figure, a table or a
-  paragraph. A reference to an image needs the raw `\vref{fig:…}` in backticks, and the
-  label comes from the caption — see `images.md`.
+- **Headings, captioned tables and figures can be targets, nothing else.** A table or an image
+  is reached by its caption after a `#`: `[[#Overview of the design]]` or
+  `[[Note#Overview of the design]]` (tables since 29.08.2026, images since 01.09.2026; see
+  `tables.md` and `images.md`). A table with no caption has no label and cannot be reached; an
+  image without one still can, because the converter makes its file name the caption. **A bare
+  `[[Overview of the design]]` is none of these** — that namespace belongs to note names, so
+  the `#` is required. **Paragraphs still cannot be linked.**
+- **A link to a caption looks dead inside Obsidian.** Obsidian resolves `#` only to headings,
+  so it paints a caption link as unresolved and says "not found" on hover. Obsitex converts
+  it correctly anyway. The cost is real though: no click while writing, and Obsidian does not
+  follow a renamed caption. See `tables.md` and `images.md`.
 - **Renaming a file outside Obsidian breaks every wikilink pointing at it.** Obsidian
   updates them, the file explorer does not. Rename in Obsidian, and answer "Always update".
   If it must be done outside, update the links **and** the Flexplorer `data.json` in the

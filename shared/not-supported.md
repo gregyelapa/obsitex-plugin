@@ -111,4 +111,4 @@ appears in the PDF — deliberately, so it is noticed.
 It does **not** work on a **paragraph**, and that is deliberate: a paragraph has no counter, so
 its label would inherit the number of the section around it and the reference would claim its
 target is a section. The id is still removed from the text, and the converter logs warning
-92876. Point at a heading or at a caption instead.
+92650. Point at a heading or at a caption instead.

@@ -75,7 +75,7 @@ None of these break anything; they simply print instead of linking:
 - **A broken link** (typo, heading renamed) — the visible text stays.
 - **A block reference to a paragraph** `[[Note#^id]]` — not a target. Only figures and tables
   carry a label of their own; a paragraph would inherit the section's number. The id itself is
-  removed from the text either way, and the converter logs warning 92876. Figures and tables
+  removed from the text either way, and the converter logs warning 92650. Figures and tables
   DO work this way, see below.
 - **A note transclusion** `![[Note]]` — the content is **not** inserted; `![[Note]]` appears
   visibly as text so the author notices.

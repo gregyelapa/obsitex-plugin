@@ -265,33 +265,83 @@ caption.
 Keep the source readable: pad the columns so the pipes line up. Obsidian and the converter
 do not care, but the author edits this file for months.
 
-### Building a new one: what to ask, what to decide
+### Where the table goes: the marker line
 
-**Most of a table is not a question.** Alignment, grid, header and placement all have defaults
-that are right nearly every time, and asking about them costs the author a decision they did
-not want to make. Ask about the two things only they know, decide the rest, and say in one line
-what you decided so they can correct it.
+**Claude Code cannot see the cursor in Obsidian.** The two programs share nothing but the
+files on disk. So a table with no stated position lands wherever you judge best, and a
+correct table in the wrong section still reads as a failure to the author.
 
-**First, which of the two cases is it.** They read the same to the user and need different
-questions:
+The standard way, and the one the Blueprints tool hands the user, is a **marker line**: the
+author types `TABLE HERE` on a line of its own at the spot they want. Write the table in
+place of that line and delete the line.
 
-| | They already have the data | They want an empty frame |
+**Search the whole vault for the marker. Do not ask which file it is in.** The cards
+deliberately do not carry a file name: the author knows where they typed the marker, not
+what the note is called on disk ("03 Methods.md" when they think "the methods part"). A
+grep over every `.md` in the vault costs nothing, measured 02.09.2026 at under a second
+for 160 notes on OneDrive.
+
+- **No marker anywhere? Then ask**, for the file and the spot in one question. Never fall
+  back to the end of a file, and never pick a spot out of the surrounding prose on your own.
+  One short question costs less than a table that has to be moved.
+- **More than one marker?** Ask which one, and name the file and the heading each sits under
+  so the question can be answered without scrolling.
+- The marker is plain text. Obsidian shows it as text, Obsitex would convert it as text, and
+  nothing else in the chain reacts to it.
+
+The second way is a described spot: "after the heading Results", "after the sentence about
+the sample size". It arrives when the author answers the question above, so it needs no
+separate handling. Confirm in one line where you put the table.
+
+### Building a new one: three ways in
+
+The Blueprints tool offers three cards for a new table. They produce the same kind of table
+and differ only in **how much you may ask**. Read the user's opening move and match it:
+
+| The user arrives with … | You … | Card |
 |---|---|---|
-| Comes with | pasted numbers, a list, a paragraph | nothing but an intention |
-| Columns | **read them off the data**, ask nothing | **ask** — see below |
-| Rows | as many as the data has | ask roughly how many |
-| Caption | offer one drawn from the surrounding text | ask, in the same question |
+| the shape: columns, rows, headings, and says not to ask | write it, ask nothing, then name your decisions in one line | "Make an empty table" |
+| nothing but the intention, and wants to be walked through it | ask about every choice that changes the look, then write | "Build a table step by step" |
+| pasted content | work out the form yourself, ask only where you genuinely cannot decide | "Make a table from my content" |
 
-**Ask for the column headings. Never invent them.** They are the author's own words and they
-end up in a thesis: "Sample", "n", "p value" is a different table from "Group", "Count",
-"Share". A guessed heading looks finished, which is exactly why it survives to the printed
-version. Same for the caption: it is a sentence about the author's own work.
+**A user who did not come through a card gets way three**, unless they ask for questions.
+Deciding and saying what you decided is cheaper for them than a questionnaire they did not
+want.
 
-Put it in **one** structured question, not three in a row: what are the columns called, roughly
-how many rows, and what should the caption say. Offer an example in the question text so they
-see the form of an answer, and make clear the example is a form and not a proposal.
+**Way one: they told you the shape.** Everything you need is in the prompt. Write the frame
+and do not ask, not even about the caption. If a heading is missing where one is obviously
+needed, leave the cell empty rather than inventing a word.
 
-**Decide these yourself**, then name them in one line:
+**Way two: they asked to be walked through it.** This is the one place where a questionnaire
+is right, because the user chose it. Ask about, in this order:
+
+- what the columns are called, and roughly how many rows
+- whether it needs a caption and a number, and what the caption says
+- whether it may run over more than one page
+- whether the first row should be shaded
+
+Give an **example answer** with each question and say the example is a form, not a proposal.
+Then write the table and list what you decided on your own.
+
+**"May it run over more than one page" is a question the author can answer.** It is not the
+float question in disguise: it asks about the amount of data, which they know, not about page
+breaking, which they do not. A yes means `longtable`, and it also lifts the footnote
+restriction under "Traps". **Still never ask whether the table should float or sit fixed** —
+see the paragraph after the decision table below.
+
+**Way three: they pasted content.** Read the columns off the data and keep the author's
+wording character for character. Decide alignment, caption and, from the number of rows,
+whether it has to run over more than one page. Ask only where the data itself is ambiguous:
+a column that could be a heading or a value, two candidate header rows, a unit that could
+belong to the heading or to every cell.
+
+**Ask for the column headings wherever you do ask. Never invent them.** They are the author's
+own words and they end up in a thesis: "Sample", "n", "p value" is a different table from
+"Group", "Count", "Share". A guessed heading looks finished, which is exactly why it survives
+to the printed version. The same holds for the caption: it is a sentence about the author's
+own work.
+
+**Decide these yourself in every one of the three ways**, then name them in one line:
 
 | Decide | Default | When to depart from it |
 |---|---|---|

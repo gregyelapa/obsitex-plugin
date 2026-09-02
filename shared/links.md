@@ -73,7 +73,10 @@ External links: `[text](https://…)` → `\href`; a bare URL in running text �
 None of these break anything; they simply print instead of linking:
 
 - **A broken link** (typo, heading renamed) — the visible text stays.
-- **A block reference** `[[Note#^blockid]]` — not supported; the note name is shown.
+- **A block reference to a paragraph** `[[Note#^id]]` — not a target. Only figures and tables
+  carry a label of their own; a paragraph would inherit the section's number. The id itself is
+  removed from the text either way, and the converter logs warning 92876. Figures and tables
+  DO work this way, see below.
 - **A note transclusion** `![[Note]]` — the content is **not** inserted; `![[Note]]` appears
   visibly as text so the author notices.
 - **A file with no `#` heading at all** is not linkable. `[[Note]]` needs a first heading to
@@ -99,6 +102,49 @@ None of these break anything; they simply print instead of linking:
   so it paints a caption link as unresolved and says "not found" on hover. Obsitex converts
   it correctly anyway. The cost is real though: no click while writing, and Obsidian does not
   follow a renamed caption. See `tables.md` and `images.md`.
+
+## Block identifiers: the form that lives in Obsidian too
+
+Obsidian names a single block with `^id` at the end of it, and writes that id **by itself** the
+moment somebody picks a block from the `[[Note#^` autocomplete. Since 02.09.2026 Obsitex reads
+it:
+
+```markdown
+![[figure.png|Sample distribution]]
+^dist
+
+Shown in [[#^dist]].
+```
+
+```latex
+\begin{figure}[!htbp]
+  \includegraphics[width=\textwidth]{./images/figure.png}
+  \caption{Sample distribution}
+  \label{fig:sample_distribution}
+\end{figure}
+
+Shown in \vref{fig:sample_distribution}.
+```
+
+**No second `\label`.** The figure already has one from its caption; the id is just a second
+name for it. The output is identical to `[[#Sample distribution]]`.
+
+**Three positions all work** (measured in Obsidian): on its own line after the block, on its own
+line after a **blank** line, and appended to the block's last line. A blank line does not detach
+the id from the block above it.
+
+**When to suggest which:**
+
+| | Caption anchor | Block identifier |
+|---|---|---|
+| Clickable in Obsidian while writing | no | **yes** |
+| Survives a rewritten caption | **no**, breaks silently | yes |
+| Readable in the markdown | **yes** | no, Obsidian invents `^a3f2b1` |
+
+The caption is the normal way because it reads well. Reach for a block id when the author wants
+to click their own references while writing, or when a caption is still in flux.
+
+**Never on a paragraph.** See the list above: it is removed but is not a target.
 - **Renaming a file outside Obsidian breaks every wikilink pointing at it.** Obsidian
   updates them, the file explorer does not. Rename in Obsidian, and answer "Always update".
   If it must be done outside, update the links **and** the Flexplorer `data.json` in the

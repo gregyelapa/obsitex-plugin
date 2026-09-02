@@ -188,6 +188,10 @@ the target is on the same page. Anatomy and the language trap: `links.md`.
 caption, so `![[photo.jpg]]` carries `\label{fig:photo}` and `[[#photo]]` finds it. There is no
 image that cannot be referred to.
 
+**An Obsidian block identifier reaches a figure as well** since 02.09.2026: write `^id` at the
+end of the embed and reference it with `[[#^id]]`. Same output, but the link is live inside
+Obsidian and survives a rewritten caption. Details and the trade-off: `links.md`.
+
 **In Obsidian this link looks dead — that is expected, not a bug.** Obsidian resolves a `#`
 only to **headings** (and `#^` to block ids); it knows nothing about captions. So the link is
 painted as unresolved and hovering it says "… not found". **Obsitex still converts it

@@ -106,5 +106,9 @@ appears in the PDF — deliberately, so it is noticed.
 
 ## Block references
 
-`[[Note#^blockid]]` is not resolved; the note name is shown. Link to a **heading**, a **table
-caption** or an **image caption** instead — see `links.md`, `tables.md`, `images.md`.
+`[[Note#^id]]` **does** work on a **figure** or a **table** since 02.09.2026, see `links.md`.
+
+It does **not** work on a **paragraph**, and that is deliberate: a paragraph has no counter, so
+its label would inherit the number of the section around it and the reference would claim its
+target is a section. The id is still removed from the text, and the converter logs warning
+92876. Point at a heading or at a caption instead.

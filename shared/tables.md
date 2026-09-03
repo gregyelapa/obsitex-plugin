@@ -312,6 +312,12 @@ want.
 and do not ask, not even about the caption. If a heading is missing where one is obviously
 needed, leave the cell empty rather than inventing a word.
 
+**The frame gets no caption.** The user asked not to be asked, and a caption cannot be read off
+an empty table. Say it in the closing line, in one sentence: the table has no caption yet, so it
+does not appear in the List of Tables, and one word from them adds it. Do not leave this silent.
+The author sees a finished table and has no reason to suspect that something is missing from a
+list they will not look at for weeks.
+
 **Way two: they asked to be walked through it.** This is the one place where a questionnaire
 is right, because the user chose it. Ask about, in this order:
 
@@ -330,16 +336,35 @@ restriction under "Traps". **Still never ask whether the table should float or s
 see the paragraph after the decision table below.
 
 **Way three: they pasted content.** Read the columns off the data and keep the author's
-wording character for character. Decide alignment, caption and, from the number of rows,
-whether it has to run over more than one page. Ask only where the data itself is ambiguous:
-a column that could be a heading or a value, two candidate header rows, a unit that could
-belong to the heading or to every cell.
+wording character for character. Decide alignment and, from the number of rows, whether it has
+to run over more than one page. Ask only where the data itself is ambiguous: a column that
+could be a heading or a value, two candidate header rows, a unit that could belong to the
+heading or to every cell.
 
-**Ask for the column headings wherever you do ask. Never invent them.** They are the author's
-own words and they end up in a thesis: "Sample", "n", "p value" is a different table from
-"Group", "Count", "Share". A guessed heading looks finished, which is exactly why it survives
-to the printed version. The same holds for the caption: it is a sentence about the author's
-own work.
+**The caption is not one of those decisions.** If the pasted material already names the table,
+with a heading above it or a first line that reads as a title, take that wording as the caption,
+character for character. If it names nothing, write no caption. Say so in the closing line: none
+was in the material, so the table stays out of the List of Tables and cannot be cross-referenced,
+and you will add one the moment they name it. Reading that sentence and answering it costs the
+author seconds. An invented caption costs far more, see the next paragraph.
+
+**Never invent a column heading.** They are the author's own words and they end up in a thesis:
+"Sample", "n", "p value" is a different table from "Group", "Count", "Share". A guessed heading
+looks finished, which is exactly why it survives to the printed version. Read them off the
+material where there is material, ask for them wherever you do ask, and where you can do neither
+leave the cell empty.
+
+**Never invent a caption either, and this one holds even where you ask nothing at all.** A
+heading labels something that is lying in front of you. A caption is a statement about the
+author's own work, and nothing in the data says what that work is. That is why a made up caption
+comes out long and explanatory: it had no source, so it was built out of the surroundings.
+**No caption is a valid result.** The converter simply leaves the `\caption{}` out (see "Captions"
+above) and nothing breaks. An empty spot the author can fill is honest. A sentence you made up
+is not, and it is the one that gets printed in the List of Tables.
+
+**A caption that does come about is short: a noun phrase, not a sentence.** "Design of the
+study", not "This table shows how the study was designed". It stands in the List of Tables
+between other short lines, and it is what a cross-reference points at.
 
 **Decide these yourself in every one of the three ways**, then name them in one line:
 
@@ -349,6 +374,7 @@ own work.
 | Grid | whatever `tableGridHorizontal` / `tableGridVertical` are set to in this vault | never on your own |
 | Header row | the first row, as a normal row: the Markdown table has no separate header markup | shading is a separate wish, see "Colour" above |
 | Placement | leave `tableEnvironmentText` alone | never on your own |
+| Caption | none, unless the author gave one or their own material names the table | never write one yourself, see above |
 
 **Never ask whether the table should float or sit fixed.** The author does not know what a
 float is, and a question they cannot answer is worse than a default. It also comes too early:

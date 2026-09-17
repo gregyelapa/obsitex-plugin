@@ -30,6 +30,36 @@ files is something the converter actually understands.
 4. **Never invent syntax.** If a construct appears in neither the overview nor a topic file,
    say plainly that Obsitex does not support it and offer the nearest thing that works.
 
+## The project `CLAUDE.md`, if there is one
+
+`/obsitex:obsitex-init` may have left a `CLAUDE.md` in the project folder holding the decisions from
+the setup interview: `obsitex-manuscript`, `obsitex-ordering`, `obsitex-levels`,
+`obsitex-chat-language` and the intentions behind them. Claude Code loads it on its own, so
+you usually have it already.
+
+- **It records what was agreed once, not what is true now.** On any disagreement the disk
+  wins. Never "correct" a folder to match the file.
+- **Before you create a file or a folder inside the manuscript**, count its levels on disk
+  and compare them with `obsitex-levels`. **Count the way the setup question did, not
+  folders:** take the deepest Markdown file, count the folders between the manuscript and it,
+  leave out collector folders (`Subchapters`, `Unterkapitel`, …) and `Frontmatter`/`Backmatter`,
+  then add one. So `Einleitung/Unterkapitel/Motivation.md` is 2 and `Einleitung.md` is 1.
+  Counting plain folders gives a different number for the same vault and a false alarm.
+  It differs? Then say so and
+  ask before writing — a flat manuscript can be a decision or an oversight, and only the user
+  knows which. Update the file with their answer. **Only there:** a question about a table or
+  a footnote does not touch the structure and needs no check.
+- **`00 Document Setup.md` stays the truth** for everything about the document itself. The
+  `CLAUDE.md` never repeats it; if it seems to, read the setup file.
+- **No such file?** Then the decisions live in the file tree alone, and you measure. Offer
+  once to write one (contents: `obsitex-init/SKILL.md`, "The project `CLAUDE.md`"), do not
+  push, and never create it unasked.
+- **Never `Write` over a `CLAUDE.md` that exists** — not when you update a value, not when
+  you add one. `Read` it and `Edit` the one line. The file may hold the user's own
+  instructions, and `Write` replaces all of it without a trace. If it has no
+  `<!-- obsitex:start -->` block, the whole file is theirs: append one rather than editing
+  their lines.
+
 ## Working in the user's vault
 
 - **Creating a note is not finished when the file exists.** It also has to sit in the right

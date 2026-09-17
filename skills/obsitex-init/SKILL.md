@@ -1036,7 +1036,11 @@ counter value in the two families — that is the one place where copying across
 
 **Answer B decides `tocdepth`:** same as `secnumdepth`, or one lower. Write the line whenever
 `secnumdepth` was written, so the pair stays visibly consistent; if `secnumdepth` stayed
-commented, write `tocdepth` only for *one level shallower* (value 1).
+commented, write `tocdepth` only for *one level shallower*, and then the value is the class
+default minus one: **`1` with chapters** (`scrbook` default 2), **`2` without chapters**
+(`article` default 3). Never copy the `1` across. In an `article` it keeps only the `1.`
+entries, which is *two* levels shallower than `1.1.1` and not what the user picked
+(defaults measured for all six classes, `Gliederung_Dimensionen.md`).
 
 **The repair pairs are not optional** — they are consequences, not preferences, which is why
 they are never asked about (all measured):
@@ -1384,6 +1388,162 @@ Rules for building it:
   A wrong name is not fatal — the plugin drops unknown entries and appends the real file —
   but it costs the intended order for that item.
 
+## The project `CLAUDE.md` — what the next session will not know
+
+Everything you learned in the interview lives in **this session only**. The next one starts
+cold: it finds the result on disk and nothing about the decisions that produced it. Two
+things follow, and the second is the one that bites.
+
+1. **The assistant may not start at all.** It is triggered by its description. "Write me
+   chapter 3" reads as a content request, so the skill can stay silent and the session then
+   writes into a manuscript file without knowing any convention — wrapped paragraphs, typed
+   quotation marks. A `CLAUDE.md` in the project folder is loaded by Claude Code on its own,
+   independently of that matching.
+2. **A file tree shows a state, never a rule.** A later session sees flat files and cannot
+   tell "deliberately flat" from "nobody has tidied up yet". It helpfully creates a subfolder
+   and breaks a decision it never saw.
+
+So offer to write one. **Offer, never write it silently** — a permanent control file in
+someone's own vault is an intervention, and it is asked for in one sentence at the end of
+the wrap-up: *"Shall I put a small `CLAUDE.md` into the project folder? It tells a later
+session what this project is, so it does not have to guess."* If they decline, say once that
+the decisions then live only in the file tree, and drop it.
+
+### What goes in, and what must not
+
+The file has to survive years in a vault you can never reach again. **An outdated rule is
+worse than no rule, because it actively teaches something false.** Three sorts of knowledge,
+and only two of them belong in the file:
+
+| Sort | Examples | In the file? |
+|---|---|---|
+| Stands in `00 Document Setup.md` | document language, `documentLevelIndex`, numbering and contents depth, cover data | **no** — a pointer only |
+| Measurable on disk | ordering variant, folder depth, manuscript name, scaffold yes/no | yes, **with a date** |
+| Nowhere readable | chat language, the *intention* behind a choice | yes, it cannot go stale |
+| The conventions themselves | how to write a table, quotation marks, line breaks | **never** — the plugin carries those and can be updated, this file cannot |
+
+The third row is the actual treasure, and the reason the file exists at all.
+
+### The shape
+
+Frontmatter for the facts, prose for the rest. Not a JSON file beside it: JSON is not loaded
+automatically, carries no "why" (it has no comments), and the user never sees it. The
+frontmatter keys stay **English and unchanged** even in a German project — they are anchors a
+later session recognises, not prose. Everything a human reads follows the chat language.
+
+- **`skip: true` must be the first property.** With the project scaffold the file sits
+  outside the manuscript and would be ignored anyway; with the opt-out the project folder
+  *is* the manuscript, and without `skip` the file becomes a section of the thesis. Write it
+  in both cases, it costs nothing and is right everywhere.
+- Fill in the real values from the interview. Use `~` for a key that does not apply.
+
+```
+---
+skip: true
+obsitex-manuscript: Manuskript
+obsitex-template: professional-thesis
+obsitex-ordering: A
+obsitex-scaffold: true
+obsitex-levels: 2
+obsitex-chat-language: de
+obsitex-created: 2026-09-03
+---
+```
+
+| Key | Meaning |
+|---|---|
+| `obsitex-manuscript` | folder name of the manuscript, as it is on disk |
+| `obsitex-template` | `professional-thesis`, `professional-thesis-nested`, `simple-thesis`, `academic-paper` |
+| `obsitex-ordering` | `A` (Flexplorer carries the order) or `B` (number prefixes carry it) |
+| `obsitex-scaffold` | `true` with the project folders, `false` with the opt-out |
+| `obsitex-levels` | the answer to question 10, **counted exactly as its sketches count**: `1` one file per chapter (B), `2` a folder per chapter (A), `3` three levels (C). A collector folder is **never** a level |
+
+**`obsitex-levels` uses the scale of question 10 and no other.** The user chose a number of
+*levels* in a dialog that labels them down the left edge, and marks the collector folder as
+"not a level of its own". Counting folders on disk gives a different number for the same
+answer (option A has two folders on the path, chapter and collector, but is two *levels* only
+by accident; option B has no folder and is level 1). Two scales for one key make the check
+below fire on a vault that is exactly as agreed. **How to measure it on disk:** take the
+deepest Markdown file, count the folders between the manuscript and that file, leave out every
+collector folder (`Subchapters`, `Unterkapitel`, or whatever name this run gave them) and
+`Frontmatter`/`Backmatter`, then add one. `Einleitung/Unterkapitel/Motivation.md` → 2 ·
+`Einleitung.md` → 1 · `Einleitung/Unterkapitel/Motivation/Unterkapitel/Hintergrund.md` → 3.
+| `obsitex-chat-language` | the language the user works in, which is also the language of the folder names |
+| `obsitex-created` | the date of this run |
+
+### The body — six to ten lines, in the chat language
+
+Write these points, no more. Plain sentences, no dashes, and nothing the plugin already
+teaches:
+
+1. This is an Obsitex project: the Markdown in the manuscript becomes a LaTeX document
+   and a PDF.
+2. **Only the Markdown files inside the manuscript become the document.** Name the folder.
+3. `00 Document Setup.md` decides how the document looks. **It is the truth, read it, never
+   answer from a remembered template.**
+4. For anything about formatting there is the Obsitex plugin for Claude Code. Use it instead
+   of guessing.
+5. The intention behind the structure decisions, in one sentence each, and only where there
+   was one. *"The user deliberately chose no subfolders."* Skip a decision that was just the
+   default.
+6. **The ranking, verbatim in meaning:** if this file and the disk disagree, the disk wins.
+   This file says what was agreed once, not what is true now.
+7. **The check, with its trigger:** *before you create a file or a folder inside the
+   manuscript, count its levels on disk (deepest file, folders in between, collector folders
+   and `Frontmatter`/`Backmatter` left out, plus one). If that differs from
+   `obsitex-levels`, ask before writing, and update this file with the answer.* Write the
+   counting rule into the file in these plain words, because the next session reads this
+   file, not the skill.
+
+Point 7 needs the trigger. Without it the check either never happens or happens on every
+question about a table, and both are wrong: the ordering and the depth matter when something
+is **created**, not when something is explained.
+
+### Never overwrite an existing `CLAUDE.md`
+
+The user may have written their own, before or after the scaffold. The "project folder
+already holds `.md` files" stop at the top of this skill does **not** catch the second case,
+and their file may hold months of their own instructions. Losing it is the worst outcome this
+section can produce, so the procedure is fixed:
+
+**Step 1 — look, always.** Before anything else, list the project folder and check for a
+`CLAUDE.md`. Not from memory, not from what the scaffold wrote: read the directory. **Look
+one level up as well** — with the box shape (a project folder inside a larger vault) the
+user's own `CLAUDE.md` can sit in the parent. A file up there is never touched; if one is
+found, say so and write yours in the project folder as usual, so the two do not contradict
+each other.
+
+**Step 2 — pick the branch by what you found, and with it the tool.**
+
+| Found | What you write | Tool |
+|---|---|---|
+| no `CLAUDE.md` in the project folder | the whole file as above | `Write` |
+| a `CLAUDE.md` is there | **only** a block between two markers | `Read` first, then `Edit` |
+
+- **`Write` on an existing `CLAUDE.md` is forbidden.** It replaces the file completely, and
+  the user's own instructions are gone without a trace. The same goes for any shell
+  redirection (`>`, `>>`, `tee`) — the "never write a `.md` through the shell" rule below
+  covers that anyway, and here the reason is a second one.
+- **On an existing file:** leave every line of it untouched. Append the marker block at the
+  end. On a later run, replace what is between the markers and nothing else, never the file
+  around them. Their own frontmatter stays theirs, so put the facts as a small table inside
+  the block instead, and say in one sentence that `skip: true` belongs in their frontmatter
+  if the file sits inside the manuscript.
+- **Markers already present?** Then a previous run wrote them. Replace only what is between
+  them and leave the rest, however much of it there is.
+
+```
+<!-- obsitex:start -->
+… the Obsitex lines …
+<!-- obsitex:end -->
+```
+
+Obsidian does not display HTML comments, so the two marker lines stay invisible to the user.
+
+**Step 3 — say which branch you took.** One sentence in the report: either "I wrote a new
+`CLAUDE.md`" or "you already had one, so I only appended a block to it and left the rest
+alone". The user cannot check what they cannot see.
+
 ## Hard rules
 
 - **Never write a `.md` file through the shell.** An unquoted heredoc (`<<EOF`), `echo`,
@@ -1403,6 +1563,11 @@ Rules for building it:
   identical on screen; the damage is visible only in the PDF. This holds for the templates
   and for any body text written later. Wrapping is fine inside ` ```remark `, ` ```latex `
   and ` ```dds ` blocks. It applies to LIST ITEMS too - a wrapped item gets the same forced break.
+- **Never `Write` over a `CLAUDE.md` that already exists.** Look for one before you write,
+  in the project folder and one level up. Found one? Then `Read` it and `Edit` only the block
+  between the two markers. It may hold months of the user's own instructions, and `Write`
+  replaces the whole file without a trace. Procedure: "Never overwrite an existing
+  `CLAUDE.md`" above.
 - **Ask the eleven questions in their numbered order.** No question is held back for the end
   because it feels like a good closing question. The cover data (8) is the one this happens to,
   and it happened: asked after question 11, as "almost done, one more thing". It belongs in
@@ -1528,3 +1693,7 @@ Projektordner                   ← Obsidian opens this one (the vault)
   suspiciously empty file with an old name turns up, that is what happened — delete it and
   fix the link.
 - A file is excluded from the document with `skip: true` in its frontmatter.
+- **Last, and as a question:** offer the project `CLAUDE.md` (see the section above). One
+  sentence, at the very end, after everything else has been reported. Say what it is for in
+  plain words: a later conversation starts without any memory of this interview, and this
+  file tells it what the project is. Write it only if they say yes.

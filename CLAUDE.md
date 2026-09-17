@@ -29,11 +29,17 @@ shared/                the converter knowledge — ONE source, both skills read 
   obsitex-conventions.md   always read at the start of a skill
   tables.md, …             read only when that topic comes up
 skills/
-  obsitex-init/        command obsitex:init — scaffolds a new vault, runs once
+  obsitex-init/        command /obsitex:obsitex-init — scaffolds a new vault, runs once
   obsitex-assistant/   starts by itself — companion while writing
 ```
 
 `ls` hides dot-directories. Use `ls -a`, or read `.claude-plugin/plugin.json` directly.
+
+**Write the commands in full: `/obsitex:obsitex-init` and `/obsitex:obsitex-assistant`.** The
+name reads *plugin : command*, and both are called obsitex, so it looks doubled and invites a
+shortened `obsitex:init`. That form does not exist. It stood in three files here and reached
+the public Notion handbook from them (12.09.2026), where a reader would have typed it and
+nothing would have happened.
 
 ## The one structural rule
 
@@ -183,6 +189,36 @@ Build a throwaway vault with the construct in question plus a control case witho
 it to PDF, and look. Two claims in this repo were wrong before being measured that way — one
 about a package that was already loaded, one about colour being impossible in a Markdown
 table. **Never write a rule into `shared/` from reasoning alone.**
+
+## Testing `obsitex-init` without clicking
+
+`tools/init-tests/run.mjs` runs the real skill without a window, once per answer sheet:
+
+```
+node tools/init-tests/run.mjs --list              # the test cases
+node tools/init-tests/run.mjs TF02                # one run, then its checks
+node tools/init-tests/run.mjs                     # all of them
+node tools/init-tests/run.mjs TF02 --check <dir>  # checks only, on an existing run (free)
+node tools/init-tests/run.mjs TF02 --dry-run      # prepare the folder, print the command
+node tools/init-tests/run.mjs TF02 --model haiku  # with another model; a check confirms it from the log
+```
+
+It starts `claude -p` with `--plugin-dir` pointing at **this repo** (so no plugin update is
+needed, and the check "plugin loaded from this repo" fails loudly if the cache was used),
+hands the answer sheet over as system prompt and forbids `AskUserQuestion`. The answer sheets
+and their checks live in the Obsidian docs, `ObsitexPlugin/Init-Testfaelle/`: per case an
+`INIT_TFxx_<name>.md` (goes to the run) and an `INIT_TFxx_vorbereitung.md` (never does; its
+` ```fixture <path> ` blocks are placed in the project folder first, its ` ```checks ` block is
+evaluated after). Runs land in `../ObsitexPluginTestruns/<date-time>/`, one folder per case,
+with `lauf.jsonl`, `bericht.md` and `zusammenfassung.md`.
+
+- **A run costs real money** (measured 1.93 and 3.91 USD) and takes minutes. Change a check?
+  Re-evaluate with `--check`, do not re-run.
+- **What it cannot test:** whether the skill *asks* well. Test mode switches exactly that off.
+- **A Claude session may not start it itself** (the auto-mode classifier blocks launching an
+  agent that writes without asking). The maintainer starts it; Claude reads the results.
+- The folder is `export-ignore` in `.gitattributes`, so `publish-release.sh` keeps it out of
+  the public repo.
 
 ## Project documentation
 

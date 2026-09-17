@@ -34,7 +34,7 @@ What follows from the split — and what goes silently wrong when it is forgotte
 
 ### Moving a project into a vault the user already has
 
-`obsitex:init` always makes the project folder its own vault and never asks about this — the
+`/obsitex:obsitex-init` always makes the project folder its own vault and never asks about this — the
 question cannot be raised without explaining vaults to someone who may not need the concept.
 But the wish is legitimate and comes up: a thesis next to existing literature notes, or
 several projects sharing one Flexplorer installation. **Only act on it when the user asks.**

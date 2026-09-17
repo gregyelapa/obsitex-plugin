@@ -1,0 +1,2 @@
+# Maintainer tooling that must not reach the public repo (publish-release.sh uses git archive)
+tools/init-tests export-ignore

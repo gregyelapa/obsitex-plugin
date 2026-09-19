@@ -247,6 +247,106 @@ A raw LaTeX block is still the answer for a table that needs a structure the DDS
 cannot express (`tabularx` for one table only, `multirow`, a sideways table). Not for a
 caption.
 
+## Long tables: more than one page (since 18.09.2026)
+
+A normal table cannot break across pages. A table that may run over more than one page needs
+`longtable` instead. **Use exactly one of the two templates below, never build your own.**
+Which one depends on a single thing: does the table have a caption?
+
+**With a caption.** The caption goes **above** the table. Below would be wrong here: the List
+of Tables would then give the page where the table ends, not where it starts (measured).
+
+````markdown
+```dds
+{"tableEnvironmentText": "\\begin{longtable}{%columnspec%}\n    \\caption{%caption%}\\label{tab:%label%}\\\\\n    %tablebody%\n\\end{longtable}\n\n"}
+```
+````
+
+**Without a caption.** Do not use the first template with the caption left out: the row end
+after the caption stays behind and prints an empty row above the table. And a `longtable`
+counts itself as a table even without a caption, so every later table would carry the wrong
+number ("Table 2" for the first captioned one). This template takes the count back:
+
+````markdown
+```dds
+{"tableEnvironmentText": "\\addtocounter{table}{-1}\n\\begin{longtable}{%columnspec%}\n    %tablebody%\n\\end{longtable}\n\n"}
+```
+````
+
+Both measured 18.09.2026 through the converter and pdflatex: 60 rows over two pages, 0 errors,
+the List of Tables and the numbering of a later table correct.
+
+### Repeating the header row on every page
+
+A long table repeats its header row on every following page, **but only if you mark where the
+header ends.** The converter hands all rows over in one piece, so the template cannot do it. The
+mark goes into a cell, as a LaTeX command in backticks, exactly like `\rowcolor` under "Colour".
+**Always set it when you write a long table.** Which marks, again depends only on the caption.
+
+**Without a caption: one mark.** The first data row starts with `` `\endhead` ``:
+
+```markdown
+| Criterion   | Description   | Source   |
+|:------------|:--------------|:---------|
+| `\endhead` Criterion 1 | Description 1 | Source 1 |
+| Criterion 2 | Description 2 | Source 2 |
+```
+
+**With a caption: the header row twice.** With only the one mark, the caption becomes part of
+the repeated head: it prints on every page and the List of Tables lists the table once per page
+(measured: three entries for a table over three pages). So write the header row a second time
+as the first data row, marked `` `\endfirsthead\hline` ``, and mark the first real data row with
+`` `\endhead` ``:
+
+```markdown
+| Criterion   | Description   | Source   |
+|:------------|:--------------|:---------|
+| `\endfirsthead\hline` Criterion | Description | Source |
+| `\endhead` Criterion 1 | Description 1 | Source 1 |
+| Criterion 2 | Description 2 | Source 2 |
+table: Selection criteria
+```
+
+The first page gets caption and header, every following page the header alone, and the List
+of Tables one entry.
+
+The mark in the copy depends on the vault, so build it from what you read:
+
+| In this vault | Mark on the copied header row |
+|---|---|
+| `tableGridHorizontal: true` (the templates) | `` `\endfirsthead\hline` `` |
+| `tableGridHorizontal: false` | `` `\endfirsthead` `` |
+| header row shaded with `\rowcolor{…}` | the same `\rowcolor{…}` added at the end of the mark, e.g. `` `\endfirsthead\hline\rowcolor{gray!25}` `` |
+
+The copy carries the header text **character for character**, only the mark in front differs.
+All of this measured 18.09.2026 through converter and pdflatex, 60 rows over two pages: header
+repeated (shaded and unshaded, with and without horizontal rules), one List of Tables entry, 0
+errors, no "multiply defined" warnings.
+
+**Say two things to the author, in one sentence each:**
+
+- Obsidian shows the marks as code in the first cells, and with a caption the header row twice.
+  That is expected; the PDF shows each once.
+- **The marks work only inside the long table.** If the `dds` block above is ever removed, the
+  marks have to go too, or the PDF stops with a LaTeX error. A new row goes below the
+  `` `\endhead` `` row, never above it.
+
+### Four things that go with it
+
+- **The sandwich, as always:** the block goes directly before the table, and a second block
+  after it puts `tableEnvironmentText` back. Build that second block from the value this vault
+  actually uses (`00 Document Setup.md` or the last `dds` block above), character for character,
+  as under "Placement".
+- **Adding a caption later means swapping the template and the marks.** The template without a
+  caption takes the count back; with a caption added, two tables would share a number. Change
+  the block before the table, add the copied header row with its mark, all in the same edit.
+  Removing a caption is the same move in reverse.
+- **A long table that becomes short** (the author says it no longer needs to break): remove the
+  `dds` blocks **and** every mark in the same edit.
+- **Grid, alignment and a shaded header row work as in a normal table.** `longtable` also lifts
+  the footnote restriction under "Traps". It is already loaded in the standard preamble; check
+  the author's own preamble all the same (see "Packages").
+
 ## Traps
 
 - **A footnote inside a `tabular` cell is swallowed by LaTeX itself.** Not an Obsitex bug —
@@ -300,88 +400,118 @@ and differ only in **how much you may ask**. Read the user's opening move and ma
 
 | The user arrives with … | You … | Card |
 |---|---|---|
-| the shape: columns, rows, headings, and says not to ask | write it, ask nothing, then name your decisions in one line | "Make an empty table" |
-| nothing but the intention, and wants to be walked through it | ask about every choice that changes the look, then write | "Build a table step by step" |
-| pasted content | work out the form yourself, ask only where you genuinely cannot decide | "Make a table from my content" |
+| the shape: columns, rows, headings, and says not to ask | write it, ask nothing | "Make an empty table" (`table-empty`) |
+| nothing but the intention, and wants to be walked through it | ask the fixed questions, then write | "Build a table step by step" (`table-guided`) |
+| pasted content | work out the form yourself, ask only where the data is ambiguous | "Make a table from my content" (`table-from-content`) |
 
 **A user who did not come through a card gets way three**, unless they ask for questions.
 Deciding and saying what you decided is cheaper for them than a questionnaire they did not
 want.
 
-**Way one: they told you the shape.** Everything you need is in the prompt. Write the frame
-and do not ask, not even about the caption. If a heading is missing where one is obviously
-needed, leave the cell empty rather than inventing a word.
+#### How the rules below are sorted
 
-**The frame gets no caption.** The user asked not to be asked, and a caption cannot be read off
-an empty table. Say it in the closing line, in one sentence: the table has no caption yet, so it
-does not appear in the List of Tables, and one word from them adds it. Do not leave this silent.
-The author sees a finished table and has no reason to suspect that something is missing from a
-list they will not look at for weeks.
+Every decision about a new table is one of three kinds. Each kind is handled one way only.
 
-**Way two: they asked to be walked through it.** This is the one place where a questionnaire
-is right, because the user chose it. Ask about, in this order:
-
-- what the columns are called, and roughly how many rows
-- whether it needs a caption and a number, and what the caption says
-- whether it may run over more than one page
-- whether the first row should be shaded
-
-Give an **example answer** with each question and say the example is a form, not a proposal.
-Then write the table and list what you decided on your own.
-
-**"May it run over more than one page" is a question the author can answer.** It is not the
-float question in disguise: it asks about the amount of data, which they know, not about page
-breaking, which they do not. A yes means `longtable`, and it also lifts the footnote
-restriction under "Traps". **Still never ask whether the table should float or sit fixed** —
-see the paragraph after the decision table below.
-
-**Way three: they pasted content.** Read the columns off the data and keep the author's
-wording character for character. Decide alignment and, from the number of rows, whether it has
-to run over more than one page. Ask only where the data itself is ambiguous: a column that
-could be a heading or a value, two candidate header rows, a unit that could belong to the
-heading or to every cell.
-
-**The caption is not one of those decisions.** If the pasted material already names the table,
-with a heading above it or a first line that reads as a title, take that wording as the caption,
-character for character. If it names nothing, write no caption. Say so in the closing line: none
-was in the material, so the table stays out of the List of Tables and cannot be cross-referenced,
-and you will add one the moment they name it. Reading that sentence and answering it costs the
-author seconds. An invented caption costs far more, see the next paragraph.
-
-**Never invent a column heading.** They are the author's own words and they end up in a thesis:
-"Sample", "n", "p value" is a different table from "Group", "Count", "Share". A guessed heading
-looks finished, which is exactly why it survives to the printed version. Read them off the
-material where there is material, ask for them wherever you do ask, and where you can do neither
-leave the cell empty.
-
-**Never invent a caption either, and this one holds even where you ask nothing at all.** A
-heading labels something that is lying in front of you. A caption is a statement about the
-author's own work, and nothing in the data says what that work is. That is why a made up caption
-comes out long and explanatory: it had no source, so it was built out of the surroundings.
-**No caption is a valid result.** The converter simply leaves the `\caption{}` out (see "Captions"
-above) and nothing breaks. An empty spot the author can fill is honest. A sentence you made up
-is not, and it is the one that gets printed in the List of Tables.
-
-**A caption that does come about is short: a noun phrase, not a sentence.** "Design of the
-study", not "This table shows how the study was designed". It stands in the List of Tables
-between other short lines, and it is what a cross-reference points at.
-
-**Decide these yourself in every one of the three ways**, then name them in one line:
-
-| Decide | Default | When to depart from it |
+| Kind | Meaning | What you do |
 |---|---|---|
-| Alignment per column | numbers and dates right, everything else left | the author says otherwise |
-| Grid | whatever `tableGridHorizontal` / `tableGridVertical` are set to in this vault | never on your own |
-| Header row | the first row, as a normal row: the Markdown table has no separate header markup | shading is a separate wish, see "Colour" above |
-| Placement | leave `tableEnvironmentText` alone | never on your own |
-| Caption | none, unless the author gave one or their own material names the table | never write one yourself, see above |
+| **Fixed** | There is one right answer. | Do exactly that, in every way, whether you ask questions or not. |
+| **Gap** | The spot is known, the value comes from a named source. | Take the value from that source and from nowhere else. No source, no value: leave it empty and say so in the closing line. |
+| **Free** | Your judgement. | Decide, then name the decision in the closing line. |
 
-**Never ask whether the table should float or sit fixed.** The author does not know what a
-float is, and a question they cannot answer is worse than a default. It also comes too early:
-whether the placement bothers them shows up in the PDF, not while writing. If it does, the
-answer is in "Placement: why a table moves" above, and it starts by explaining the mechanism.
+**What is not listed below is not yours to change.** A wish for anything else (a grid, a
+colour, a different placement) comes from the author, never from you.
 
-**An empty frame still needs at least one body row**, so the author has somewhere to type and
-can see the column widths. Fill it with nothing, not with sample values: a table with invented
-numbers in it reads as data, and invented data in a thesis is the one mistake worth being
-paranoid about.
+#### Fixed, in all three ways
+
+- **Position:** the marker line, see "Where the table goes" above.
+- **Never invent a column heading.** They are the author's own words and they end up in a
+  thesis: "Sample", "n", "p value" is a different table from "Group", "Count", "Share". A
+  guessed heading looks finished, which is exactly why it survives to the printed version.
+- **Never invent a caption, and this holds even where you ask nothing at all.** A heading
+  labels something that is lying in front of you. A caption is a statement about the author's
+  own work, and nothing in the data says what that work is. That is why a made up caption comes
+  out long and explanatory: it had no source, so it was built out of the surroundings. **No
+  caption is a valid result.** The converter simply leaves the `\caption{}` out (see "Captions"
+  above) and nothing breaks. An empty spot the author can fill is honest. A sentence you made up
+  is not, and it is the one that gets printed in the List of Tables.
+- **Never invent a cell value.** An empty frame still needs at least one body row, so the
+  author has somewhere to type and can see the column widths. Fill it with nothing, not with
+  sample values: a table with invented numbers in it reads as data, and invented data in a
+  thesis is the one mistake worth being paranoid about.
+- **Keep the author's wording character for character**, typos included. If something looks
+  like a typo, leave it and ask in the closing line.
+- **Grid:** whatever `tableGridHorizontal` / `tableGridVertical` are set to in this vault.
+- **Placement:** leave `tableEnvironmentText` alone. The one exception is a table that runs over
+  more than one page: then use a template from "Long tables" above, and only that.
+- **Header row:** the first row, as a normal row. The Markdown table has no separate header
+  markup. Shading is a separate wish, see "Colour" above.
+- **Never ask whether the table should float or sit fixed.** The author does not know what a
+  float is, and a question they cannot answer is worse than a default. It also comes too early:
+  whether the placement bothers them shows up in the PDF, not while writing. If it does, the
+  answer is in "Placement: why a table moves" above, and it starts by explaining the mechanism.
+- **Closing line:** after writing, name your free decisions in one line, plus the one sentence
+  each way asks for below.
+
+#### Way one: they told you the shape
+
+**Questions: none.** Not even about the caption.
+
+| Kind | Decision | Source or default |
+|---|---|---|
+| Gap | number of columns, number of rows, column headings | the prompt. A heading missing where one is obviously needed: leave the cell empty |
+| Gap | caption | none: a caption cannot be read off an empty table |
+| Free | alignment per column | numbers and dates right, everything else left. The cells are empty, so judge from the heading |
+| Free | whether the row count includes the header row | judge from the prompt |
+
+**Say in the closing line** that the table has no caption yet, so it does not appear in the
+List of Tables, and one word from them adds it. Do not leave this silent. The author sees a
+finished table and has no reason to suspect that something is missing from a list they will
+not look at for weeks.
+
+#### Way two: they asked to be walked through it
+
+This is the one place where a questionnaire is right, because the user chose it.
+
+**Questions: exactly these, in this order, and no others.** Give an **example answer** with
+each and say the example is a form, not a proposal.
+
+1. what the columns are called, and roughly how many rows
+2. whether it needs a caption and a number, and what the caption says
+3. whether it may run over more than one page
+4. whether the first row should be shaded
+
+**Question 3 is a question the author can answer.** It is not the float question in disguise:
+it asks about the amount of data, which they know, not about page breaking, which they do not.
+
+| Kind | Decision | Source or default |
+|---|---|---|
+| Gap | column headings, number of rows | answer 1 |
+| Gap | caption | answer 2, as given. If it is a full sentence, keep it and suggest a shorter noun phrase in the closing line. Never shorten it silently |
+| Gap | more than one page | answer 3. A yes means one of the two templates in "Long tables" above, chosen by answer 2 |
+| Gap | shaded first row | answer 4, done as in "Colour" above |
+| Free | alignment per column | numbers and dates right, everything else left |
+
+#### Way three: they pasted content
+
+**Questions: only where the data itself is ambiguous.** A column that could be a heading or a
+value, two candidate header rows, a unit that could belong to the heading or to every cell.
+
+| Kind | Decision | Source or default |
+|---|---|---|
+| Gap | column headings and every cell | the material, character for character |
+| Gap | caption | the material, character for character: a heading above the data, or a first line that reads as a title. If it names nothing, no caption |
+| Free | alignment per column | numbers and dates right, everything else left |
+| Free | more than one page | judge from the number of rows. If yes: a template from "Long tables" above, chosen by whether there is a caption |
+
+**The caption is not one of your decisions.** If the material names nothing, **say so in the
+closing line**: none was in the material, so the table stays out of the List of Tables and
+cannot be cross-referenced, and you will add one the moment they name it. Reading that sentence
+and answering it costs the author seconds. An invented caption costs far more, see "Fixed"
+above.
+
+#### What a caption looks like, wherever one comes about
+
+**Short: a noun phrase, not a sentence.** "Design of the study", not "This table shows how the
+study was designed". It stands in the List of Tables between other short lines, and it is what
+a cross-reference points at. This describes the goal, it is never a licence to rewrite the
+author's words: where their caption is a sentence, suggest, do not change.

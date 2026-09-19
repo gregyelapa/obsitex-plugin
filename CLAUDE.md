@@ -219,6 +219,26 @@ with `lauf.jsonl`, `bericht.md` and `zusammenfassung.md`.
   agent that writes without asking). The maintainer starts it; Claude reads the results.
 - The folder is `export-ignore` in `.gitattributes`, so `publish-release.sh` keeps it out of
   the public repo.
+- **Runs are shielded from the maintainer's profile** (since 18.09.2026): they start with
+  `--setting-sources project,local`, because `~/.claude/settings.json` grants every session the
+  docs folder, where the test cases and their expected results live. A fixed check,
+  "Lauf blieb aus der Doku draussen", fails any run whose tool calls name a path in the docs.
+- **Never pass `--check` a path you have not confirmed exists.** Until 17.09.2026 an empty value
+  fell through to real runs, and a Claude session started two paid TF02 runs that way. The
+  script now aborts, but the rule above still holds: from a session, `--list`, `--dry-run` and
+  `--check` only.
+
+**The same script tests `obsitex-assistant`** (since 17.09.2026, S17). A case is **one** file
+`T<letter><n>_<name>.md` in `ObsitexPlugin/Assistant-Testfaelle/` (`TT` = tables). Only its
+prompt reaches the run, which works inside the project folder. Blocks: ` ```vault <target> `
+(copy a folder of this repo, e.g. a template) · ` ```append <path> ` (e.g. the marker
+`TABLE HERE`) · ` ```card <id> ` (the prompt is that Blueprints card, read from the app's
+`promptLibrary.js`, so a changed card is tested as it is now) · ` ```fill <PLACEHOLDER> ` ·
+` ```prompt ` (literal instead of a card). Extra checks: `not-matches`, `build-contains` /
+`build-lacks` (files of the `pdf` build, e.g. `main.lot`), `skill-used`, `read`. Full list: the
+head of `run.mjs`. **After every assistant run, update two places in the docs:** the
+"Ergebnisse" table in the case file, and the "Test" column of `Blueprints/BLUEPRINTS_UEBERSICHT.md`
+(status sign and date). Nothing updates the overview on its own.
 
 ## Project documentation
 

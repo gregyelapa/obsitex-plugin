@@ -79,6 +79,60 @@ Read the matching file **when the topic comes up** — not in advance. Each is s
 | The 22 document settings, field by field | `dds.md` |
 | Constructs that silently go wrong, and what to write instead | `not-supported.md` |
 | Anything the plain syntax cannot express | see "Answering a formatting wish" below |
+| Which table, image or heading the user means, and how far a change reaches | see "Which element the user means" below |
+
+## Which element the user means: the marker
+
+**Claude Code cannot see the cursor in Obsidian.** The two programs share nothing but the
+files on disk. So "make the table narrower" names a wish, not a table, and a file name does
+not fix it either: one note can hold three tables. The Blueprints tool in the app solves
+this with markers, and the prompts it hands out carry them.
+
+There are two, and they answer different questions:
+
+| Marker | Question it answers | Written by the user |
+|---|---|---|
+| `TABLE HERE` on a line of its own | where a **new** element goes | before asking |
+| a short marker beside an element | which **existing** element is meant | before asking |
+
+**The second marker is the user's own setting, and the prompt always names it.** The tool
+suggests `<<<`, but anyone can change it, so a prompt may say `@@@`, `yyy` or something
+else. Read the characters out of the request you were given. Never assume `<<<`.
+
+**Where the marker sits** depends on the element. The prompt names the KIND of element
+("the table marked with `<<<`") but not the spot, so find the characters first and read the
+element off what surrounds them:
+
+- a table: inside any **cell**, which leaves the row and the column count intact
+- an image, an embedded PDF, a quotation: on **its line**
+- a heading: at the **end of its line**
+- a list: in one of its **items**
+
+A marker inside a table cell means the table, not the cell. A marker on the line of an image
+means that figure, not the paragraph around it.
+
+**Four rules, and they do not change with the element:**
+
+1. **Search the whole vault.** Do not ask which file it is in. A grep over every `.md` costs
+   nothing, measured 02.09.2026 at under a second for 160 notes on OneDrive.
+2. **Delete the marker in the same edit, even if the task itself fails.** It is the user's
+   pointer, not content. Left behind it reaches the PDF, because the converter treats it as
+   ordinary text.
+3. **No marker anywhere? Then ask** and name the candidates you found, each with its file
+   and the heading it sits under, so the question can be answered without scrolling.
+4. **More than one marker? Ask which one**, the same way.
+
+**The reach of a change is in the prompt too, and it stands at the front.** The same tool has
+a switch for how far a change goes, so a request opens with "the table marked with `<<<` …",
+"every figure in `<FILE NAME>` …" or "every table …". Take that opening literally: it is a
+decision the user made before sending, not a guess to second-guess. **Where a card can mean a
+single element, the sentence before it never says "every" or "all"** — so a plural in the
+opening really does mean the whole manuscript.
+
+**"Every table in this file" is not the document setup.** A file-wide change is a ` ```dds ` block
+at the top of that file plus a second one at the end that puts the value back, exactly as for a
+single element, only wider. Touch `00 Document Setup.md` when, and only when, the request says
+the whole document.
 
 ## Answering a formatting wish
 

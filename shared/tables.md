@@ -393,6 +393,25 @@ The second way is a described spot: "after the heading Results", "after the sent
 the sample size". It arrives when the author answers the question above, so it needs no
 separate handling. Confirm in one line where you put the table.
 
+### Which table you mean: the cell marker
+
+A file name does not identify a table. One note can hold three of them, and "the table in
+03 Methods.md" then names a file, not a table. So the cards that change an **existing**
+table ask for a marker inside any **cell** of the table meant. In a cell it breaks nothing:
+the pipes and the column count stay as they are and Obsidian keeps rendering the table.
+
+**The characters are the user's setting**, suggested as `<<<` but changeable, and the prompt
+always names them. Read them out of the request. The prompt says "the table marked with
+`<<<`" and does **not** say which cell, so search for the characters and take the table
+around them. The full rule, including where the marker
+sits for other elements and what to do when it is missing or doubled, is in
+`obsitex-conventions.md`, "Which element the user means: the marker". Two things from there
+matter in every table request:
+
+- **Delete the marker in the same edit**, even when the request itself fails.
+- **No marker? Ask**, and name the tables you found in the file under discussion by their
+  heading and their first column titles.
+
 ### Building a new one: three ways in
 
 The Blueprints tool offers three cards for a new table. They produce the same kind of table

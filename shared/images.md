@@ -150,6 +150,20 @@ run. Two images may therefore share a caption; they get distinguishable labels
 - The `\label` is built from the **raw** caption, not the rendered one, so markup never lands
   inside it.
 
+## Which figure the user means
+
+A note can hold several figures, so a file name does not name one. A request that changes an
+existing figure therefore carries a marker: short characters **on the line of the image**,
+suggested as `<<<` but the user's own setting, and always spelled out in the request itself.
+The prompt says "the figure marked with `<<<`" without naming the spot, so search for the
+characters and take the figure on that line.
+Delete them in the same edit, even when the task fails, or they reach the PDF as text.
+
+The full rule, including what to do when the marker is missing or appears twice, is in
+`obsitex-conventions.md`, "Which element the user means: the marker". The same request also
+says how far the change reaches: this one figure, every figure in the file, or the default
+width for the whole document, which is a `dds` setting rather than a change at the image.
+
 ## Placement: why a figure moves
 
 A figure is a **float**, exactly like a table, and the mechanism is the same one: `[!htbp]`,

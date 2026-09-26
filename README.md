@@ -72,14 +72,16 @@ afterwards. `/clear` does not do it — that empties the conversation, not the l
 
 ## What you get
 
-**Four scaffolds** for the manuscript:
+**Three scaffolds** for the manuscript:
 
 | Scaffold | Document class | Shape |
 |---|---|---|
-| `professional-thesis` | scrbook | chapters as files, front and back matter |
-| `professional-thesis-nested` | scrbook | chapters as folders, their sections as files inside |
+| `professional-thesis` | scrbook | chapters in three areas: front matter, main matter, back matter |
 | `simple-thesis` | article | a flat sequence of sections |
 | `academic-paper` | article | abstract, methods, results, discussion |
+
+Each of them can be set up with one file per chapter (or section), or with a folder per
+chapter and its sections as files inside.
 
 **Two ways to control the order of your document:**
 

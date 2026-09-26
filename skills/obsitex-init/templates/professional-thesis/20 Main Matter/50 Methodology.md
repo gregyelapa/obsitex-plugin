@@ -6,3 +6,15 @@ Describe your research design, data and methods. Embed images with ![[image.png]
 ```
 
 Replace this paragraph with a short overview of your approach.
+
+## Research Design
+
+Replace this paragraph with your research design.
+
+## Data Collection
+
+Replace this paragraph with how you collected your data.
+
+## Data Analysis
+
+Replace this paragraph with how you analysed your data.

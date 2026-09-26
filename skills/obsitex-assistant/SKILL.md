@@ -43,9 +43,10 @@ you usually have it already.
   and compare them with `obsitex-levels`. **Count the way the setup question did, not
   folders:** take the deepest Markdown file and count the folders above it that have a heading
   file (a file with the folder's own name inside), then add one. A folder note does not count
-  its own folder. Collector folders (`Subchapters`, `Unterkapitel`, …) and
-  `Frontmatter`/`Backmatter` have none, so they never count. So
-  `Einleitung/Unterkapitel/Motivation.md` is 2, `Einleitung/Motivation.md` is 2 as well, and
+  its own folder. Grouping folders (`Subchapters`, `Unterkapitel`, …) and the area folders
+  (`Front Matter`, `Main Matter`, `Back Matter`, in older vaults `Frontmatter`/`Backmatter`)
+  have none, so they never count. So `Einleitung/Unterkapitel/Motivation.md` is 2,
+  `Einleitung/Motivation.md` and `Main Matter/Einleitung/Motivation.md` are 2 as well, and
   `Einleitung.md` and `Einleitung/Einleitung.md` are 1. Counting plain folders gives a
   different number for the same vault and a false alarm.
   It differs? Then say so and
@@ -74,6 +75,14 @@ you usually have it already.
   (resolution is file-name based, `links.md`), on top of the `data.json` entry. Only on an
   explicit request, and then all three in one operation: file, entry, and every link that
   named it.
+- **Two layouts of a professional thesis exist, and both are right.** Since v1.47.0 the
+  manuscript has three area folders, `Front Matter/`, `Main Matter/` and `Back Matter/`, each
+  with its switch file first (`Switch to Front Matter`, `Switch to Main Matter`). Older vaults
+  have `Frontmatter/`, `Backmatter/`, a single file `Main Matter.md` and the chapters directly
+  in the manuscript. **Never convert an old vault unasked.** New chapters go where the vault
+  puts its chapters. If the user asks for the new layout: rename the switch file first, then
+  its folder, never the other way round (`shared/headings.md`, "Front matter, main matter,
+  back matter").
 - **Never hand back a task you can do.** When the next step is unclear — which note an
   attachment belongs in, where a new one goes — ask one structured question. Explaining the
   Obsidian route instead leaves the user with half-finished work; that has happened twice
@@ -96,7 +105,7 @@ Only in a vault whose order the Flexplorer plugin carries — with number prefix
 names there is nothing to enter, the name alone places the file.
 
 `{vaultRoot}/.obsidian/plugins/flexplorer/data.json`, key `items`. Every key is a folder:
-`"/"` for the vault root, otherwise its path **from the vault root** (`"Manuscript/Backmatter"`).
+`"/"` for the vault root, otherwise its path **from the vault root** (`"Manuscript/Back Matter"`).
 The folder's `customOrder` array is the order. Nothing else changes — per-file entries are
 optional, the plugin fills its own defaults.
 
@@ -162,10 +171,11 @@ within a second too.
 - Only supported Markdown. When unsure, check — do not guess.
 - **Never write a `.md` file whose first heading has more than one `#`.** One `#` always
   means "the level of the folder I am in".
-- **A chapter or section folder you create gets its folder note in the same step**, the file
-  with the folder's exact name. Without it the folder adds no level. **Rename a folder and its folder note
-  together**, and never give a file the name of the storage folder it sits in
-  (`Frontmatter/Frontmatter.md`).
+- **A folder you create as a level gets its folder note in the same step**, the file with the
+  folder's exact name; that makes it a structure folder. Without it the folder is only a
+  grouping folder and adds no level. **Rename a folder and its folder note
+  together**, and never give a file the name of the grouping folder it sits in
+  (`Front Matter/Front Matter.md`, in an older vault `Frontmatter/Frontmatter.md`).
 - Raw LaTeX only inside ` ```latex ` blocks, always with a leading `%` comment saying what
   the block does. Prefer Markdown wherever it expresses the same thing.
 - Never put backslash commands or bare `_`, `~`, `^` in inline backticks.

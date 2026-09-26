@@ -6,3 +6,11 @@ what are the limitations of your approach?
 ```
 
 Replace this paragraph with a short lead-in to your discussion.
+
+## Interpretation of Findings
+
+Replace this paragraph with your interpretation.
+
+## Limitations
+
+Replace this paragraph with the limitations of your approach.

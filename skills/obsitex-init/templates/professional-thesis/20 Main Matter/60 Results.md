@@ -5,3 +5,11 @@ Present your findings. Markdown tables become LaTeX tables; use figures for char
 ```
 
 Replace this paragraph with a short overview of your findings.
+
+## Descriptive Results
+
+Replace this paragraph with your descriptive results.
+
+## Main Findings
+
+Replace this paragraph with your main findings.

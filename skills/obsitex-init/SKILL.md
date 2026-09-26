@@ -253,9 +253,8 @@ on its own.
    - with chapters → `professional-thesis` (numbered chapters, front matter with roman
      page numbers, lettered appendices — for master theses and dissertations). This is
      currently the only one; skip the question and say in one sentence what they get.
-     It ships in two shapes, picked by the splitting question in block 3:
-     `professional-thesis-nested` (default — a folder per chapter) and
-     `professional-thesis` (one file per chapter).
+     It ships as one template with one file per chapter; a folder per chapter (the default
+     of the splitting question in block 3) is built from it by rule.
    - without chapters → `simple-thesis` (cover page, table of contents, lists of figures
      and tables, chapters, bibliography, appendix — for seminar papers and shorter
      theses) or `academic-paper` (lean: abstract, chapters, bibliography — no cover
@@ -288,9 +287,9 @@ split up, then the order of the single files.
    **A folder sketch on both options.** Wording and the two sketches:
    see "Project scaffold" → "How to ask it" below.
 10. **How the parts are split up** — one file per part, or a folder of files, and how deep?
-    **Three options, default two levels.** Asked for **every** template, but produced
-    differently: `professional-thesis` has two shipped shapes, the flat templates are
-    transformed by rule after copying. **A folder sketch on every option.** Wording, the
+    **Three options, default two levels.** Asked for **every** template, and produced the
+    same way for all of them: every template ships flat and is transformed by rule after
+    copying. **A folder sketch on every option.** Wording, the
     sketches, the depth note and the rules: see "Splitting into folders" below.
 11. **How the file order is controlled — variant A or B.** Ask this **last**, but before
     scaffolding: it decides the file names. See "Ordering: variant A or B" below.
@@ -354,13 +353,14 @@ the call, and as `preview` on both options** (never only in `description`):
 
 ```
 ┌────────────────────────────┐
-│  00 Document Setup               │
-│  Frontmatter          ›    │
-│  Main Matter               │
-│  Introduction              │
-│  Methodology               │
-│  Results                   │
-│  Backmatter           ›    │
+│  00 Document Setup         │
+│  Front Matter         ›    │
+│  Main Matter          ▾    │
+│     Switch to Main Matter  │
+│     Introduction      ›    │
+│     Methodology       ›    │
+│     Conclusion             │
+│  Back Matter          ›    │
 └────────────────────────────┘
  exactly the document order,
  rearrange by dragging
@@ -370,13 +370,14 @@ the call, and as `preview` on both options** (never only in `description`):
 
 ```
 ┌────────────────────────────┐
-│  10 Frontmatter       ›    │
-│  90 Backmatter        ›    │
-│  00 Document Setup               │
-│  20 Main Matter            │
-│  30 Introduction           │
-│  50 Methodology            │
-│  60 Results                │
+│  10 Front Matter      ›    │
+│  20 Main Matter       ▾    │
+│     30 Introduction   ›    │
+│     50 Methodology    ›    │
+│     10 Switch to Main…     │
+│     80 Conclusion          │
+│  90 Back Matter       ›    │
+│  00 Document Setup         │
 └────────────────────────────┘
  folders always on top,
  rest sorted by number
@@ -402,18 +403,17 @@ rest.
 
 In **variant A**, strip the leading `^\d+\s+` from every file and folder name while
 copying — including the top-level folders (`Organisation`, `Manuscript`, `Research`, `Interviews`,
-`Data`, `Exports`) and the manuscript subfolders (`Frontmatter`, `Backmatter`). The single
+`Data`, `Exports`) and the three area folders (`Front Matter`, `Main Matter`, `Back Matter`). The single
 exception is `00 Document Setup.md`: it must sort first even when the add-on is not running,
 because the converter reads its settings at the position where they stand. Mention this in
 the report in one sentence — it is the reason that one file looks different from the rest.
 
-**Watch the chapter folders while stripping.** In the nested template a chapter folder and
-its title file carry the same name (`30 Introduction/30 Introduction.md`). The converter
+**Watch the chapter folders while stripping.** When a chapter becomes a folder, the folder
+and its title file carry the same name (`30 Introduction/30 Introduction.md`). The converter
 recognises the title file *by* that match, so both must be stripped together
 (`Introduction/Introduction.md`). Strip only one and the file turns into an ordinary
-section — silently, with the chapter title landing on the wrong level. **The same applies to
-the folders built by rule** in the flat templates — there the trap is easier to hit, because
-the folder and its file are created by the skill rather than copied.
+section — silently, with the chapter title landing on the wrong level. The trap is easy to
+hit, because the skill creates the folder and its file itself rather than copying them.
 
 ## Chapters or sections (ask before the template)
 
@@ -550,19 +550,26 @@ affects the document setup, the appendix and page-numbering switches, and the nu
 ## Splitting into folders (all templates)
 
 A top-level part can be **one file** or **a folder holding several files**. Ask this for
-**every** template — but the skill produces the answer in two different ways:
+**every** template. The skill produces the answer the same way for all of them: **copy the
+flat template, then build the folders from the rules below** ("Building it by rule").
 
-| Template | How the nested shape is produced |
-|---|---|
-| `professional-thesis` | **Template-based** — two shipped shapes, copy the matching one |
-| `simple-thesis`, `academic-paper` | **Rule-based** — copy the flat template, then build the folders from the rules below |
+Every template therefore has two kinds of files:
 
-The rule-based path exists deliberately (16.08.2026): a fourth and fifth template would have
-to be kept in sync with every future preamble and convention change, and the flat formats
-have only four to six body files to nest. The full rule set already exists as documentation
-([[VAULT_BAUWEISE]], R1–R8) — this is the first time the skill applies it instead of
-shipping its result. **Treat it as the experiment it is:** if the rule-based build proves as
-reliable as the template, it is the better model for the third template too.
+| Kind | Which files | What happens after copying |
+|---|---|---|
+| **Fixed** | `00 Document Setup.md`, and in `professional-thesis` everything in `Front Matter/` and `Back Matter/` plus `Switch to Main Matter.md` | the shape never changes. Only the gaps are filled in (cover data, citation style, language) |
+| **Chapters** (sections without chapters) | the body files: in `professional-thesis` the other files in `Main Matter/`, in the flat templates the files named in the table under "Building it by rule" | stay as they are for one file per part; become folders by rule for two or three levels |
+
+The fixed files hold the raw LaTeX (cover page, lists, bibliography, the switches). They are
+copied and never rebuilt, because a model rewriting them loses backslashes (see "Hard
+rules"). The chapter files hold only headings and placeholder text, and nothing is lost when
+they are split.
+
+**Why one flat template and no second, nested one** (decided 26.09.2026): until v1.46.0
+`professional-thesis` shipped twice, flat and nested. The two copies drifted apart (the
+nested one had sections the flat one lacked), and every change had to be made twice. The flat
+template now carries every section as `##`, so the rules give exactly the old nested shape:
+measured with the converter, the LaTeX of both shapes is identical apart from the labels.
 
 **Why it matters — say this, in plain words:** a part grows. Once a file holds fifty
 pages, the smallest thing you can move around is the whole part, and rearranging your
@@ -581,10 +588,15 @@ It follows that **splitting stops at the folder limit**: where no deeper folder 
 the file at that level absorbs its whole substructure as `##`, `###` — it does not hand it to
 sibling files. Sibling files starting with `##` are exactly what this rule forbids.
 
-A folder **replaces** a file, it does not sit on top of one: the file inside it with the
-folder's own name, its **folder note**, keeps the level the single file had. Everything else
-in the folder sits one level below that folder note. A folder without a folder note adds no
+**When a file becomes a folder, its level stays the same.** The folder takes the place where
+the file stood, and the file moves inside it under the folder's own name: its **folder note**,
+which keeps the level the single file had. Only the other files in the folder sit one level
+below that folder note. A folder without a folder note adds no
 level at all (`shared/headings.md`).
+
+**Two terms, used everywhere in this file:** a folder with a folder note is a **structure
+folder** (it adds a level); a folder without one is a **grouping folder** (it only groups
+files). A chapter folder is simply a structure folder on the chapter level.
 
 ### How sections are placed
 
@@ -616,15 +628,16 @@ users reported it as too nested.
 as X. A new section *below* X goes into X's folder; if X is still a single file, it first
 becomes a folder (`X.md` → `X/X.md`, its `#` unchanged).
 
-**No collector folders.** Up to v1.45.0 this skill put the leaves into a folder `Subchapters` /
+**No grouping folder between a chapter and its sections.** Up to v1.45.0 this skill put the
+leaves into a folder `Subchapters` /
 `Unterkapitel` / `Subsections`, because the old converter rule needed it to create the section
 level. It no longer does, and with the Obsidian plugin Folder notes such a folder shows up in
 the file list as a level of its own that the PDF does not have. **Do not create one.** A vault
 that already has them works unchanged; leave them alone unless the user asks.
 
-**A storage folder without folder note is still fine** wherever the user wants one:
-`Frontmatter`, `Backmatter`, or any folder just to keep files tidy. It adds no level
-(`shared/headings.md`), so it never changes the PDF.
+**Elsewhere a grouping folder is fine** wherever the user wants one:
+`Front Matter`, `Main Matter`, `Back Matter`, or any folder just to keep files tidy. It adds no
+level (`shared/headings.md`), so it never changes the PDF.
 
 **Growing a section into a folder** is a move, not a rewrite: create a folder with the file's
 exact name next to it and move the file inside. It becomes the folder note, its `#` stays as
@@ -632,32 +645,33 @@ it is. The new subsections go into that folder as files of their own; a `##` blo
 the folder note into its own file loses one `#`. Tell the user this — it is the reason the
 structure exists.
 
-**`Frontmatter` and `Backmatter` are storage folders as well.** They carry no folder note and
-add no level: every file inside them becomes a chapter. An appendix that outgrows one file may
-become a folder with its folder note right there in `Backmatter` — its folder note stays a
-chapter, its parts become sections (`shared/headings.md`, "When an appendix outgrows one
-file"). **The one thing never to do there:** give a file the folder's own name.
-`Frontmatter/Frontmatter.md` would be a folder note and push everything else in `Frontmatter`
-one level down. The shipped `Front Matter.md` is safe only because of its space; keep it that
-way.
+**The three area folders `Front Matter`, `Main Matter` and `Back Matter` are grouping folders
+as well** (`professional-thesis` only). They carry no folder note and add no level: every file
+directly inside them becomes a chapter, and a chapter folder inside `Main Matter` has its own
+folder note as usual. An appendix that outgrows one file may become a folder with its folder
+note right there in `Back Matter`. Its folder note stays a chapter, its parts become sections
+(`shared/headings.md`, "When an appendix outgrows one file"). **The one thing never to do
+there:** give a file the folder's own name. `Front Matter/Front Matter.md` would be a folder
+note and push everything else in `Front Matter` one level down. This is why the switch files
+are called `Switch to Front Matter` and `Switch to Main Matter`, never just `Front Matter`.
 
 **The options — three of them, default is two levels:**
 
 - **One file per chapter (flat).** Simplest to look at; a long chapter becomes a long file,
-  and its sections sit inside it as `##`. → template `professional-thesis`
+  and its sections sit inside it as `##`. → the template as it is copied
 - **A folder per chapter, two levels (default).** The chapter is a folder with its own
   folder note; the sections are separate files right next to it, in the same folder.
-  → template `professional-thesis-nested`
+  → the template, then "Building it by rule"
 - **Three levels.** As above, plus: a section that has subsections of its own becomes a
   folder with its folder note, and its subsections are files inside it, so it takes its parts
   along when moved.
-  → same template plus the `\setcounter` lines below; the template ships with two, so the
-  third level is built on top after copying.
+  → as above; the template ships with two levels of headings, so the third level is built on
+  top after copying.
 
 **A "level" here is a heading level that gets its own files** — not a folder in the tree.
-`Frontmatter` and `Backmatter` are storage folders and never count.
+`Front Matter`, `Main Matter` and `Back Matter` are grouping folders and never count.
 
-The nested template mixes both styles on purpose: five chapters are folders with their
+The two-level shape mixes both styles on purpose: five chapters become folders with their
 sections as files inside, `80 Conclusion and Future Work.md` stays a single file with its two
 sections as `##` inside. Point that out — it shows that no chapter *has* to become a folder,
 and that both forms produce the same `\chapter` + `\section` in the PDF. Every file, in both
@@ -750,8 +764,8 @@ Labels and `description`, two lines each, in dialog order:
 **Two things the first two lines deliberately do not say**, because both would be untrue:
 
 - **Not "every section".** A section with no structure of its own may stay inside the chapter
-  file — the nested template does exactly that with `80 Conclusion and Future Work.md` — and
-  the skill builds no folders in `Frontmatter` and `Backmatter`, so sections there are always
+  file — the two-level shape does exactly that with `80 Conclusion and Future Work.md` — and
+  the skill builds no folders in `Front Matter` and `Back Matter`, so sections there are always
   inside their file. "Most" is the honest word.
 - **Not "reorder by dragging".** Dragging belongs to the drag & drop variant of **question 11**
   — three questions later, and not the same letters as the ones above. Pick the other one there
@@ -794,25 +808,32 @@ the deepest files land where LaTeX stops setting headings as headings and the nu
 question has to be reopened — see "Sectioning depth" below. Two levels leave room for a `##` or
 `###` inside the file before that line is reached, which is why two is the default.
 
-### Building it by rule — `simple-thesis` and `academic-paper`
+### Building it by rule — every template
 
-No nested template exists for these. Copy the flat template **verbatim** as always, then
-transform it. Everything below follows [[VAULT_BAUWEISE]] R1–R8; nothing here is new
-mechanics, only their first application by the skill.
+No nested template exists. Copy the flat template **verbatim** as always, then transform it.
+Everything below follows [[VAULT_BAUWEISE]] R1 to R6 (renumbered on 26.09.2026; the old
+grouping-folder rules are history there); nothing here is new mechanics.
 
-These documents have no chapters — `#` is already a `\section`, so the files inside a folder
-are subsections. When you talk about them, use that word, not "chapter" or "subchapter".
+With chapters (`professional-thesis`) a file inside a chapter folder is a **section**. Without
+chapters (`simple-thesis`, `academic-paper`) `#` is already a `\section`, so the files inside a
+folder are **subsections**. When you talk about them, use the word that fits, never
+"subchapter".
 
 **Which files become folders** — body files only:
 
 | Template | becomes a folder | stays a single file |
 |---|---|---|
+| `professional-thesis` | in `Main Matter/`: `30 Introduction`, `40 Background and Related Work`, `50 Methodology`, `60 Results`, `70 Discussion` | `Switch to Main Matter`, `80 Conclusion and Future Work`, everything in `Front Matter/` and `Back Matter/` |
 | `simple-thesis` | `60 Introduction`, `70 Literature Review` | Cover Page, Abstract, the three lists, `80 Conclusion`, Bibliography, Appendix |
 | `academic-paper` | `20 Introduction`, `30 Methods`, `40 Results`, `50 Discussion` | Abstract, `60 Conclusion`, Bibliography |
 
-**Conclusion deliberately stays flat**, exactly as `80 Conclusion and Future Work.md` does in
-the nested professional template — it shows the user that both shapes coexist in one document
-and produce the same output. Point that out; it is the cheapest way to teach the rule.
+In `professional-thesis` the chapter folders are built **inside `Main Matter/`**, where the
+chapter files already lie. `Main Matter/` is a grouping folder and stays one; it never gets a
+file of its own name.
+
+**Conclusion deliberately stays flat** in every template — it shows the user that both shapes
+coexist in one document and produce the same output. Point that out; it is the cheapest way to
+teach the rule.
 
 Front matter, lists and the bibliography never become folders: they carry no substructure. The
 appendix stays one file too — an appendix nobody rearranges is better structured with `##`
@@ -822,21 +843,67 @@ inside (see "When an appendix outgrows one file" in `shared/headings.md`).
 
 1. Create the folder with the file's exact name: `60 Introduction/`.
 2. Move the file into it, name unchanged → it becomes the **folder note** and carries the
-   heading of that level (R3). Its single `#` stays a single `#` — the folder replaced the
-   file, it did not add a level (R2).
+   heading of that level (R3). Its single `#` stays a single `#`: a file that becomes a
+   folder keeps its level (R2).
 3. Move each `##` block out of the folder note into its own file **next to it, in the same
    folder**, named after the heading, and **turn the `##` into a single `#`** (R1). Anything
    above the first `##` — the lead-in — stays in the folder note. No extra folder in between.
-4. If the file has no `##` blocks (most of them do not in these templates), create two
-   placeholder section files in the same style the template uses elsewhere, so the user sees
-   the shape and can fill it.
+4. If the file has no `##` blocks (in `simple-thesis` and `academic-paper` most of them do
+   not; in `professional-thesis` every one has them), create two placeholder section files in
+   the same style the template uses elsewhere, so the user sees the shape and can fill it.
+5. **`professional-thesis` only: two remarks change with the shape.** In the flat template
+   they explain the `##`; in the folder shape they must explain the folder. Write them in the
+   chat language, like every remark.
+   - In the folder note `Introduction`, keep the first sentence of the remark ("Introduce the
+     topic: …") and replace the rest with:
+
+     ```
+     This file is named like its folder, so it is the chapter's folder note: it carries
+     the chapter title, and everything else in this folder belongs under it. The sections
+     of this chapter are separate files right next to it, in this folder.
+
+     The rule this template follows: a .md file NEVER starts with more than one #.
+     One # always means "the level of the folder I am in". So every file reads the same
+     way no matter how deep it sits, and you never count # signs. The level comes from
+     where the file lies, which is why moving a file never means editing its headings.
+
+     When a section grows its own subsections, give it its own folder: create a folder
+     with the SAME name as the section file, move the file into it, and put the new
+     subsection files next to it. That keeps the section and its parts together when you
+     move them.
+
+     If you rename this folder, rename this file with it. A folder without a file of its
+     own name no longer counts as a level.
+     ```
+
+   - In `Conclusion and Future Work`, which stays a file, add this below the existing text of
+     its remark:
+
+     ```
+     This chapter is deliberately a single file, not a folder. Short chapters do not need
+     one. You can mix both styles in the same thesis: a folder where a chapter grows long,
+     a plain file where it stays short. Both start with one # and both become a chapter,
+     because a file that becomes a folder keeps its level.
+
+     Its two sections live inside this file as ##. That is allowed and often the better
+     choice for a short chapter: fewer files, everything on one screen.
+
+     If it does grow: make a folder named like this file, move the file into it, and move
+     each ## section into its own file in that folder, dropping one # on the way. This
+     file's own # stays exactly as it is: in the folder it becomes the folder note and
+     keeps the chapter level.
+     ```
+
+   All other remarks stay as they are.
 
 Number prefixes follow the ordering variant, decided in the last question: variant B numbers
 the new files `10 `, `20 `, `30 ` in steps of ten; variant A leaves them without prefixes.
 
 **Check before you finish:** every file starts with exactly one `#`, every new folder holds a
-file of the same name, and no folder sits inside another folder — two levels is the whole
-budget here (`#` in the folder note = section, the other files in the folder = subsection).
+file of the same name, and no structure folder sits inside another one: two levels is
+the whole budget here (`#` in the folder note = the part itself, the other files in the folder
+= one level below). The area folders `Front Matter`, `Main Matter` and `Back Matter` are storage
+folders and do not count; a chapter folder inside `Main Matter` is where it belongs.
 
 **Folder depth is not document depth.** Files inside a folder may still use `##` and `###`
 for their own sub-structure; the level budget is the sum of both. Mention this so nobody
@@ -1195,16 +1262,44 @@ ever sees them. The numbers below apply to **variant B**; in variant A drop them
 ### professional-thesis specifics (scrbook)
 
 - The DDS uses `documentLevelIndex: 0`: one `#` becomes a **chapter**, `##` a section.
-- Structural files carry pure LaTeX switches and must keep their position: `10 Frontmatter/
-  10 Front Matter.md` (`\frontmatter`) before all front matter content, `20 Main Matter.md`
-  (`\mainmatter`) before the first chapter, `90 Backmatter/20 Appendix.md` (`\appendix`)
-  before the appendix chapters (they become A, B, C). In variant A they are
-  `Frontmatter/Front Matter.md`, `Main Matter.md` and `Backmatter/Appendix.md` — their
-  position then rests entirely on the Flexplorer order.
+- **Three area folders, three switch files.** The manuscript holds `00 Document Setup.md` and
+  three grouping folders, written as two words each: `Front Matter/`, `Main Matter/`,
+  `Back Matter/`. None of them has a folder note, so none adds a level.
+
+  ```
+  10 Front Matter/
+      10 Switch to Front Matter.md      \frontmatter   first in the folder
+      20 Cover Page.md … 80 List of Abbreviations.md
+  20 Main Matter/
+      10 Switch to Main Matter.md       \mainmatter    first in the folder
+      30 Introduction.md … 80 Conclusion and Future Work.md
+  90 Back Matter/
+      10 About Back Matter.md           explains only, may be deleted
+      20 Bibliography.md
+      30 Switch to Appendix.md          \appendix      before the first appendix
+      40 Survey Questionnaire.md … 60 Declaration of Authorship.md
+  ```
+
+  The switch files carry pure LaTeX switches and must keep their position. In variant A they
+  are `Front Matter/Switch to Front Matter.md`, `Main Matter/Switch to Main Matter.md` and
+  `Back Matter/Switch to Appendix.md`, and their position then rests entirely on the
+  Flexplorer order. `About Back Matter` holds only a remark: it controls nothing and produces
+  nothing in the PDF.
+- **Never a file with the name of its area folder.** `Front Matter/Front Matter.md` would be a
+  folder note and push everything else in the folder one level down. That is why the switch
+  files are called `Switch to …`.
+- **The names of the three area folders and of the four structure files stay English in every
+  chat language**, exactly as the older `Frontmatter` and `Backmatter` always did. They are
+  fixed names that the assistant and the documentation refer to, not the author's own notes.
+  Only their remark texts follow the chat language (see "German adaptation").
+- **Spelling in every text:** front matter, main matter, back matter, as two words. Written
+  together only as the LaTeX commands `\frontmatter`, `\mainmatter`.
 - Prefixless front matter chapters (`# Abstract`, `# Acknowledgements`, `# List of
   Abbreviations`) are automatically unnumbered with a ToC entry — do **not** add `{-}`
   there. In the back matter, `{-}` on a chapter heading emits KOMA's `\addchap`
   (unnumbered + ToC + running header) — used by References, Appendix and Declaration.
+- `simple-thesis` has none of this. Its `95 Appendix.md` is an ordinary unnumbered section
+  without `\appendix` (the `article` class has no front and main matter), and it stays that way.
 
 ### German adaptation
 
@@ -1218,15 +1313,69 @@ ever sees them. The numbers below apply to **variant B**; in variant A drop them
 | Visible **placeholder texts** in the manuscript | translate to German — they are draft body text and will be printed |
 | ` ```remark ` blocks | follow the **chat language**, not this table. They are never printed; the author reads them. If the chat is English and the document German, leave them English. |
 | Auto-generated titles (ToC, List of Figures, List of Tables) | **do not touch** — the latex blocks stay as they are; babel translates the printed titles itself |
-| File names | optional cosmetic rename (file names never create headings); keep the numbering scheme of the chosen variant |
+| File names | optional cosmetic rename (file names never create headings); keep the numbering scheme of the chosen variant. **Not** for the three area folders and the four structure files of `professional-thesis`: those keep their English names (see "professional-thesis specifics") |
+
+#### The remarks of the four structure files in a German chat
+
+Do not translate these four freely. Use the wording below **verbatim**, it is agreed
+(26.09.2026). The German term follows the English one in brackets: Front Matter (Vorspann),
+Main Matter (Hauptteil), Back Matter (Schlussteil). Replace only the ` ```remark ` block; the
+` ```latex ` block and the `# Appendix {-}` line stay as they are (the heading itself follows the
+document language, see the table above).
+
+`Switch to Front Matter`:
+
+```
+Nicht löschen. Diese Datei muss zuoberst in diesem Ordner stehen.
+
+Die Front Matter (Vorspann) ist alles vor dem ersten Kapitel: Titelblatt,
+Vorwort, Zusammenfassung, Verzeichnisse. Im PDF sind die Seitenzahlen hier
+römisch (i, ii, iii), und die Kapitel haben keine Nummer.
+Danach kommt die Main Matter, die eigentliche Arbeit.
+```
+
+`Switch to Main Matter`:
+
+```
+Nicht löschen. Diese Datei muss zuoberst in diesem Ordner stehen.
+
+Die Main Matter (Hauptteil, auf Englisch oft auch "body") ist die
+eigentliche Arbeit, von der Einleitung bis zum Schluss. Ab hier beginnen
+die Seitenzahlen neu bei 1, und die Kapitel werden nummeriert (1, 2, 3).
+Danach kommt die Back Matter im Ordner Back Matter.
+```
+
+`About Back Matter`:
+
+```
+Diese Datei erklärt nur. Sie steuert nichts und darf gelöscht werden.
+
+Die Back Matter (Schlussteil) ist alles nach der eigentlichen Arbeit:
+Literaturverzeichnis, weitere Verzeichnisse und Anhang. Die Kapitel hier
+haben keine Nummer. Der Anhang beginnt erst mit "Switch to Appendix".
+Ab dort heissen die Kapitel A, B, C.
+```
+
+`Switch to Appendix`:
+
+```
+Nicht löschen. Diese Datei muss vor dem ersten Anhang stehen.
+
+Ab hier beginnt der Anhang: Die Kapitel danach heissen A, B, C.
+Die Überschrift "Appendix" oben ist das Trennblatt davor.
+```
+
+In a German document the heading above reads `# Anhang {-}`; then write "Anhang" instead of
+"Appendix" in the last sentence as well.
 
 ## Install the Flexplorer plugin
 
 The thesis itself is written **in Obsidian** — Claude Code is the technical layer beside
 it, working on the same files — so every scaffold gets the vault layer. Obsidian's core
 file explorer always lists folders above files, so the visible order would not match the
-document order (confusing especially for professional-thesis with its Frontmatter/
-Backmatter folders). Flexplorer fixes the display and adds drag & drop reordering — the
+document order (confusing especially for professional-thesis, where each switch file must
+sit first in its folder, above the chapter folders). Flexplorer fixes the display and adds
+drag & drop reordering — the
 ordering mechanism Obsitex recommends.
 
 **Only in variant A.** If the user chose B, skip this whole section including the seed:
@@ -1346,13 +1495,22 @@ the plugin's own defaults on first load, so leaving it out is both correct and s
     },
     "Manuscript": {
       "sortOrder": "custom",
-      "customOrder": ["00 Document Setup.md", "Frontmatter", "Main Matter.md",
-                      "Introduction.md", "Backmatter",
-                      "README.md", "refs.bib"]
+      "customOrder": ["00 Document Setup.md", "Front Matter", "Main Matter",
+                      "Back Matter", "README.md", "refs.bib"]
     },
-    "Manuscript/Frontmatter": {
+    "Manuscript/Front Matter": {
       "sortOrder": "custom",
-      "customOrder": ["Front Matter.md", "Cover Page.md", "Abstract.md"]
+      "customOrder": ["Switch to Front Matter.md", "Cover Page.md", "Abstract.md"]
+    },
+    "Manuscript/Main Matter": {
+      "sortOrder": "custom",
+      "customOrder": ["Switch to Main Matter.md", "Introduction", "Methodology",
+                      "Conclusion and Future Work.md"]
+    },
+    "Manuscript/Back Matter": {
+      "sortOrder": "custom",
+      "customOrder": ["About Back Matter.md", "Bibliography.md",
+                      "Switch to Appendix.md", "Survey Questionnaire.md"]
     }
   },
   "newItemPlacement": "bottom"
@@ -1362,7 +1520,11 @@ the plugin's own defaults on first load, so leaving it out is both correct and s
 Rules for building it:
 
 - Keys are folders only — never files. The project folder is the key `"/"`; every other key
-  is a folder path relative to it, with `/` separators (e.g. `Manuscript/Backmatter`).
+  is a folder path relative to it, with `/` separators (e.g. `Manuscript/Back Matter`).
+- The example is shortened with chapters left out. The real seed lists every child.
+- **Each switch file comes first in its folder, and `About Back Matter.md` first in
+  `Back Matter`.** In variant A nothing but this seed keeps `\frontmatter` and `\mainmatter`
+  in front of the chapters.
 - The names must match what was actually written to disk — in variant A the stripped form
   shown above, with `00 Document Setup.md` as the one exception that keeps its number.
 - **Order only folders the scaffold created.** The project folder is the vault, so the `"/"`
@@ -1373,9 +1535,9 @@ Rules for building it:
 - A folder's `customOrder` lists the **names** of its direct children (files *and*
   subfolders), in the order they should appear — which is exactly the order you created
   them, i.e. the numeric prefixes ascending, with `README.md` and `refs.bib` at the end.
-- **In a chapter or section folder the folder note comes first**, even when its number would
-  sort it later: `"Manuscript/30 Introduction": ["30 Introduction.md", "10 Motivation.md",
-  "20 Problem Statement.md", "30 Research Questions.md"]`. Obsitex puts it first anyway; the
+- **In a structure folder the folder note comes first**, even when its number would
+  sort it later: `"Manuscript/Main Matter/Introduction": ["Introduction.md", "Motivation.md",
+  "Problem Statement.md", "Research Questions.md"]`. Obsitex puts it first anyway; the
   seed only makes the file list agree.
 - Include only folders where the order matters. Skip the project folders that hold just a
   README (`20 Research`, `30 Interviews`, …) — there is nothing to sort there.
@@ -1502,10 +1664,10 @@ obsitex-created: 2026-09-03
 | Key | Meaning |
 |---|---|
 | `obsitex-manuscript` | folder name of the manuscript, as it is on disk |
-| `obsitex-template` | `professional-thesis`, `professional-thesis-nested`, `simple-thesis`, `academic-paper` |
+| `obsitex-template` | `professional-thesis`, `simple-thesis`, `academic-paper`. (Projects built before v1.47.0 may carry `professional-thesis-nested`: the same template, then shipped as a second copy. It means `professional-thesis`; the shape is in `obsitex-levels`.) |
 | `obsitex-ordering` | `A` (Flexplorer carries the order) or `B` (number prefixes carry it) |
 | `obsitex-scaffold` | `true` with the project folders, `false` with the opt-out |
-| `obsitex-levels` | the answer to question 10, **counted exactly as its sketches count**: `1` one file per chapter (B), `2` a folder per chapter (A), `3` three levels (C). A storage folder (`Frontmatter`, `Backmatter`) is **never** a level |
+| `obsitex-levels` | the answer to question 10, **counted exactly as its sketches count**: `1` one file per chapter (B), `2` a folder per chapter (A), `3` three levels (C). A grouping folder (`Front Matter`, `Main Matter`, `Back Matter`) is **never** a level |
 
 **`obsitex-levels` uses the scale of question 10 and no other.** The user chose a number of
 *levels* in a dialog that labels them down the left edge. Counting folders on disk gives a
@@ -1513,12 +1675,13 @@ different number for the same answer (option A has one folder on the path but tw
 option B has no folder and is level 1). Two scales for one key make the check below fire on a
 vault that is exactly as agreed. **How to measure it on disk:** take the deepest Markdown file,
 count the folders above it that have a folder note (a file with the folder's own name inside),
-then add one. A folder note does not count its own folder. Storage folders (`Frontmatter`,
-`Backmatter`, and the `Unterkapitel`-style collector folders of vaults built before v1.46.0)
-have no folder note, so they never count. That is exactly how Obsitex itself finds the level.
+then add one. A folder note does not count its own folder. Grouping folders (`Front Matter`,
+`Main Matter`, `Back Matter`, in older vaults `Frontmatter` and `Backmatter`, and the
+`Unterkapitel`-style grouping folders of vaults built before v1.46.0) have no folder note, so
+they never count. That is exactly how Obsitex itself finds the level.
 `Einleitung.md` → 1 · `Einleitung/Einleitung.md` → 1 · `Einleitung/Motivation.md` → 2 ·
-`Einleitung/Motivation/Hintergrund.md` → 3 · in an older vault
-`Einleitung/Unterkapitel/Motivation.md` → 2.
+`Main Matter/Einleitung/Motivation.md` → 2 · `Einleitung/Motivation/Hintergrund.md` → 3 · in an
+older vault `Einleitung/Unterkapitel/Motivation.md` → 2.
 | `obsitex-chat-language` | the language the user works in, which is also the language of the folder names |
 | `obsitex-created` | the date of this run |
 
@@ -1639,12 +1802,15 @@ alone". The user cannot check what they cannot see.
   "the level of the folder I am in". Where the folder limit stops the splitting, the file at
   that level takes its whole substructure inside itself as `##`, `###` — never as sibling
   files. This holds for every template and for anything the skill generates later.
-- **Every chapter or section folder gets its folder note**, the file with the folder's exact
-  name. Without it the folder adds no level, silently. Rename folder and folder note together.
-  **Never give a file inside `Frontmatter`, `Backmatter` or any other storage folder that
-  folder's name** — it would turn the storage folder into a level and push everything else in
-  it one level down.
-- **Never create a collector folder** (`Subchapters`, `Unterkapitel`, `Subsections`) between a
+- **Every folder meant as a level gets its folder note**, the file with the folder's exact
+  name; that is what makes it a structure folder. Without it the folder adds no level, silently. Rename folder and folder note together.
+  **Never give a file inside `Front Matter`, `Main Matter`, `Back Matter` or any other storage
+  folder that folder's name** — it would turn the grouping folder into a level and push
+  everything else in it one level down.
+- **In `professional-thesis` the switch files stay first:** `Switch to Front Matter` at the top
+  of `Front Matter`, `Switch to Main Matter` at the top of `Main Matter` (above every chapter
+  folder), `Switch to Appendix` before the first appendix chapter.
+- **Never create a grouping folder** (`Subchapters`, `Unterkapitel`, `Subsections`) between a
   chapter and its sections. Sections are files directly in the chapter folder.
 - **A heading needs no blank line before it** (since 2026-08-04). A `#` line ends the running
   paragraph on its own, exactly as in Obsidian and CommonMark. The one exception: a `#` line
@@ -1679,6 +1845,13 @@ Report to the user, in the chat language:
 
 - The created file tree, **one line of purpose per folder**, naming the two terms again:
   which one is the project folder, which one is the manuscript.
+- **`professional-thesis` only: the three areas, in two or three plain sentences.** The
+  manuscript is split into front matter (everything before the first chapter), main matter
+  (the actual work, from the introduction to the conclusion) and back matter (bibliography and
+  appendix). Each area folder starts with a switch file: it must stay first and must not be
+  deleted. `About Back Matter` only explains and may be deleted. In a German chat add the
+  German term in brackets: Front Matter (Vorspann), Main Matter (Hauptteil), Back Matter
+  (Schlussteil).
 - **The one thing that surprises people** (project scaffold only) — explain it, never assume
   it is obvious: Obsidian works on the **whole project folder**, so the order you see and
   drag around is stored once for the entire project. Obsitex, in contrast, converts **only
@@ -1738,8 +1911,9 @@ Projektordner                   ← Obsidian opens this one (the vault)
   - leave its settings as they are;
   - never press "Rename existing folder notes", "Switch" or "Create folder notes for all
     folders";
-  - never Ctrl-click `Frontmatter`, `Backmatter` or `attachments`: that click creates a folder
-    note there, and inside `Frontmatter` it would push every file one level down.
+  - never Ctrl-click `Front Matter`, `Main Matter`, `Back Matter` or `attachments`: that click
+    creates a folder note there, and inside `Front Matter` it would push every file one level
+    down.
 
   If the download failed, say that instead, with the way to install it by hand (see "Install
   the Folder notes plugin", step 4).

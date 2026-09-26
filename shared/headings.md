@@ -13,8 +13,19 @@ How the chapter structure of the document comes about.
 **The folder note decides the _level_.** The folder note is the file inside a folder that
 has exactly the folder's name: `Introduction/Introduction.md`. It carries the folder's
 heading, and everything else in that folder sits **one level below** it. A folder without a
-folder note (`Subchapters`, `Frontmatter`, `Backmatter`) adds no level: its files sit as if
-they lay in the folder above.
+folder note (`Front Matter`, `Main Matter`, `Back Matter`, `Subchapters`) adds no level: its
+files sit as if they lay in the folder above.
+
+**Two kinds of folder, and only the folder note tells them apart, never the name:**
+
+| Term | Folder note? | Effect |
+|---|---|---|
+| **structure folder** | yes | adds a level; everything inside sits under its folder note |
+| **grouping folder** | no | adds no level; it only groups files |
+
+A chapter folder or a section folder is a structure folder on that level, not a third kind. The
+**area folders** `Front Matter`, `Main Matter` and `Back Matter` are grouping folders like any
+other; only their names are fixed. (German docs: Gliederungsordner, Sammelordner, Bereichsordner.)
 
 So the level of a file is **the number of folders with a folder note above it**. A heading
 file does not count its own folder. A file directly in the manuscript starts at the top.
@@ -62,15 +73,17 @@ folder note together, which is exactly what the first trap below needs. That is 
 rename done **inside Obsidian** only. When **you** rename a folder on disk, do not rely on it:
 rename the folder note in the same step.
 
-**A folder without folder note is only storage.** `Frontmatter` and `Backmatter` are the usual
-ones; a user may add others just to keep files tidy. Vaults set up by `/obsitex:obsitex-init`
-before v1.46.0 also keep their sections in a collector folder called `Subchapters`
+**A grouping folder only groups.** The three area folders `Front Matter`,
+`Main Matter` and `Back Matter` are the usual ones (in vaults set up before v1.47.0:
+`Frontmatter` and `Backmatter`, with the chapters directly in the manuscript); a user may add
+others just to keep files tidy. Vaults set up by `/obsitex:obsitex-init`
+before v1.46.0 also keep their sections in a grouping folder called `Subchapters`
 (`Unterkapitel`, `Subsections`, … depending on the language); newer ones put the sections
 directly into the chapter folder. Either way such a folder adds no level and never appears in
 the PDF: `Introduction/Subchapters/Background.md` and `Introduction/Background.md` are both
 sections. Follow what the vault does: where the sibling sections sit in `Subchapters`, a new
-one goes there too. Never create a collector folder in a vault that has none, and never remove
-one unasked.
+one goes there too. Never create such a folder between a chapter and its sections in a vault
+that has none, and never remove one unasked.
 
 A section that gets subsections of its own becomes a folder with its own folder note — so it
 takes its children along when moved.
@@ -86,10 +99,10 @@ one `#`.
   `Foundations.md` has no folder note any more, so everything else inside moves up one level
   and `Foundations.md` loses its place at the front. Always rename folder and folder note
   together.
-- **A file named like a storage folder turns it into a level.** `Frontmatter/Frontmatter.md`
-  would push the cover page, the abstract and everything else in `Frontmatter` one level
-  down. Never give a file inside `Frontmatter`, `Backmatter` or a collector folder that
-  folder's name.
+- **A file named like a grouping folder turns it into a level.** `Front Matter/Front Matter.md`
+  would push the cover page, the abstract and everything else in `Front Matter` one level
+  down. Never give a file inside a grouping folder that folder's name.
+  This is why the switch files are called `Switch to Front Matter` and `Switch to Main Matter`.
 
 ## Depth
 
@@ -221,14 +234,48 @@ attributes.
 `latex-heading-offset: N` in the frontmatter shifts every heading level in that file by N.
 `-1` pulls a file back up one level, `1` pushes it down.
 
-## When an appendix outgrows one file
+## Front matter, main matter, back matter (scrbook)
 
-`Frontmatter` and `Backmatter` have no folder note, so they add no level. An appendix that
-outgrows one file becomes a folder with its folder note, right where it is in `Backmatter`:
+A professional thesis is split into three areas, each a grouping folder.
+The names are written as two words; together only as the LaTeX commands.
 
 ```
-Backmatter/
-    Appendix.md                      ```latex \appendix
+00 Document Setup.md
+Front Matter/
+    Switch to Front Matter.md        ```latex \frontmatter      first in the folder
+    Cover Page.md, Abstract.md, … the lists
+Main Matter/
+    Switch to Main Matter.md         ```latex \mainmatter       first in the folder
+    Introduction/ … Conclusion.md    the chapters
+Back Matter/
+    About Back Matter.md             remark only, may be deleted
+    Bibliography.md
+    Switch to Appendix.md            # Appendix {-} + ```latex \appendix
+    Survey Questionnaire.md, …       appendix chapters A, B, C
+```
+
+- **The switch files must stay where they are and must not be deleted.** They are raw LaTeX,
+  and only their position makes them work: a chapter placed above `Switch to Main Matter`
+  gets roman page numbers and no number of its own.
+- **`About Back Matter` only explains.** It produces nothing in the PDF.
+- **New chapters go into `Main Matter`**, below its switch file. New front matter (a preface, a
+  list of symbols) goes into `Front Matter`; a new appendix into `Back Matter`, after
+  `Switch to Appendix`.
+- **Older vaults** have `Frontmatter/` and `Backmatter/`, a single file `Main Matter.md` and the
+  chapters directly in the manuscript. That works unchanged. **Never rename anything there on
+  your own.** If the user asks for the new layout: rename the switch file first
+  (`Frontmatter/Front Matter.md` → `Switch to Front Matter.md`), then the folder
+  (`Frontmatter` → `Front Matter`). The other order creates `Front Matter/Front Matter.md` for
+  a moment, a folder note, and pushes the whole front matter one level down.
+
+## When an appendix outgrows one file
+
+`Front Matter` and `Back Matter` have no folder note, so they add no level. An appendix that
+outgrows one file becomes a folder with its folder note, right where it is in `Back Matter`:
+
+```
+Back Matter/
+    Switch to Appendix.md            ```latex \appendix
     Interviews/
         Interviews.md                → # Interviews     (appendix chapter)
         Interview A.md               → # Interview A    (section)

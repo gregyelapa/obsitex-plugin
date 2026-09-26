@@ -230,7 +230,8 @@ What must hold without looking anything up:
   file sits in sets the _level_ its headings start from.
 - **A folder is a level only through its folder note**, the file inside it with the folder's
   exact name (`Introduction/Introduction.md`). Everything else in that folder sits one level
-  below it. A folder without one (`Subchapters`, `Frontmatter`, `Backmatter`) adds no level.
+  below it. Such a folder is a **structure folder**. A folder without one is a **grouping
+  folder** (`Front Matter`, `Main Matter`, `Back Matter`, `Subchapters`) and adds no level.
 - **Rename a folder and its folder note together, always.** Renaming only one makes the
   folder stop counting, and everything else in it moves up a level, silently.
 - **A file never starts with more than one `#`.** One `#` always means "the level of the folder
@@ -240,8 +241,11 @@ What must hold without looking anything up:
 - Attributes at the end of the line: `# Title {-}` → unnumbered but in the table of contents ·
   `# Title {.unnumbered .unlisted}` → unnumbered, not listed.
 - scrbook structure switches (`\frontmatter`, `\mainmatter`, `\appendix`) are raw
-  ` ```latex ` blocks in their own files. There is **no** `\backmatter` — `\appendix` stands
-  directly before the appendix chapters, not at the top of the `Backmatter` folder.
+  ` ```latex ` blocks in their own files: `Switch to Front Matter`, `Switch to Main Matter`
+  (each first in its area folder) and `Switch to Appendix`. Never delete or move them. There
+  is **no** `\backmatter` — `\appendix` stands directly before the appendix chapters, not at
+  the top of the `Back Matter` folder. Older vaults (`Frontmatter/`, `Backmatter/`,
+  `Main Matter.md`) keep their names; never rename them unasked (`headings.md`).
 
 ## Frontmatter keys (YAML at top of file)
 

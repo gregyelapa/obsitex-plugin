@@ -228,10 +228,13 @@ What must hold without looking anything up:
 
 - **Only `#` lines create heading _text_.** File and folder names never do — but the folder a
   file sits in sets the _level_ its headings start from.
+- **A folder is a level only through its folder note**, the file inside it with the folder's
+  exact name (`Introduction/Introduction.md`). Everything else in that folder sits one level
+  below it. A folder without one (`Subchapters`, `Frontmatter`, `Backmatter`) adds no level.
+- **Rename a folder and its folder note together, always.** Renaming only one makes the
+  folder stop counting, and everything else in it moves up a level, silently.
 - **A file never starts with more than one `#`.** One `#` always means "the level of the folder
   I am in". A file starting with `##` works but can never become a folder without a text edit.
-- **`Frontmatter` and `Backmatter` hold files only — never folders.** A folder inside them
-  lands one level too deep, silently.
 - **A heading needs no blank line before it** — except directly under a **list item**, where
   the list swallows it.
 - Attributes at the end of the line: `# Title {-}` → unnumbered but in the table of contents ·

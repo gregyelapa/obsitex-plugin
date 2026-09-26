@@ -27,6 +27,9 @@ actually understands — which is not always the Markdown Obsidian renders.
 - **Obsidian** for writing, and the **Obsitex web app** for turning the vault into a PDF.
 - **Flexplorer**, an Obsidian plugin that controls file order, is recommended. `obsitex-init`
   installs a pinned copy into your vault for you — you never have to fetch it yourself.
+- **Folder notes**, an Obsidian plugin that shows a folder and its folder note as one entry.
+  `obsitex-init` downloads it for you from its author's release page (it is not part of this
+  repository). If the download fails, you can install it in Obsidian yourself.
 
 ## Install
 
@@ -74,7 +77,7 @@ afterwards. `/clear` does not do it — that empties the conversation, not the l
 | Scaffold | Document class | Shape |
 |---|---|---|
 | `professional-thesis` | scrbook | chapters as files, front and back matter |
-| `professional-thesis-nested` | scrbook | chapters as folders with subchapters |
+| `professional-thesis-nested` | scrbook | chapters as folders, their sections as files inside |
 | `simple-thesis` | article | a flat sequence of sections |
 | `academic-paper` | article | abstract, methods, results, discussion |
 
@@ -135,4 +138,8 @@ notes for working on the plugin are in `CLAUDE.md`.
 MIT — see [LICENSE](LICENSE).
 
 The bundled copy of Flexplorer under `skills/obsitex-init/assets/flexplorer/` is a separate
-work by kh4f, also MIT; its licence travels with it in that folder.
+work by kh4f, also MIT; its licence travels with it in that folder and into every vault it is
+installed in.
+
+Folder notes by Lost Paul (AGPL-3.0) is **not** included. `obsitex-init` downloads it
+unmodified from https://github.com/LostPaul/obsidian-folder-notes at setup time.

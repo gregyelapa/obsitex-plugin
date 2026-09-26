@@ -41,10 +41,13 @@ you usually have it already.
   wins. Never "correct" a folder to match the file.
 - **Before you create a file or a folder inside the manuscript**, count its levels on disk
   and compare them with `obsitex-levels`. **Count the way the setup question did, not
-  folders:** take the deepest Markdown file, count the folders between the manuscript and it,
-  leave out collector folders (`Subchapters`, `Unterkapitel`, …) and `Frontmatter`/`Backmatter`,
-  then add one. So `Einleitung/Unterkapitel/Motivation.md` is 2 and `Einleitung.md` is 1.
-  Counting plain folders gives a different number for the same vault and a false alarm.
+  folders:** take the deepest Markdown file and count the folders above it that have a heading
+  file (a file with the folder's own name inside), then add one. A folder note does not count
+  its own folder. Collector folders (`Subchapters`, `Unterkapitel`, …) and
+  `Frontmatter`/`Backmatter` have none, so they never count. So
+  `Einleitung/Unterkapitel/Motivation.md` is 2, `Einleitung/Motivation.md` is 2 as well, and
+  `Einleitung.md` and `Einleitung/Einleitung.md` are 1. Counting plain folders gives a
+  different number for the same vault and a false alarm.
   It differs? Then say so and
   ask before writing — a flat manuscript can be a decision or an oversight, and only the user
   knows which. Update the file with their answer. **Only there:** a question about a table or
@@ -159,7 +162,10 @@ within a second too.
 - Only supported Markdown. When unsure, check — do not guess.
 - **Never write a `.md` file whose first heading has more than one `#`.** One `#` always
   means "the level of the folder I am in".
-- **Never put a folder inside `Frontmatter` or `Backmatter`.** Files only, however many.
+- **A chapter or section folder you create gets its folder note in the same step**, the file
+  with the folder's exact name. Without it the folder adds no level. **Rename a folder and its folder note
+  together**, and never give a file the name of the storage folder it sits in
+  (`Frontmatter/Frontmatter.md`).
 - Raw LaTeX only inside ` ```latex ` blocks, always with a leading `%` comment saying what
   the block does. Prefer Markdown wherever it expresses the same thing.
 - Never put backslash commands or bare `_`, `~`, `^` in inline backticks.

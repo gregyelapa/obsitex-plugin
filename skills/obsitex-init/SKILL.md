@@ -35,7 +35,7 @@ Research, Interviews, Data, Exports) or say "the other folders in the project fo
 |---|---|
 | Headings, body text, everything printed | **document** |
 | The conversation, questions, the final report | **chat** |
-| Folder names on disk (project folders, the manuscript, collector folders) | **chat** |
+| Folder names on disk (project folders, the manuscript) | **chat** |
 | The `README.md` in each project folder | **chat** |
 | ` ```remark ` blocks inside manuscript files | **chat** |
 
@@ -68,8 +68,9 @@ manuscript at once — then just say "your folder".
 3. If the project folder already contains `.md` files, stop and ask before writing anything.
 4. Never write Obsidian's own configuration — no `app.json`, `community-plugins.json`,
    workspace or appearance settings. **The only things you write under `.obsidian`** are
-   the bundled Flexplorer plugin files and its seed `data.json`, both described in
-   "Install the Flexplorer plugin" below.
+   the bundled Flexplorer plugin files and its seed `data.json` ("Install the Flexplorer
+   plugin" below) and the three Folder notes files downloaded from their author ("Install the
+   Folder notes plugin" below).
 
 ## Open with this
 
@@ -396,6 +397,7 @@ rest.
 |---|---|---|
 | File names | no number prefixes — **except `00 Document Setup.md`**, which keeps its `00 ` | number prefixes in steps of ten, as the templates carry them |
 | Flexplorer | plugin files + seed `data.json`, then guided activation | not installed at all, no `data.json`, no existing-vault question |
+| Folder notes | downloaded from its author, then guided activation | the same: it does not depend on the ordering |
 | Reordering | drag & drop in Obsidian | rename the file (see the renaming rules in the report) |
 
 In **variant A**, strip the leading `^\d+\s+` from every file and folder name while
@@ -558,7 +560,7 @@ A top-level part can be **one file** or **a folder holding several files**. Ask 
 The rule-based path exists deliberately (16.08.2026): a fourth and fifth template would have
 to be kept in sync with every future preamble and convention change, and the flat formats
 have only four to six body files to nest. The full rule set already exists as documentation
-([[VAULT_BAUWEISE]], R1–R10) — this is the first time the skill applies it instead of
+([[VAULT_BAUWEISE]], R1–R8) — this is the first time the skill applies it instead of
 shipping its result. **Treat it as the experiment it is:** if the rule-based build proves as
 reliable as the template, it is the better model for the third template too.
 
@@ -579,91 +581,84 @@ It follows that **splitting stops at the folder limit**: where no deeper folder 
 the file at that level absorbs its whole substructure as `##`, `###` — it does not hand it to
 sibling files. Sibling files starting with `##` are exactly what this rule forbids.
 
-A folder **replaces** a file, it does not sit on top of one — so the first folder level is
-free, and every file inside a folder counts from the same base. Only a folder **inside** a
-folder goes a step deeper.
+A folder **replaces** a file, it does not sit on top of one: the file inside it with the
+folder's own name, its **folder note**, keeps the level the single file had. Everything else
+in the folder sits one level below that folder note. A folder without a folder note adds no
+level at all (`shared/headings.md`).
 
-### How sections are placed — the collector folder
+### How sections are placed
 
-The full rule set is below. Notation: **B** = a section *without* subsections, **A** = a
-section *with* subsections.
+Notation: **B** = a section *without* subsections (a leaf), **A** = a section *with*
+subsections (a branch).
 
-**Sections go into a collector folder** — `Subchapters` in English, `Unterkapitel` in German
-(folder names follow the DOCUMENT language). It carries **no** file of its own and therefore
-never appears in the PDF; it exists only to create the level. One folder per section would be
-pure packaging — that was the first design, and users reported it as too nested.
-
-```
-BBBBB   →   30 Introduction/
-                30 Introduction.md        # Introduction   → chapter
-                Subchapters/
-                    10 Motivation.md      # Motivation     → section
-                    20 Problem State….md  # …              → section
-```
-
-**A section that has subsections keeps its own folder** — with its own `Subchapters` inside.
-That way it takes its children along when it is moved:
+**One rule covers every case: a leaf is a file, a branch is a folder with its folder note.**
+Both sit directly in the folder of their parent, in document order. There is **no** extra folder
+between a chapter and its sections: the chapter's folder note already puts everything else in
+the folder one level lower.
 
 ```
-BAAA    →   Chapter/
-                Chapter.md
-                Subchapters/              ← the one leaf
-                Branch/
-                    Branch.md
-                    Subchapters/          ← the branch's children
+BBABA   →   30 Introduction/
+                30 Introduction.md          # Introduction   → chapter (folder note)
+                10 Motivation.md            # Motivation     → section
+                20 Problem Statement.md     # …              → section
+                30 Research Design/                           ← a branch
+                    30 Research Design.md   # …              → section (folder note)
+                    10 Sampling.md          # …              → subsection
+                40 Scope.md                 # …              → section
+                50 Outlook/ …
 ```
 
-**A single leaf standing between branches gets its own folder**, not a second collector — it
-keeps its readable name:
+**Why a branch gets a folder:** it takes its children along when it is moved. **Why a leaf
+gets none:** one folder per section would be pure packaging — that was the first design, and
+users reported it as too nested.
 
-```
-BBBABA  →   Chapter/  ·  Subchapters/ (the three leaves)  ·  Branch1/
-            ·  Single Leaf/  ·  Branch2/
-```
+**"After" and "below" follow from the tree.** A new section *after* X goes into the same folder
+as X. A new section *below* X goes into X's folder; if X is still a single file, it first
+becomes a folder (`X.md` → `X/X.md`, its `#` unchanged).
 
-**Two or more separate leaf blocks: number the second collector.** Names must be unique in a
-folder; the number is a pure discriminator and claims nothing, so it cannot go stale:
+**No collector folders.** Up to v1.45.0 this skill put the leaves into a folder `Subchapters` /
+`Unterkapitel` / `Subsections`, because the old converter rule needed it to create the section
+level. It no longer does, and with the Obsidian plugin Folder notes such a folder shows up in
+the file list as a level of its own that the PDF does not have. **Do not create one.** A vault
+that already has them works unchanged; leave them alone unless the user asks.
 
-```
-BBABB   →   Chapter/  ·  Subchapters/  ·  Branch/  ·  Subchapters 2/
-```
+**A storage folder without folder note is still fine** wherever the user wants one:
+`Frontmatter`, `Backmatter`, or any folder just to keep files tidy. It adds no level
+(`shared/headings.md`), so it never changes the PDF.
 
-**Why the grouping matters:** a folder always appears as one contiguous block in the document.
-A collector may therefore only hold **consecutive** leaves — otherwise it would pull a section
-out of its place and silently reorder the thesis.
+**Growing a section into a folder** is a move, not a rewrite: create a folder with the file's
+exact name next to it and move the file inside. It becomes the folder note, its `#` stays as
+it is. The new subsections go into that folder as files of their own; a `##` block cut out of
+the folder note into its own file loses one `#`. Tell the user this — it is the reason the
+structure exists.
 
-**Growing a section into a folder** is a move, not a rewrite: create a folder next to
-`Subchapters`, put a file with the same name inside, move the text there and drop one `#`.
-Tell the user this — it is the reason the rule exists.
-
-**One place where that does not hold: `Frontmatter` and `Backmatter` take files only** (R10).
-Both are storage folders — they carry no heading and already consume the one free folder level.
-Files inside them become chapters as expected, but a **folder** inside them counts as a second
-level and lands one level too deep, with no warning. Breadth is free, depth is not: twenty
-appendices side by side are fine, one *split* appendix is not. The limit holds whatever folder
-depth the user picked for the manuscript. If an appendix does outgrow one file, either move its
-folder directly into the manuscript after `Appendix.md` (`\appendix` is a switch — everything
-after it becomes an appendix, whatever folder it sits in), or set `latex-heading-offset: -1` in
-**every** file of that appendix.
+**`Frontmatter` and `Backmatter` are storage folders as well.** They carry no folder note and
+add no level: every file inside them becomes a chapter. An appendix that outgrows one file may
+become a folder with its folder note right there in `Backmatter` — its folder note stays a
+chapter, its parts become sections (`shared/headings.md`, "When an appendix outgrows one
+file"). **The one thing never to do there:** give a file the folder's own name.
+`Frontmatter/Frontmatter.md` would be a folder note and push everything else in `Frontmatter`
+one level down. The shipped `Front Matter.md` is safe only because of its space; keep it that
+way.
 
 **The options — three of them, default is two levels:**
 
 - **One file per chapter (flat).** Simplest to look at; a long chapter becomes a long file,
   and its sections sit inside it as `##`. → template `professional-thesis`
 - **A folder per chapter, two levels (default).** The chapter is a folder with its own
-  chapter file; the sections are separate files in a `Subchapters` folder next to it.
+  folder note; the sections are separate files right next to it, in the same folder.
   → template `professional-thesis-nested`
-- **Three levels.** As above, plus: a section that has subsections of its own keeps its own
-  folder (with its own `Subchapters` inside), so it takes its parts along when moved.
+- **Three levels.** As above, plus: a section that has subsections of its own becomes a
+  folder with its folder note, and its subsections are files inside it, so it takes its parts
+  along when moved.
   → same template plus the `\setcounter` lines below; the template ships with two, so the
   third level is built on top after copying.
 
-**A "level" here is a heading level that gets its own files** — not a folder in the tree. The
-collector folder carries no heading and therefore never counts. Count it and every number in
-this skill shifts by one.
+**A "level" here is a heading level that gets its own files** — not a folder in the tree.
+`Frontmatter` and `Backmatter` are storage folders and never count.
 
-The nested template mixes both styles on purpose: five chapters are folders with a
-`Subchapters` folder, `80 Conclusion and Future Work.md` stays a single file with its two
+The nested template mixes both styles on purpose: five chapters are folders with their
+sections as files inside, `80 Conclusion and Future Work.md` stays a single file with its two
 sections as `##` inside. Point that out — it shows that no chapter *has* to become a folder,
 and that both forms produce the same `\chapter` + `\section` in the PDF. Every file, in both
 forms, starts with a single `#`.
@@ -685,9 +680,8 @@ question — the answer decides how the user works, not how the document looks.
 >
 > 30 Introduction/                    30 Introduction.md
 >    30 Introduction.md                   # Introduction
->    Subchapters/                         ## Motivation
->       10 Motivation.md                  ## Problem Statement
->       20 Problem Statement.md
+>    10 Motivation.md                     ## Motivation
+>    20 Problem Statement.md              ## Problem Statement
 >
 > 3 files. Reorder without cutting.   1 file. Reorder by cutting and pasting.
 >
@@ -710,8 +704,8 @@ letter with nothing to point back to is worse than no letter. One line is enough
 sketch is in its `preview`.
 
 **Then AskUserQuestion with three options, each carrying a `preview`.** The previews label the
-levels down the left edge — that is what makes "two levels" mean anything. The collector folder
-is marked as not being a level, right in the sketch. **The three sketches stand here in dialog
+levels down the left edge — that is what makes "two levels" mean anything. The folder note is
+marked as the chapter's own text, right in the sketch. **The three sketches stand here in dialog
 order** (recommendation first), which is not the order of the chat message — that is exactly
 what the letters are for.
 
@@ -719,10 +713,9 @@ what the letters are for.
 
 ```
 Level 1   30 Introduction/            ← the chapter
-             30 Introduction.md          its own text
-             Subchapters/                collector, not a level of its own
-Level 2         10 Motivation.md      ← a section, its own file
-                20 Problem Statement.md
+             30 Introduction.md          its own text (named like the folder)
+Level 2      10 Motivation.md         ← a section, its own file
+             20 Problem Statement.md
 ```
 
 *B — one file per chapter:*
@@ -739,11 +732,10 @@ Level 1   30 Introduction.md          ← the whole chapter
 ```
 Level 1   30 Introduction/
              30 Introduction.md
-             Subchapters/
-Level 2         10 Motivation/        ← grew on its own, so it gets a folder
-                   10 Motivation.md
-                   Subchapters/
-Level 3               10 Background.md
+Level 2      10 Motivation/           ← grew on its own, so it gets a folder
+                10 Motivation.md
+Level 3         10 Background.md
+             20 Problem Statement.md
 ```
 
 Labels and `description`, two lines each, in dialog order:
@@ -759,8 +751,8 @@ Labels and `description`, two lines each, in dialog order:
 
 - **Not "every section".** A section with no structure of its own may stay inside the chapter
   file — the nested template does exactly that with `80 Conclusion and Future Work.md` — and
-  R10 forbids folders in `Frontmatter` and `Backmatter` altogether, so sections there are
-  always inside their file. "Most" is the honest word.
+  the skill builds no folders in `Frontmatter` and `Backmatter`, so sections there are always
+  inside their file. "Most" is the honest word.
 - **Not "reorder by dragging".** Dragging belongs to the drag & drop variant of **question 11**
   — three questions later, and not the same letters as the ones above. Pick the other one there
   and the order comes from the number in the file name, so reordering is renaming. This option
@@ -805,14 +797,11 @@ question has to be reopened — see "Sectioning depth" below. Two levels leave r
 ### Building it by rule — `simple-thesis` and `academic-paper`
 
 No nested template exists for these. Copy the flat template **verbatim** as always, then
-transform it. Everything below follows [[VAULT_BAUWEISE]] R1–R10; nothing here is new
+transform it. Everything below follows [[VAULT_BAUWEISE]] R1–R8; nothing here is new
 mechanics, only their first application by the skill.
 
-**The collector folder is called `Subsections` / `Unterabschnitte` here, not
-`Subchapters` / `Unterkapitel`.** These documents have no chapters — `#` is already a
-`\section`, so its children are subsections. Using the chapter word would teach the user a
-structure their document does not have. (Name follows the **document** language, like every
-other folder name.)
+These documents have no chapters — `#` is already a `\section`, so the files inside a folder
+are subsections. When you talk about them, use that word, not "chapter" or "subchapter".
 
 **Which files become folders** — body files only:
 
@@ -832,23 +821,22 @@ inside (see "When an appendix outgrows one file" in `shared/headings.md`).
 **The transformation, per file** (R2, R3, R1 in that order):
 
 1. Create the folder with the file's exact name: `60 Introduction/`.
-2. Move the file into it, name unchanged → it becomes the **chapter file** and carries the
+2. Move the file into it, name unchanged → it becomes the **folder note** and carries the
    heading of that level (R3). Its single `#` stays a single `#` — the folder replaced the
    file, it did not add a level (R2).
-3. Create `Subsections/` **inside** that folder.
-4. Move each `##` block out of the chapter file into its own file in `Subsections/`, named
-   after the heading, and **turn the `##` into a single `#`** (R1). Anything above the first
-   `##` — the lead-in — stays in the chapter file.
-5. If the file has no `##` blocks (most of them do not in these templates), create two
+3. Move each `##` block out of the folder note into its own file **next to it, in the same
+   folder**, named after the heading, and **turn the `##` into a single `#`** (R1). Anything
+   above the first `##` — the lead-in — stays in the folder note. No extra folder in between.
+4. If the file has no `##` blocks (most of them do not in these templates), create two
    placeholder section files in the same style the template uses elsewhere, so the user sees
    the shape and can fill it.
 
 Number prefixes follow the ordering variant, decided in the last question: variant B numbers
 the new files `10 `, `20 `, `30 ` in steps of ten; variant A leaves them without prefixes.
 
-**Check before you finish:** every file starts with exactly one `#`, every folder holds a file
-of the same name, `Subsections/` holds none, and no folder sits inside another folder — two
-levels is the whole budget here (`#` = section, files in `Subsections/` = subsection).
+**Check before you finish:** every file starts with exactly one `#`, every new folder holds a
+file of the same name, and no folder sits inside another folder — two levels is the whole
+budget here (`#` in the folder note = section, the other files in the folder = subsection).
 
 **Folder depth is not document depth.** Files inside a folder may still use `##` and `###`
 for their own sub-structure; the level budget is the sum of both. Mention this so nobody
@@ -879,8 +867,8 @@ Not aesthetics. **A cross-reference to an unnumbered heading points at the wrong
 numbered heading's number. Measured, scrbook at its default: a `\vref` to a `\subsubsection`
 prints `section 1.1.1` — the subsection above it. No error, no warning.
 
-That is not exotic. In the default template a chapter is a folder, a file in `Subchapters`
-starts at `\section`, so a `###` written while drafting lands on `\subsubsection` — already
+That is not exotic. In the default template a chapter is a folder, a section file next to its
+folder note starts at `\section`, so a `###` written while drafting lands on `\subsubsection` — already
 past the line. In a flat template it takes one `#` more: `####` lands on `\paragraph`. Say
 this in plain words; it is the whole reason for the question.
 
@@ -1229,7 +1217,6 @@ ever sees them. The numbers below apply to **variant B**; in variant A drop them
 | Visible headings in the chapter files | Abstract → Zusammenfassung · Acknowledgements → Danksagung · List of Abbreviations → Abkürzungsverzeichnis · Introduction → Einleitung · Motivation → Motivation · Background / Context → Hintergrund und Kontext · Background and Related Work → Hintergrund und Forschungsstand · Problem Statement → Problemstellung · Research Questions → Forschungsfragen · Literature Review → Literaturübersicht · Methods / Methodology → Methodik · Results → Ergebnisse · Discussion → Diskussion · Conclusion → Fazit · Conclusion and Future Work → Fazit und Ausblick · Bibliography / References → Literaturverzeichnis · Appendix → Anhang · Survey Questionnaire → Fragebogen · Interview Transcripts → Interviewtranskripte · Declaration of Authorship → Selbstständigkeitserklärung |
 | Visible **placeholder texts** in the manuscript | translate to German — they are draft body text and will be printed |
 | ` ```remark ` blocks | follow the **chat language**, not this table. They are never printed; the author reads them. If the chat is English and the document German, leave them English. |
-| **Collector folders** | `Subchapters` → **`Unterkapitel`** (and `Subchapters 2` → `Unterkapitel 2`). Folder names follow the **chat language** (see "Which language governs what") — rename the folder AND its entry in the Flexplorer `data.json`. The folder carries no file of its own, so nothing else changes. |
 | Auto-generated titles (ToC, List of Figures, List of Tables) | **do not touch** — the latex blocks stay as they are; babel translates the printed titles itself |
 | File names | optional cosmetic rename (file names never create headings); keep the numbering scheme of the chosen variant |
 
@@ -1275,11 +1262,13 @@ After scaffolding:
 
 1. If `{projectFolder}/.obsidian/plugins/flexplorer/` already exists, leave it completely
    untouched (the user may run a newer version) — just note it in the report.
-2. Otherwise copy `main.js`, `manifest.json`, `styles.css` from `assets/flexplorer/`
-   (in this skill folder) to `{projectFolder}/.obsidian/plugins/flexplorer/`.
+2. Otherwise copy `main.js`, `manifest.json`, `styles.css` **and `LICENSE`** from
+   `assets/flexplorer/` (in this skill folder) to `{projectFolder}/.obsidian/plugins/flexplorer/`.
+   The licence is MIT, and MIT asks for its notice in every copy, so it travels along.
 3. Write the seed `data.json` next to them — see "Seed the Flexplorer order" below.
 4. Do **not** write anything else under `.obsidian` — no `community-plugins.json`, no
-   app or workspace settings. Enabling the plugin is the user's click, see below.
+   app or workspace settings. Enabling the plugin is the user's click, see below. (The one
+   other thing that goes there is Folder notes, see "Install the Folder notes plugin".)
 
 **If the user wants their project inside a vault they already use**, that is a legitimate
 wish — Flexplorer installed once for several projects, or a thesis living next to existing
@@ -1302,16 +1291,21 @@ Obsidian  ⚙ Settings (bottom left)
    └─ Community plugins
         ├─ [Turn on community plugins]     ← only on a new vault, with a security notice
         └─ Installed plugins
-             └─ Flexplorer            ( ●— )   ← switch on
+             ├─ Flexplorer            ( ●— )   ← switch on
+             └─ Folder notes          ( ●— )   ← switch on, if it was installed
 
-then: close Obsidian and open it again      ← without this the order stays hidden
+then: Ctrl+P (Mac: Cmd+P) → "Reload app without saving"   ← without this the order stays hidden
 ```
+
+The command is called "Anwendung neu laden ohne zu speichern" in a German Obsidian. Typing
+"reload" (or "neu laden") into the palette finds it. Closing Obsidian and opening it again works
+just as well; the reload is simply quicker (measured 25.09.2026, both plugins, first activation).
 
 Explain the security notice instead of glossing over it: community plugins are third-party
 code, Obsidian asks once whether they may run at all — that consent is deliberate and must
 never be pre-set through a config file.
 
-**The restart is part of the instruction, not an afterthought.** Switching the add-on on
+**The reload is part of the instruction, not an afterthought.** Switching the add-on on
 leaves the file tree exactly as it was — folders on top, everything alphabetical — because
 the tree was already built. Say this *before* the user looks, otherwise the unchanged sidebar
 reads as a broken setup (measured 16.08.2026: it did).
@@ -1320,8 +1314,9 @@ Only **then ask for confirmation**: does `00 Document Setup` sit at the top, wit
 in document order? If the user is unsure whether the plugin is running at all, a simpler
 check: right-click a file — the entries *Pin* and *Hide* only appear with Flexplorer active.
 
-**If the order is wrong,** ask first whether Obsidian was really restarted — that is the
-common cause, and rewriting the file fixes nothing. Only if it was: have the user close
+**If the order is wrong,** ask first whether the reload was really done — that is the
+common cause, and rewriting the file fixes nothing. If it was, have the user close Obsidian
+completely and open it again once. Only if the order is still wrong: have the user close
 Obsidian **completely** (a running plugin rewrites the file on the next save), write the
 `data.json` again, then reopen Obsidian.
 
@@ -1378,6 +1373,10 @@ Rules for building it:
 - A folder's `customOrder` lists the **names** of its direct children (files *and*
   subfolders), in the order they should appear — which is exactly the order you created
   them, i.e. the numeric prefixes ascending, with `README.md` and `refs.bib` at the end.
+- **In a chapter or section folder the folder note comes first**, even when its number would
+  sort it later: `"Manuscript/30 Introduction": ["30 Introduction.md", "10 Motivation.md",
+  "20 Problem Statement.md", "30 Research Questions.md"]`. Obsitex puts it first anyway; the
+  seed only makes the file list agree.
 - Include only folders where the order matters. Skip the project folders that hold just a
   README (`20 Research`, `30 Interviews`, …) — there is nothing to sort there.
 - With the manuscript-only opt-out, the manuscript files are the children of `"/"` and the
@@ -1387,6 +1386,56 @@ Rules for building it:
 - Names must match the files on disk exactly (including the German renames, if applied).
   A wrong name is not fatal — the plugin drops unknown entries and appends the real file —
   but it costs the intended order for that item.
+
+## Install the Folder notes plugin
+
+Obsitex uses the Obsidian plugin **Folder notes** by Lost Paul. It shows a folder and its
+folder note as **one** entry, with everything in the folder indented below it, which is
+exactly how the converter assigns levels (`shared/headings.md`). Its "Sync folder name"
+renames folder and folder note together and so guards the one silent trap of that rule. It is
+installed in **both** ordering variants.
+
+**Download it from its author. Never bundle it.** Folder notes is AGPL-3.0. Shipping its
+`main.js` from this repository would oblige us to keep its source available; downloading it
+from the author's own release page means we distribute nothing. So there is no
+`assets/folder-notes/`, and there must never be one.
+
+After scaffolding:
+
+1. If `{projectFolder}/.obsidian/plugins/folder-notes/` already exists, leave it completely
+   untouched and note it in the report.
+2. Otherwise download the three files of the pinned version **1.8.26** into that folder:
+
+   ```
+   https://github.com/LostPaul/obsidian-folder-notes/releases/download/1.8.26/main.js
+   https://github.com/LostPaul/obsidian-folder-notes/releases/download/1.8.26/manifest.json
+   https://github.com/LostPaul/obsidian-folder-notes/releases/download/1.8.26/styles.css
+   ```
+
+   Use `curl -fsSL -o <file> <url>`; curl ships with Windows 10 and later, macOS and Linux.
+   The `-f` matters: without it a missing file is saved as an error page instead of failing.
+3. **Check the SHA256 of all three** (`sha256sum`, on macOS `shasum -a 256`, in PowerShell
+   `Get-FileHash -Algorithm SHA256`):
+
+   ```
+   main.js        83d7b91819abac39626349c1b20aef2503a7cb4339334d52115650aec011a216
+   manifest.json  d68704cb787fb687a3d6261a77e93d39c9409ef1dab4e37bfc67a6f96b493536
+   styles.css     c736732880c7737a30f713d5496f36612a4f64cce96bab0315397ce14b975f6b
+   ```
+
+4. **If a download fails or a hash differs,** delete `.obsidian/plugins/folder-notes/`
+   completely (a half-installed plugin is worse than none) and say so in the report: the user
+   can install it later in Obsidian under Settings → Community plugins → Browse → "Folder
+   notes" by **Lost Paul** (similar names exist). The vault works without it; only the file
+   list looks less tidy. Do not retry in a loop, and do not fetch the files from anywhere else.
+5. Write nothing else. **No `data.json`:** the plugin's defaults are exactly what Obsitex needs
+   (name template `{{folder_name}}`, storage location "Inside the folder", "Sync folder name"
+   on). No `community-plugins.json` either; switching it on is the user's click (see "Wrap up").
+
+**The pin does not need to chase upstream.** The plugin id `folder-notes` is registered in
+Obsidian's community store, so Obsidian's plugin manager offers updates once the user has
+switched it on. Change the pinned version only for a reason, and change the three hashes in
+the same edit.
 
 ## The project `CLAUDE.md` — what the next session will not know
 
@@ -1456,18 +1505,20 @@ obsitex-created: 2026-09-03
 | `obsitex-template` | `professional-thesis`, `professional-thesis-nested`, `simple-thesis`, `academic-paper` |
 | `obsitex-ordering` | `A` (Flexplorer carries the order) or `B` (number prefixes carry it) |
 | `obsitex-scaffold` | `true` with the project folders, `false` with the opt-out |
-| `obsitex-levels` | the answer to question 10, **counted exactly as its sketches count**: `1` one file per chapter (B), `2` a folder per chapter (A), `3` three levels (C). A collector folder is **never** a level |
+| `obsitex-levels` | the answer to question 10, **counted exactly as its sketches count**: `1` one file per chapter (B), `2` a folder per chapter (A), `3` three levels (C). A storage folder (`Frontmatter`, `Backmatter`) is **never** a level |
 
 **`obsitex-levels` uses the scale of question 10 and no other.** The user chose a number of
-*levels* in a dialog that labels them down the left edge, and marks the collector folder as
-"not a level of its own". Counting folders on disk gives a different number for the same
-answer (option A has two folders on the path, chapter and collector, but is two *levels* only
-by accident; option B has no folder and is level 1). Two scales for one key make the check
-below fire on a vault that is exactly as agreed. **How to measure it on disk:** take the
-deepest Markdown file, count the folders between the manuscript and that file, leave out every
-collector folder (`Subchapters`, `Unterkapitel`, or whatever name this run gave them) and
-`Frontmatter`/`Backmatter`, then add one. `Einleitung/Unterkapitel/Motivation.md` → 2 ·
-`Einleitung.md` → 1 · `Einleitung/Unterkapitel/Motivation/Unterkapitel/Hintergrund.md` → 3.
+*levels* in a dialog that labels them down the left edge. Counting folders on disk gives a
+different number for the same answer (option A has one folder on the path but two *levels*;
+option B has no folder and is level 1). Two scales for one key make the check below fire on a
+vault that is exactly as agreed. **How to measure it on disk:** take the deepest Markdown file,
+count the folders above it that have a folder note (a file with the folder's own name inside),
+then add one. A folder note does not count its own folder. Storage folders (`Frontmatter`,
+`Backmatter`, and the `Unterkapitel`-style collector folders of vaults built before v1.46.0)
+have no folder note, so they never count. That is exactly how Obsitex itself finds the level.
+`Einleitung.md` → 1 · `Einleitung/Einleitung.md` → 1 · `Einleitung/Motivation.md` → 2 ·
+`Einleitung/Motivation/Hintergrund.md` → 3 · in an older vault
+`Einleitung/Unterkapitel/Motivation.md` → 2.
 | `obsitex-chat-language` | the language the user works in, which is also the language of the folder names |
 | `obsitex-created` | the date of this run |
 
@@ -1489,8 +1540,9 @@ teaches:
 6. **The ranking, verbatim in meaning:** if this file and the disk disagree, the disk wins.
    This file says what was agreed once, not what is true now.
 7. **The check, with its trigger:** *before you create a file or a folder inside the
-   manuscript, count its levels on disk (deepest file, folders in between, collector folders
-   and `Frontmatter`/`Backmatter` left out, plus one). If that differs from
+   manuscript, count its levels on disk (deepest file, then the folders above it that hold a
+   file with their own name, plus one; a file with its folder's name does not count its own
+   folder). If that differs from
    `obsitex-levels`, ask before writing, and update this file with the answer.* Write the
    counting rule into the file in these plain words, because the next session reads this
    file, not the skill.
@@ -1587,10 +1639,13 @@ alone". The user cannot check what they cannot see.
   "the level of the folder I am in". Where the folder limit stops the splitting, the file at
   that level takes its whole substructure inside itself as `##`, `###` — never as sibling
   files. This holds for every template and for anything the skill generates later.
-- **Never put a folder inside `Frontmatter` or `Backmatter`** (R10). They already consume the
-  one free folder level, so anything foldered inside them silently drops a level. Files only —
-  however many. See "How sections are placed" for the two ways out if an appendix outgrows one
-  file.
+- **Every chapter or section folder gets its folder note**, the file with the folder's exact
+  name. Without it the folder adds no level, silently. Rename folder and folder note together.
+  **Never give a file inside `Frontmatter`, `Backmatter` or any other storage folder that
+  folder's name** — it would turn the storage folder into a level and push everything else in
+  it one level down.
+- **Never create a collector folder** (`Subchapters`, `Unterkapitel`, `Subsections`) between a
+  chapter and its sections. Sections are files directly in the chapter folder.
 - **A heading needs no blank line before it** (since 2026-08-04). A `#` line ends the running
   paragraph on its own, exactly as in Obsidian and CommonMark. The one exception: a `#` line
   directly under a **list item** is still swallowed by the list — put a blank line there.
@@ -1665,16 +1720,29 @@ Projektordner                   ← Obsidian opens this one (the vault)
      Sicherheit ... gefährden"), click "Turn on community plugins" ("Community-
      Erweiterungen aktivieren"). This consent screen is intentional — never try to
      pre-set it via a config file.
-  3. Under "Installed plugins", find "Flexplorer" in the list and toggle it on.
-  4. **Close Obsidian and open it again.** Switching the add-on on is not enough — the file
-     tree has already been built by then, and the prepared order only takes effect on the
-     next start.
+  3. Under "Installed plugins", find "Flexplorer" in the list and toggle it on, and
+     "Folder notes" as well if it was installed.
+  4. **Reload Obsidian once:** Ctrl+P (Mac: Cmd+P), type "reload", choose "Reload app
+     without saving" ("Anwendung neu laden ohne zu speichern"). Switching the add-on on is not
+     enough — the file tree has already been built by then, and the prepared order only takes
+     effect after a reload. (Closing and reopening Obsidian does the same.)
   **Say what the user will see, or they will think the setup failed** (measured 16.08.2026 —
   it did read as a defect): until step 4, the explorer keeps showing folders above files in
   alphabetical order, exactly as before. The order itself is ready and correct from the
-  moment the files are written; the restart is what makes it visible. Afterwards it can be
+  moment the files are written; the reload is what makes it visible. Afterwards it can be
   changed by drag & drop. Updates come through Obsidian's plugin manager; deleting
   `.obsidian/plugins/flexplorer/` removes the plugin entirely.
+- **Folder notes, whenever it was installed.** In variant B give steps 1 to 4 above for
+  "Folder notes" alone. Until the reload in step 4 each folder note still shows as a line of
+  its own; that is expected. Then say three things, briefly:
+  - leave its settings as they are;
+  - never press "Rename existing folder notes", "Switch" or "Create folder notes for all
+    folders";
+  - never Ctrl-click `Frontmatter`, `Backmatter` or `attachments`: that click creates a folder
+    note there, and inside `Frontmatter` it would push every file one level down.
+
+  If the download failed, say that instead, with the way to install it by hand (see "Install
+  the Folder notes plugin", step 4).
 - **Variant A only — where the order lives:** the seed file written next to the plugin now
   holds the order of the whole work. It is worth keeping: do not delete it, and include it
   in backups or version control. Should it ever be lost, the files fall back to

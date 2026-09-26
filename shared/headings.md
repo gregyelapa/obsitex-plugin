@@ -2,18 +2,24 @@
 
 How the chapter structure of the document comes about.
 
-> The rules that must hold **without** looking anything up — one `#` per file, no folders in
-> `Frontmatter`/`Backmatter` — are in `obsitex-conventions.md`. This file gives the details
-> and the special cases.
+> The rules that must hold **without** looking anything up — one `#` per file, a folder and
+> its folder note are renamed together — are in `obsitex-conventions.md`. This file gives
+> the details and the special cases.
 
 ## The two sources of a heading
 
 **Only a `#` line creates the heading _text_.** File names and folder names never do.
 
-**The folder decides the _level_.** A file directly in the manuscript starts at the top; a
-file inside a folder starts one step lower.
+**The folder note decides the _level_.** The folder note is the file inside a folder that
+has exactly the folder's name: `Introduction/Introduction.md`. It carries the folder's
+heading, and everything else in that folder sits **one level below** it. A folder without a
+folder note (`Subchapters`, `Frontmatter`, `Backmatter`) adds no level: its files sit as if
+they lay in the folder above.
 
-| Markdown | LaTeX (article DDS, file not in a folder) | Level |
+So the level of a file is **the number of folders with a folder note above it**. A heading
+file does not count its own folder. A file directly in the manuscript starts at the top.
+
+| Markdown | LaTeX (article DDS, file at the top) | Level |
 |---|---|---|
 | `# Title` | `\section` | 1 |
 | `## Title` | `\subsection` | 2 |
@@ -22,32 +28,68 @@ file inside a folder starts one step lower.
 With the scrbook DDS (`documentLevelIndex: 0`, professional-thesis) the whole table shifts up
 one: `#` → `\chapter`, `##` → `\section`.
 
-Full formula: `documentLevel = structureLevel + (number of #) − 1 + latex-heading-offset`.
+Full formula: `documentLevel = structureLevel + (number of #) − 1 + latex-heading-offset`,
+where `structureLevel` is the count of folders with a folder note described above.
 
-## A folder REPLACES a file, it does not sit on top of one
+## The folder note: what makes a folder a level
 
-Where `Introduction.md` was a chapter, `Introduction/` **is** that chapter — the level is
-unchanged. Only a folder **inside** a folder goes one step deeper.
+Where `Introduction.md` was a chapter, `Introduction/Introduction.md` **is** that chapter — the
+folder note keeps the level the single file had. Everything else in the folder belongs
+**under** it:
 
 ```
 Introduction/
-    Introduction.md            → # Introduction   (chapter)
-    Subchapters/
-        Background.md          → # Background     (section)
-        Research Question.md   → # …              (section)
+    Introduction.md            → # Introduction   (chapter, the folder note)
+    Background.md              → # Background     (section)
+    Research Question.md       → # …              (section)
 ```
 
 Every file starts with a **single** `#`, sections included. Their level comes from where they
-sit, not from counting hashes. That is what the `Subchapters` collector folder is for: it
-creates the section level **once**, for all sections together. It carries no file of its own
-and appears nowhere in the PDF.
+sit, not from counting hashes.
 
-A section that gets subsections of its own keeps its **own** folder with its own
-`Subchapters` inside — so it takes its children along when moved.
+**What counts as a folder note:** the same name as its folder, case ignored, number prefix
+included. `30 Introduction/30 Introduction.md` is one, `30 Introduction/Introduction.md` is
+not. Obsitex always puts it first in its folder, whatever the order says. No other name
+counts: an `index.md` or `_index.md` is an ordinary file like any other in the folder.
 
-**Both styles produce identical LaTeX.** `## Background` inside the chapter file and
-`# Background` in a sibling file are the same thing. Moving a finished file changes its level
-with no text edit; *cutting* a section out of a file costs one `#`.
+**The word comes from the Obsidian plugin Folder notes**, and with that plugin's default
+settings (name template `{{folder_name}}`, storage location "Inside the folder") its folder
+note is exactly the file Obsitex counts. Where the two differ, Obsitex does not count it: a
+folder note stored **next to** the folder ("In the parent folder"), or one saved as `.canvas`
+or `.base` instead of `.md`. So if the user has Folder notes, never suggest changing its name
+template or its storage location. The plugin's "Sync folder name" setting renames folder and
+folder note together, which is exactly what the first trap below needs. That is tested for a
+rename done **inside Obsidian** only. When **you** rename a folder on disk, do not rely on it:
+rename the folder note in the same step.
+
+**A folder without folder note is only storage.** `Frontmatter` and `Backmatter` are the usual
+ones; a user may add others just to keep files tidy. Vaults set up by `/obsitex:obsitex-init`
+before v1.46.0 also keep their sections in a collector folder called `Subchapters`
+(`Unterkapitel`, `Subsections`, … depending on the language); newer ones put the sections
+directly into the chapter folder. Either way such a folder adds no level and never appears in
+the PDF: `Introduction/Subchapters/Background.md` and `Introduction/Background.md` are both
+sections. Follow what the vault does: where the sibling sections sit in `Subchapters`, a new
+one goes there too. Never create a collector folder in a vault that has none, and never remove
+one unasked.
+
+A section that gets subsections of its own becomes a folder with its own folder note — so it
+takes its children along when moved.
+
+**Both styles produce identical LaTeX.** `## Background` inside the folder note and
+`# Background` in a file next to it (or in its `Subchapters`) are the same thing. Moving a
+finished file changes its level with no text edit; *cutting* a section out of a file costs
+one `#`.
+
+**Two traps come with this rule, both silent:**
+
+- **A folder renamed without its folder note stops counting.** `Theory/` holding
+  `Foundations.md` has no folder note any more, so everything else inside moves up one level
+  and `Foundations.md` loses its place at the front. Always rename folder and folder note
+  together.
+- **A file named like a storage folder turns it into a level.** `Frontmatter/Frontmatter.md`
+  would push the cover page, the abstract and everything else in `Frontmatter` one level
+  down. Never give a file inside `Frontmatter`, `Backmatter` or a collector folder that
+  folder's name.
 
 ## Depth
 
@@ -153,8 +195,8 @@ Raise `tocdepth` if such a heading has to appear.
 
 ### Folder depth is not document depth
 
-Inside a file you may still use `##` and `###`, and folder depth plus hash count add up. Two
-folder levels plus a `###` inside the file already reach `\subsubsection`.
+Inside a file you may still use `##` and `###`, and folder depth plus hash count add up. A
+section file inside a chapter folder plus a `###` inside it already reaches `\subsubsection`.
 
 ## Unnumbered headings
 
@@ -181,17 +223,20 @@ attributes.
 
 ## When an appendix outgrows one file
 
-`Frontmatter` and `Backmatter` take **files only** — a folder inside them lands one level too
-deep, silently. Breadth is free, depth is not: twenty appendices side by side are fine, one
-*split* appendix is not.
+`Frontmatter` and `Backmatter` have no folder note, so they add no level. An appendix that
+outgrows one file becomes a folder with its folder note, right where it is in `Backmatter`:
 
-Two ways out:
+```
+Backmatter/
+    Appendix.md                      ```latex \appendix
+    Interviews/
+        Interviews.md                → # Interviews     (appendix chapter)
+        Interview A.md               → # Interview A    (section)
+```
 
-- **Move it out of `Backmatter`** and put its folder directly in the manuscript, after the
-  file carrying `\appendix`. Everything after that switch becomes an appendix, whatever folder
-  it sits in — only the order has to be right.
-- **Set `latex-heading-offset: -1`** in **every** file of that appendix. Forget it in one file
-  added later and that file sits silently at the wrong level.
+The folder note stays a chapter, its parts become sections. `\appendix` is a switch:
+everything after it becomes an appendix, whatever folder it sits in — only the order has to be
+right.
 
 For an appendix nobody touches again — interview transcripts, raw data — the simplest answer
 is usually to leave it as **one** file and structure it with `##` inside.
@@ -205,5 +250,6 @@ is usually to leave it as **one** file and structure it with `##` inside.
 - **Renaming a heading breaks every wikilink pointing at it**, silently.
 - **Never write a file that starts with `##`.** It works, but the file can no longer be turned
   into a folder later without editing its text.
-- Warnings: `92700` a folder has headings but none on its own level → the folder level stays
-  untitled · `92710` folder nesting plus `#` reach past `\subparagraph` → clamped.
+- Warnings: `92700` a folder's folder note has no `#` of its own while the folder holds
+  headings → the folder level stays untitled · `92710` folder nesting plus `#` reach past
+  `\subparagraph` → clamped.

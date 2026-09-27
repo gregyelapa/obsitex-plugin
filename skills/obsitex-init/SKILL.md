@@ -47,7 +47,7 @@ and German notes; that combination is common, and the reverse assignment gets it
 In the usual case both answers are the same language and nothing differs. The rule only bites
 when they diverge — which is exactly where it matters.
 
-**Say what you did.** One sentence in the final report, so the user can overrule without
+**Say what you did.** One sentence in the final report (it is listed under "Wrap up"), so the user can overrule without
 having been asked a ninth question: *"I set the folders and notes up in German, because that
 is the language we are speaking — tell me if you would rather have them in English."*
 
@@ -88,7 +88,7 @@ Five things to adapt, then send it as one message:
   `Manuscript` / `Manuskript`, …), exactly like the folders you will create later.
 - **Re-align the dotted lines** after translating. They are aligned with fixed-width
   characters, so a longer word pushes them out of line.
-- **Do not number the folders in the sketch.** Variant A or B is the last question of the
+- **Do not number the folders in the sketch.** Variant A or B is asked near the end of the
   interview, so the answer is not known yet; "roughly like this" covers it.
 - **Project scaffold opt-out:** if the user has already made clear they want a single folder,
   drop the sketch and the two bullet points under it. There is only one folder then, and
@@ -174,12 +174,12 @@ single AskUserQuestion dialog:
 
 From here on, communicate in the chat language — including the remaining questions.
 
-**Blocks 2 and 3 — these nine questions** (AskUserQuestion works well), then use defaults
-and tell the user everything can be changed later. All nine apply to every template. Keep the
+**Blocks 2 and 3 — these ten questions** (AskUserQuestion works well), then use defaults
+and tell the user everything can be changed later. All ten apply to every template. Keep the
 blocks in this order: first what the finished document looks like, then how Obsitex lays the
 files out and keeps them in order.
 
-**The numbers are the order, not a list.** Ask 3, 4, 5, 6, 7, 8, then 9, 10, 11. **Question 8,
+**The numbers are the order, not a list.** Ask 3, 4, 5, 6, 7, 8, then 9, 10, 11, 12. **Question 8,
 the cover data, is the one that drifts:** it is the only free-text question, it needs no
 decision, and after it the interview is over, so it reads like a natural closing question. It is
 not one. It says what the document *is*, which is block 2, and block 3's whole promise is that
@@ -189,8 +189,8 @@ question 11, as "almost done, one more thing".
 ### One question per dialog
 
 **Every question from 3 on opens its own AskUserQuestion. The language pair is the only
-exception.** So: one dialog for questions 1 and 2 together, then one dialog each. Ten in all,
-nine when the template question falls away.
+exception.** So: one dialog for questions 1 and 2 together, then one dialog each. Eleven in all,
+ten when the template question falls away.
 
 AskUserQuestion can hold four questions at once, and bundling would save clicks. Do not use it.
 **The reason is the chat message.** Every question here is prepared by a message written for it
@@ -221,8 +221,8 @@ simply never in question again.
 ### Option letters — the anchor between the message and the dialog
 
 **Every question that carries a mockup labels its options `A`, `B`, `C`, in the chat message
-and in the dialog alike.** The four are: chapters or sections, the project structure, the
-splitting, variant A or B.
+and in the dialog alike.** The five are: chapters or sections, the project structure, the
+splitting, variant A or B, Folder notes yes or no.
 
 The letter exists because the two lists need not be in the same order. The chat message is free
 to run from coarse to fine, the dialog has to put the recommended option first (the topmost
@@ -240,7 +240,7 @@ Three rules, or it makes things worse instead of better:
 - **The same letter for the same thing in both places**, whatever the order. `A` in the sketch
   and `A` in the dialog, even when `A` sits second in the message and first in the dialog.
 
-The letters are per question. Question 11 uses `A` and `B` too, for something else entirely —
+The letters are per question. Questions 11 and 12 use `A` and `B` too, for something else entirely —
 that is fine, they live in different dialogs, and the rule above keeps every mention readable
 on its own.
 
@@ -291,8 +291,11 @@ split up, then the order of the single files.
     same way for all of them: every template ships flat and is transformed by rule after
     copying. **A folder sketch on every option.** Wording, the
     sketches, the depth note and the rules: see "Splitting into folders" below.
-11. **How the file order is controlled — variant A or B.** Ask this **last**, but before
-    scaffolding: it decides the file names. See "Ordering: variant A or B" below.
+11. **How the file order is controlled — variant A or B.** Ask this after question 10, and
+    before scaffolding: it decides the file names. See "Ordering: variant A or B" below.
+12. **Folder notes — install it or not?** Ask this **last**. It is the user's choice, because
+    it is third-party code in their vault, but **recommend it clearly**. It is asked in both
+    ordering variants. See "Folder notes: ask, and recommend it clearly" below.
 
 ## Tips — the hint element
 
@@ -326,7 +329,7 @@ Rules, so the element keeps working:
 Four questions carry a tip today: chapters or sections, numbering depth, citation style and the
 cover data. Each one is written out at its own question.
 
-## Ordering: variant A or B (last question)
+## Ordering: variant A or B (question 11)
 
 Obsidian shows the files of the vault in one list, and Obsitex converts them in exactly
 that order. There are two ways to control it, and they lead to different file names — so
@@ -398,7 +401,7 @@ rest.
 |---|---|---|
 | File names | no number prefixes — **except `00 Document Setup.md`**, which keeps its `00 ` | number prefixes in steps of ten, as the templates carry them |
 | Flexplorer | plugin files + seed `data.json`, then guided activation | not installed at all, no `data.json`, no existing-vault question |
-| Folder notes | downloaded from its author, then guided activation | the same: it does not depend on the ordering |
+| Folder notes | on a yes to question 12: downloaded from its author, then guided activation | the same: it does not depend on the ordering |
 | Reordering | drag & drop in Obsidian | rename the file (see the renaming rules in the report) |
 
 In **variant A**, strip the leading `^\d+\s+` from every file and folder name while
@@ -414,6 +417,61 @@ recognises the title file *by* that match, so both must be stripped together
 (`Introduction/Introduction.md`). Strip only one and the file turns into an ordinary
 section — silently, with the chapter title landing on the wrong level. The trap is easy to
 hit, because the skill creates the folder and its file itself rather than copying them.
+
+## Folder notes: ask, and recommend it clearly (question 12)
+
+The Obsidian plugin **Folder notes** shows a folder and its folder note as **one** entry. What
+it does and how it is installed: "Install the Folder notes plugin" below. This section is only
+about asking.
+
+**Why it is asked at all.** It is third-party code in the user's vault, and Obsidian itself asks
+before running such code. Flexplorer is a choice (question 11), so Folder notes is one too.
+Without it nothing breaks and the PDF is the same. Only the file list shows every chapter
+folder with a second entry of the same name inside it.
+
+**Why it is recommended clearly.** Without it, the file list contradicts the structure the user
+has just chosen: the chapter looks like a folder *and* a file. That is the one view of the
+level rule the user sees every day.
+
+**Recommend it clearly, as strongly as variant A of question 11:** in the option label
+("clearly recommended", in German "klar empfohlen") **and** in a sentence of the chat message
+("I clearly recommend it"). The recommended option comes first. Still no automatic default: the
+user chooses.
+
+**The chat message** says three things, short, in plain words:
+
+1. What it is: a small add-on that shows a folder and the file with its name as one entry. A
+   click on the folder opens that file.
+2. The sketch below, with the real names of this project (the first chapter and two of its
+   sections, as the scaffold will name them).
+3. The recommendation, and that it can also be added later.
+
+```
+Without Folder notes:          With Folder notes:
+
+Introduction/                  Introduction     ← a click opens the chapter text
+   Introduction.md                Motivation
+   Motivation.md                  Problem Statement
+   Problem Statement.md
+```
+
+**If the answer to question 10 was one file per chapter,** the scaffold has no chapter folders
+yet. Keep the same sketch and say it applies as soon as a chapter gets its own folder.
+
+**Then AskUserQuestion with two options, letters in front, the sketch as `preview` on both**
+(the "without" half on B, the "with" half on A):
+
+- **`A: Yes, set it up (clearly recommended)`**: one entry per chapter, a click opens its text.
+- **`B: No`**: nothing is installed. Every chapter folder shows its folder note as an extra
+  entry. It can be added later.
+
+**What follows from the answer**
+
+| | A: yes | B: no |
+|---|---|---|
+| Download | as in "Install the Folder notes plugin" | nothing, no `.obsidian/plugins/folder-notes/` |
+| Activation steps in the report | Flexplorer (variant A) and Folder notes | Flexplorer only (variant A), none in variant B |
+| Folder notes points in "Wrap up" | all of them | none, only one sentence: it can be added later in Obsidian under Settings → Community plugins → Browse → "Folder notes" by **Lost Paul**, or by asking the assistant |
 
 ## Chapters or sections (ask before the template)
 
@@ -855,7 +913,10 @@ inside (see "When an appendix outgrows one file" in `shared/headings.md`).
    they explain the `##`; in the folder shape they must explain the folder. Write them in the
    chat language, like every remark.
    - In the folder note `Introduction`, keep the first sentence of the remark ("Introduce the
-     topic: …") and replace the rest with:
+     topic: …"), **translated into the chat language like the rest**, and replace the rest
+     with the text below, also in the chat language. Keeping the first sentence means keeping
+     its content, not its English: kept literally, it leaves a remark half in one language
+     and half in the other.
 
      ```
      This file is named like its folder, so it is the chapter's folder note: it carries
@@ -894,9 +955,10 @@ inside (see "When an appendix outgrows one file" in `shared/headings.md`).
      keeps the chapter level.
      ```
 
-   All other remarks stay as they are.
+   All other remarks keep their content. Their language still follows the chat language
+   (see "Scaffold", step 2).
 
-Number prefixes follow the ordering variant, decided in the last question: variant B numbers
+Number prefixes follow the ordering variant, decided in question 11: variant B numbers
 the new files `10 `, `20 `, `30 ` in steps of ten; variant A leaves them without prefixes.
 
 **Check before you finish:** every file starts with exactly one `#`, every new folder holds a
@@ -1250,6 +1312,16 @@ ever sees them. The numbers below apply to **variant B**; in variant A drop them
    - **Cover data** (professional-thesis / simple-thesis): replace the placeholders inside
      the `latex` block of the Cover Page file.
    - **Document language German:** apply the table below.
+   - **Chat language German, whatever the document language:** translate **every**
+     ` ```remark ` block of the copied template into German, completely: the one in
+     `00 Document Setup.md`, the cover page, the lists, the bibliography, the appendix
+     examples, the declaration, all of them. The four structure files take the agreed wording
+     verbatim (see "The remarks of the four structure files in a German chat"). Only the
+     remarks change. Headings, placeholder texts and the ` ```latex ` / ` ```latex-preamble `
+     blocks follow the document language and stay as they are. **The trap is a German chat
+     with an English document:** the table below is then never applied, and nothing else
+     sends you through the remarks. Measured 27.09.2026: such a run left eleven remarks
+     English and the five chapter remarks half English, half German.
    - **Sectioning depth (every template):** write the depth block into
      `00 Document Setup.md` according to the two answers — see "Sectioning depth" below for
      the two blocks (with and without chapters). One is written in **every** case; at the
@@ -1555,7 +1627,8 @@ Obsitex uses the Obsidian plugin **Folder notes** by Lost Paul. It shows a folde
 folder note as **one** entry, with everything in the folder indented below it, which is
 exactly how the converter assigns levels (`shared/headings.md`). Its "Sync folder name"
 renames folder and folder note together and so guards the one silent trap of that rule. It is
-installed in **both** ordering variants.
+installed when the user answers **yes to question 12**, in both ordering variants. On a no,
+skip this whole section (see "Folder notes: ask, and recommend it clearly").
 
 **Download it from its author. Never bundle it.** Folder notes is AGPL-3.0. Shipping its
 `main.js` from this repository would oblige us to keep its source available; downloading it
@@ -1614,11 +1687,38 @@ things follow, and the second is the one that bites.
    tell "deliberately flat" from "nobody has tidied up yet". It helpfully creates a subfolder
    and breaks a decision it never saw.
 
-So offer to write one. **Offer, never write it silently** — a permanent control file in
-someone's own vault is an intervention, and it is asked for in one sentence at the end of
-the wrap-up: *"Shall I put a small `CLAUDE.md` into the project folder? It tells a later
-session what this project is, so it does not have to guess."* If they decline, say once that
-the decisions then live only in the file tree, and drop it.
+So offer to write one, and **recommend it clearly**. **Offer, never write it silently** — a
+permanent control file in someone's own vault is an intervention. It is asked for at the very
+end of the wrap-up, with **both** reasons, because each one is a benefit the user can feel.
+"So it does not have to guess" was too weak: it named neither reason, and the first one is the
+bigger one. The wording, translated into the chat language:
+
+> Last, I clearly recommend one more file: `CLAUDE.md` in the project folder. Claude reads it
+> first whenever a new chat starts in this folder. It does two things:
+> - **Every new chat knows the key facts of your work:** its structure, its levels, its order,
+>   and what we decided today.
+> - **Every new chat knows that I am here as your Obsitex assistant.** So you get the right
+>   formatting even when you do not ask for it explicitly.
+>
+> Shall I create it?
+
+The German original (agreed 27.09.2026), for a German chat:
+
+> Zum Schluss empfehle ich dir klar die Datei `CLAUDE.md` im Projektordner. Claude liest sie
+> bei jedem neuen Chat in diesem Ordner zuerst. Sie sorgt für zwei Dinge:
+> - **Jeder neue Chat kennt die Eckwerte deiner Arbeit:** Aufbau, Ebenen, Reihenfolge und was
+>   wir heute entschieden haben.
+> - **Jeder neue Chat weiss, dass es mich als Obsitex-Assistenten gibt.** So bekommst du die
+>   richtige Formatierung, auch wenn du nicht ausdrücklich danach fragst.
+>
+> Soll ich sie anlegen?
+
+Do not add the document settings (language, numbering depth, citation style) to the first
+point. They stay in `00 Document Setup.md`, and the file only points there (see "What goes in").
+The word "skill" stays out: the user does not know it.
+
+If they decline, say once that the decisions then live only in the file tree, and that a new
+chat may write without the formatting rules unless they ask for formatting. Then drop it.
 
 ### What goes in, and what must not
 
@@ -1783,7 +1883,7 @@ alone". The user cannot check what they cannot see.
   between the two markers. It may hold months of the user's own instructions, and `Write`
   replaces the whole file without a trace. Procedure: "Never overwrite an existing
   `CLAUDE.md`" above.
-- **Ask the eleven questions in their numbered order.** No question is held back for the end
+- **Ask the twelve questions in their numbered order.** No question is held back for the end
   because it feels like a good closing question. The cover data (8) is the one this happens to,
   and it happened: asked after question 11, as "almost done, one more thing". It belongs in
   block 2, before a single file question.
@@ -1875,6 +1975,11 @@ Projektordner                   ← Obsidian opens this one (the vault)
   setting either way. In Obsitex still pick the manuscript, not the project folder; the app
   finds the order by itself. (Variant B: same picture, only the order sits in the file
   names instead of that file.)
+- **Chat language and document language differ:** say the one sentence from "Which language
+  governs what": the folders and notes are in the chat language, because that is the language
+  you are speaking; the user says so if they would rather have them in the document language.
+  Leave it out when both languages are the same. (A run on 27.09.2026 with a German chat and
+  an English document left it out and nobody learned why the folders were German.)
 - **State it as a fact, in one sentence:** the project folder is now their Obsidian vault.
   No options, no "unless" — it is simply what was built. Do **not** raise the possibility of
   moving the project into some other vault; that concerns a minority and cannot be explained
@@ -1916,7 +2021,9 @@ Projektordner                   ← Obsidian opens this one (the vault)
     down.
 
   If the download failed, say that instead, with the way to install it by hand (see "Install
-  the Folder notes plugin", step 4).
+  the Folder notes plugin", step 4). **If the user said no to question 12,** leave all of this
+  out and say one sentence only: it can be added later, in Obsidian under Settings →
+  Community plugins → Browse → "Folder notes" by Lost Paul, or by asking the assistant.
 - **Variant A only — where the order lives:** the seed file written next to the plugin now
   holds the order of the whole work. It is worth keeping: do not delete it, and include it
   in backups or version control. Should it ever be lost, the files fall back to
@@ -1935,7 +2042,6 @@ Projektordner                   ← Obsidian opens this one (the vault)
   suspiciously empty file with an old name turns up, that is what happened — delete it and
   fix the link.
 - A file is excluded from the document with `skip: true` in its frontmatter.
-- **Last, and as a question:** offer the project `CLAUDE.md` (see the section above). One
-  sentence, at the very end, after everything else has been reported. Say what it is for in
-  plain words: a later conversation starts without any memory of this interview, and this
-  file tells it what the project is. Write it only if they say yes.
+- **Last, and as a question:** offer the project `CLAUDE.md`, clearly recommended, at the very
+  end, after everything else has been reported. Use the wording in "The project `CLAUDE.md`"
+  above: both reasons, as two points. Write it only if they say yes.

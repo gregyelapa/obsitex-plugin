@@ -38,6 +38,7 @@ Research, Interviews, Data, Exports) or say "the other folders in the project fo
 | Folder names on disk (project folders, the manuscript) | **chat** |
 | The `README.md` in each project folder | **chat** |
 | ` ```remark ` blocks inside manuscript files | **chat** |
+| Names **inside** the manuscript (files, chapter folders, the three area folders) | **not** the chat language: the template's names. The three area folders stay English always; other files may be renamed only in a German document (see "German adaptation") |
 
 **Why folder names go with the chat language:** no folder name ever reaches the PDF — only
 `#` lines create headings. The person who reads `20 Research` in the sidebar every day is the
@@ -262,7 +263,14 @@ on its own.
 5. **Numbering depth** — how deep should headings be numbered? Default and recommendation:
    up to `1.1.1` in every class. **The option list differs with and without chapters** —
    see "Sectioning depth" below for both tables, the reasoning, and the cross-reference
-   limitation that has to be named with the recommendation.
+   limitation that has to be named with the recommendation. **Before the dialog, a short chat
+   message:** the recommendation with its reason (beyond three numbered levels, only the length
+   of the number tells the levels apart) and the limitation (at `1.1.1`, links work down to
+   `1.1.1` and no deeper). Measured 27.09.2026: one run asked the question with no message at
+   all. Send this tip with the question (see "Tips" below): *"💡 **Tip:** Numbers that run
+   deep quickly make a text look technical. If it bothers you once you see the PDF, tell me and
+   I will change the depth."* Two runs out of two left this tip out while it stood only in
+   "Sectioning depth".
 6. **Contents list depth** — same depth as the numbering, or one level shallower? Never
    deeper. Asked **after** answer 5 is in, because the option labels and the recommendation are
    both written out of it; see "Sectioning depth" below.
@@ -318,6 +326,12 @@ Rules, so the element keeps working:
   very problem this element solves.
 - **Two or three lines**, never more.
 - It sits **directly under the message it belongs to**, never collected at the end.
+- **The tip comes before the dialog, never after the answer.** It goes into the chat message
+  that prepares the question, and the dialog opens after it. A tip exists to reassure while
+  the user decides. Sent after the answer, it reads like a comment on their choice, and "No
+  final title yet? Leave the placeholders standing" after the user has just chosen the
+  placeholders is simply redundant. Measured 27.09.2026: one run sent the tips for the
+  citation style and the cover data only after the answer.
 - **Never inside `description` or `preview` of an option.** A tip must not tilt a choice. It is
   the reassurance that the choice is not final.
 - **A tip that holds for only one of the options says so in its own bold label**, before the
@@ -637,8 +651,10 @@ from where a file sits, so **moving a file never means editing its headings**.
 
 ### The rule: a file never starts with more than one `#`
 
-**This is a hard rule for everything the skill writes.** One `#` always means „the level of
-the folder I am in". Every file therefore reads the same way regardless of how deep it sits,
+**This is a hard rule for everything the skill writes.** A file's level comes from where it
+lies: a folder note's `#` is its folder's own level, every other file's `#` sits one level
+below the folder note of its folder. Every file therefore reads the same way regardless of how
+deep it sits,
 can be moved anywhere without touching its headings, and can be turned into a folder later
 without an edit.
 
@@ -750,10 +766,10 @@ question — the answer decides how the user works, not how the document looks.
 > ```
 > A  A folder per chapter             B  One file per chapter
 >
-> 30 Introduction/                    30 Introduction.md
->    30 Introduction.md                   # Introduction
->    10 Motivation.md                     ## Motivation
->    20 Problem Statement.md              ## Problem Statement
+> Introduction/                       Introduction.md
+>    Introduction.md                      # Introduction
+>    Motivation.md                        ## Motivation
+>    Problem Statement.md                 ## Problem Statement
 >
 > 3 files. Reorder without cutting.   1 file. Reorder by cutting and pasting.
 >
@@ -771,6 +787,13 @@ question — the answer decides how the user works, not how the document looks.
 > So you are choosing how you work, not how the document looks. And if a section grows big
 > later, it gets its own folder then. Nothing has to be settled about that now.
 
+**No number prefixes in the message or in the three previews.** Variant A or B comes only in
+the next question, so the file names are not known yet, the same reason as for the sketches in
+the greeting and the project structure. A number the user will not get also pulls the eye away
+from the one thing asked here: file or folder. Measured 27.09.2026: two runs showed
+`30 Introduction/` and `10 Motivation.md`, and both users then chose drag & drop, which has no
+numbers at all.
+
 **C belongs in the message too, not only in the dialog.** It is a third of the choice, and a
 letter with nothing to point back to is worse than no letter. One line is enough — the full
 sketch is in its `preview`.
@@ -784,16 +807,16 @@ what the letters are for.
 *A — two levels (recommended):*
 
 ```
-Level 1   30 Introduction/            ← the chapter
-             30 Introduction.md          its own text (named like the folder)
-Level 2      10 Motivation.md         ← a section, its own file
-             20 Problem Statement.md
+Level 1   Introduction/               ← the chapter
+             Introduction.md             its own text (named like the folder)
+Level 2      Motivation.md            ← a section, its own file
+             Problem Statement.md
 ```
 
 *B — one file per chapter:*
 
 ```
-Level 1   30 Introduction.md          ← the whole chapter
+Level 1   Introduction.md             ← the whole chapter
              # Introduction
              ## Motivation            ← a section, just a line inside
              ## Problem Statement
@@ -802,12 +825,12 @@ Level 1   30 Introduction.md          ← the whole chapter
 *C — three levels:*
 
 ```
-Level 1   30 Introduction/
-             30 Introduction.md
-Level 2      10 Motivation/           ← grew on its own, so it gets a folder
-                10 Motivation.md
-Level 3         10 Background.md
-             20 Problem Statement.md
+Level 1   Introduction/
+             Introduction.md
+Level 2      Motivation/              ← grew on its own, so it gets a folder
+                Motivation.md
+Level 3         Background.md
+             Problem Statement.md
 ```
 
 Labels and `description`, two lines each, in dialog order:
@@ -826,7 +849,7 @@ Labels and `description`, two lines each, in dialog order:
   the skill builds no folders in `Front Matter` and `Back Matter`, so sections there are always
   inside their file. "Most" is the honest word.
 - **Not "reorder by dragging".** Dragging belongs to the drag & drop variant of **question 11**
-  — three questions later, and not the same letters as the ones above. Pick the other one there
+  — the next question, and not the same letters as the ones above. Pick the other one there
   and the order comes from the number in the file name, so reordering is renaming. This option
   must not promise something that has not been decided yet. All three lines therefore compare
   the one thing that holds either way: whether you have to cut text.
@@ -913,29 +936,93 @@ inside (see "When an appendix outgrows one file" in `shared/headings.md`).
    they explain the `##`; in the folder shape they must explain the folder. Write them in the
    chat language, like every remark.
    - In the folder note `Introduction`, keep the first sentence of the remark ("Introduce the
-     topic: …"), **translated into the chat language like the rest**, and replace the rest
-     with the text below, also in the chat language. Keeping the first sentence means keeping
-     its content, not its English: kept literally, it leaves a remark half in one language
-     and half in the other.
+     topic: …"), **translated into the chat language like the rest**, as the first paragraph,
+     and replace the rest with the text below, also in the chat language. Keeping the first
+     sentence means keeping its content, not its English: kept literally, it leaves a remark
+     half in one language and half in the other. Use the real chapter name where the text
+     says "Introduction".
+
+     **This text is written from what the user sees, not from the files.** With Folder notes
+     the user never sees `Introduction.md` in the file list. They see an underlined folder,
+     click it, and this text opens. An earlier version explained the level through "the
+     folder I am in", which is true only for the folder note itself: the other files lie in
+     the same folder one level lower, and a user looking at them found the rule wrong.
 
      ```
-     This file is named like its folder, so it is the chapter's folder note: it carries
-     the chapter title, and everything else in this folder belongs under it. The sections
-     of this chapter are separate files right next to it, in this folder.
+     This is the start of the chapter "Introduction": its heading and its lead-in text.
 
-     The rule this template follows: a .md file NEVER starts with more than one #.
-     One # always means "the level of the folder I am in". So every file reads the same
-     way no matter how deep it sits, and you never count # signs. The level comes from
-     where the file lies, which is why moving a file never means editing its headings.
+     This file is the folder note of its folder. It carries the folder's name. That is
+     why it opens when you click the folder, and why the folder is underlined. A folder
+     with a folder note is called a structure folder.
 
-     When a section grows its own subsections, give it its own folder: create a folder
-     with the SAME name as the section file, move the file into it, and put the new
-     subsection files next to it. That keeps the section and its parts together when you
-     move them.
+     This is how the folder becomes a chapter:
+     - This file always comes first. Its # becomes the chapter heading, its text the
+       lead-in.
+     - The other files in the folder follow after it, in the order you see. They sit one
+       level lower: their # becomes a section.
 
-     If you rename this folder, rename this file with it. A folder without a file of its
-     own name no longer counts as a level.
+     That is why every file starts with exactly one #. Which level it becomes depends on
+     two things: which folder the file lies in, and whether it is that folder's folder
+     note.
+
+     Front Matter, Main Matter and Back Matter are grouping folders. They have no folder
+     note, only group files together and do not count as a level.
+
+     When a section gets subsections of its own, make it a structure folder: create a
+     folder with exactly the name of the section file and move the file into it. It
+     becomes the folder's folder note. Put the subsections next to it as new files. Or
+     tell me, and I will do it for you.
+
+     Always rename a structure folder inside Obsidian. Folder notes then renames its
+     folder note along with it. The file explorer of your operating system does not: the
+     folder loses its folder note, and everything in it moves up one level, without a
+     warning.
      ```
+
+     The German wording (agreed 27.09.2026), for a German chat:
+
+     ```
+     Das ist der Anfang des Kapitels „Introduction“: die Überschrift und der
+     Einleitungstext.
+
+     Diese Datei ist die Folder Note des Ordners. Sie trägt seinen Namen. Darum öffnet
+     sie sich mit einem Klick auf den Ordner, und darum ist der Ordner unterstrichen.
+     Ein Ordner mit Folder Note heisst Gliederungsordner.
+
+     So wird aus dem Ordner ein Kapitel:
+     - Diese Datei kommt immer zuerst. Ihr # wird die Überschrift des Kapitels, ihr
+       Text die Einleitung.
+     - Die anderen Dateien im Ordner folgen danach, in der Reihenfolge, die du siehst.
+       Sie stehen eine Ebene tiefer: Ihr # wird ein Abschnitt.
+
+     Darum beginnt jede Datei mit genau einem #. Welche Ebene daraus wird, ergibt sich
+     aus zwei Dingen: in welchem Ordner die Datei liegt, und ob sie seine Folder Note
+     ist.
+
+     Front Matter, Main Matter und Back Matter sind Sammelordner. Sie haben keine
+     Folder Note, fassen nur Dateien zusammen und zählen nicht als Ebene.
+
+     Bekommt ein Abschnitt eigene Unterabschnitte, mach ihn zu einem Gliederungsordner:
+     Lege einen Ordner mit genau dem Namen der Abschnittsdatei an und verschiebe die
+     Datei hinein. Sie wird seine Folder Note. Die Unterabschnitte legst du als neue
+     Dateien daneben. Oder sag es mir, dann mache ich das für dich.
+
+     Benenne einen Gliederungsordner immer in Obsidian um. Dann benennt Folder notes
+     seine Folder Note automatisch mit. Im Datei-Explorer deines Computers passiert das
+     nicht: Der Ordner verliert seine Folder Note, und alles darin rutscht eine Ebene
+     hoch, ohne Warnung.
+     ```
+
+     **If the user said no to Folder notes (question 12),** three sentences change, because
+     nothing is underlined and nothing renames along: the second paragraph becomes "This file
+     carries the name of its folder, so it is the folder's folder note. A folder with a
+     folder note is called a structure folder." ("Diese Datei trägt den Namen ihres Ordners,
+     sie ist also seine Folder Note. Ein Ordner mit Folder Note heisst Gliederungsordner."),
+     and the last paragraph becomes "If you rename a structure folder, rename its folder note
+     with it, to exactly the same name. Otherwise the folder loses its folder note, and
+     everything in it moves up one level, without a warning." ("Benennst du einen
+     Gliederungsordner um, benenne seine Folder Note genau gleich mit. Sonst verliert der
+     Ordner seine Folder Note, und alles darin rutscht eine Ebene hoch, ohne Warnung.")
 
    - In `Conclusion and Future Work`, which stays a file, add this below the existing text of
      its remark:
@@ -1202,8 +1289,27 @@ The chat message before the dialog, in the chat language, roughly:
 
 Then AskUserQuestion with **a sketch as `preview` on both options** — same mechanics as the
 chapters question: both options need one, or the dialog does not switch to the side-by-side
-layout. Example names follow the chat language, folder numbers are left out (variant A or B is
-not settled yet).
+layout. Folder numbers are left out (variant A or B is not settled yet).
+
+**Translate the folder names in both sketches into the chat language.** The sketch must show
+exactly the names the user will get, or they choose from a picture that is not what they
+receive. Measured 27.09.2026: a German chat was shown `Manuscript/`, `Research/`, `Data/` and
+then got `Manuskript/`, `Recherche/`, `Daten/`. In German:
+
+| English | German |
+|---|---|
+| `Master Thesis/` | `Masterarbeit/` |
+| `Organisation/` | `Organisation/` |
+| `Manuscript/` | `Manuskript/` |
+| `Research/` | `Recherche/` |
+| `Interviews/` | `Interviews/` |
+| `Data/` | `Daten/` |
+| `Exports/` | `Exporte/` |
+
+**Do not translate the file names in sketch B** (`00 Document Setup.md`, `Introduction.md`,
+`Methodology.md`). They are files inside the manuscript, and those follow the template, not the
+chat (see "Which language governs what"). The comments in the sketches (`←── the vault …`)
+follow the chat language like any other text.
 
 *A — full project scaffold (recommended):*
 
@@ -1800,9 +1906,15 @@ teaches:
 5. The intention behind the structure decisions, in one sentence each, and only where there
    was one. *"The user deliberately chose no subfolders."* Skip a decision that was just the
    default.
-6. **The ranking, verbatim in meaning:** if this file and the disk disagree, the disk wins.
+6. **When chat and document language differ: which names are in which language, exactly.**
+   The project folders, the manuscript folder, the READMEs, the remarks and this file are in
+   the chat language. The file and folder names inside the manuscript are **not**. Look at
+   the disk before you write this sentence and name only what you saw. Measured 27.09.2026:
+   a run wrote "the folder and file names are German" while every file in the manuscript had
+   an English name, and a later session would have taken that as true.
+7. **The ranking, verbatim in meaning:** if this file and the disk disagree, the disk wins.
    This file says what was agreed once, not what is true now.
-7. **The check, with its trigger:** *before you create a file or a folder inside the
+8. **The check, with its trigger:** *before you create a file or a folder inside the
    manuscript, count its levels on disk (deepest file, then the folders above it that hold a
    file with their own name, plus one; a file with its folder's name does not count its own
    folder). If that differs from
@@ -1810,7 +1922,7 @@ teaches:
    counting rule into the file in these plain words, because the next session reads this
    file, not the skill.
 
-Point 7 needs the trigger. Without it the check either never happens or happens on every
+Point 8 needs the trigger. Without it the check either never happens or happens on every
 question about a table, and both are wrong: the ordering and the depth matter when something
 is **created**, not when something is explained.
 
@@ -1878,6 +1990,12 @@ alone". The user cannot check what they cannot see.
   identical on screen; the damage is visible only in the PDF. This holds for the templates
   and for any body text written later. Wrapping is fine inside ` ```remark `, ` ```latex `
   and ` ```dds ` blocks. It applies to LIST ITEMS too - a wrapped item gets the same forced break.
+- **German is written with real umlauts: ä, ö, ü, Ä, Ö, Ü. Never ae, oe, ue.** This holds for
+  every file you write (remarks, READMEs, `CLAUDE.md`) and for the chat. The file tools write
+  UTF-8 and handle umlauts correctly, so there is no reason to avoid them. **And translate the
+  meaning, not the words:** "Introduce the topic" is "Führe in das Thema ein", never
+  "Introduziere das Thema". Measured 27.09.2026: in one run two files came out in ae/oe/ue
+  while all others had real umlauts, one of them with "Introduziere".
 - **Never `Write` over a `CLAUDE.md` that already exists.** Look for one before you write,
   in the project folder and one level up. Found one? Then `Read` it and `Edit` only the block
   between the two markers. It may hold months of the user's own instructions, and `Write`
@@ -1898,8 +2016,8 @@ alone". The user cannot check what they cannot see.
 - Only supported Markdown (see `shared/obsitex-conventions.md` and the topic files it points
   to). **If a construct appears in none of them, it is unsupported** — do not invent it, tell
   the user Obsitex does not know it and offer the nearest thing that works.
-- **Never write a `.md` file whose first heading has more than one `#`.** One `#` is always
-  "the level of the folder I am in". Where the folder limit stops the splitting, the file at
+- **Never write a `.md` file whose first heading has more than one `#`.** A folder note's `#`
+  is its folder's own level, every other file's `#` one level below. Where the folder limit stops the splitting, the file at
   that level takes its whole substructure inside itself as `##`, `###` — never as sibling
   files. This holds for every template and for anything the skill generates later.
 - **Every folder meant as a level gets its folder note**, the file with the folder's exact
@@ -1948,8 +2066,13 @@ Report to the user, in the chat language:
 - **`professional-thesis` only: the three areas, in two or three plain sentences.** The
   manuscript is split into front matter (everything before the first chapter), main matter
   (the actual work, from the introduction to the conclusion) and back matter (bibliography and
-  appendix). Each area folder starts with a switch file: it must stay first and must not be
-  deleted. `About Back Matter` only explains and may be deleted. In a German chat add the
+  appendix). Front matter and main matter each start with a switch file: it must stay first and
+  must not be deleted. In the back matter the switch file `Switch to Appendix` stands directly
+  before the first appendix, not at the top. `About Back Matter` only explains and may be
+  deleted. (Never say "each area starts with a switch file": it is wrong for the back matter,
+  and a user who believes it drags `Switch to Appendix` to the top. Its "Appendix" divider page
+  then stands before the bibliography, which ends up inside the appendix. Both runs on
+  27.09.2026 said it.) In a German chat add the
   German term in brackets: Front Matter (Vorspann), Main Matter (Hauptteil), Back Matter
   (Schlussteil).
 - **The one thing that surprises people** (project scaffold only) — explain it, never assume

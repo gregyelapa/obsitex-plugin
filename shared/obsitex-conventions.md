@@ -234,8 +234,10 @@ What must hold without looking anything up:
   folder** (`Front Matter`, `Main Matter`, `Back Matter`, `Subchapters`) and adds no level.
 - **Rename a folder and its folder note together, always.** Renaming only one makes the
   folder stop counting, and everything else in it moves up a level, silently.
-- **A file never starts with more than one `#`.** One `#` always means "the level of the folder
-  I am in". A file starting with `##` works but can never become a folder without a text edit.
+- **A file never starts with more than one `#`.** Its level comes from where it lies: a folder
+  note's `#` is its folder's own level, every other file's `#` sits one level below the folder
+  note of its folder. A file starting with `##` works but can never become a folder without a
+  text edit.
 - **A heading needs no blank line before it** — except directly under a **list item**, where
   the list swallows it.
 - Attributes at the end of the line: `# Title {-}` → unnumbered but in the table of contents ·

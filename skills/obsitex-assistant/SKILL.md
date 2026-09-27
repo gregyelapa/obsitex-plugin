@@ -169,8 +169,8 @@ within a second too.
   counts marks across the whole document — one straight `"` added into a hand-typed file
   inverts every pair after it, to the end of the thesis. Nothing warns; it shows in the PDF.
 - Only supported Markdown. When unsure, check — do not guess.
-- **Never write a `.md` file whose first heading has more than one `#`.** One `#` always
-  means "the level of the folder I am in".
+- **Never write a `.md` file whose first heading has more than one `#`.** A folder note's `#`
+  is its folder's own level, every other file's `#` one level below.
 - **A folder you create as a level gets its folder note in the same step**, the file with the
   folder's exact name; that makes it a structure folder. Without it the folder is only a
   grouping folder and adds no level. **Rename a folder and its folder note

@@ -2158,15 +2158,25 @@ Projektordner                   ← Obsidian opens this one (the vault)
   moment the files are written; the reload is what makes it visible. Afterwards it can be
   changed by drag & drop. Updates come through Obsidian's plugin manager; deleting
   `.obsidian/plugins/flexplorer/` removes the plugin entirely.
-- **Folder notes, whenever it was installed.** In variant B give steps 1 to 4 above for
-  "Folder notes" alone. Until the reload in step 4 each folder note still shows as a line of
-  its own; that is expected. Then say three things, briefly:
-  - leave its settings as they are;
-  - never press "Rename existing folder notes", "Switch" or "Create folder notes for all
-    folders";
+- **Folder notes, whenever it was installed — also with one level, when no folder exists
+  yet.** The plugin stays off until the user switches it on, and on the day a section grows
+  into a folder it must already be running; nobody will tell them then. "Nothing to show yet"
+  is therefore no reason to leave the steps out (measured 30.09.2026: a one-level run did
+  exactly that). In variant B give steps 1 to 4 above for "Folder notes" alone. Until the reload in step 4 each folder note still shows as a line of
+  its own; that is expected. Then say three things, briefly, **in this order and all three**
+  (the second is the one that matters most; never drop it to shorten):
+  - **leave its settings as they are.** That alone makes the buttons "Rename existing folder
+    notes" and "Switch" harmless: each one applies the setting next to it (name template,
+    storage location), so with the defaults unchanged there is nothing to apply;
+  - **never press "Create folder notes for all folders".** It needs no changed setting: one
+    click puts a folder note into every folder, `attachments` included, and everything in those
+    folders moves one level down, without a warning;
   - never Ctrl-click `Front Matter`, `Main Matter`, `Back Matter` or `attachments`: that click
     creates a folder note there, and inside `Front Matter` it would push every file one level
     down.
+
+  Measured 30.09.2026: a run that listed the buttons as three equal items kept only "Rename"
+  and dropped "Create folder notes for all folders", the one that does harm by itself.
 
   If the download failed, say that instead, with the way to install it by hand (see "Install
   the Folder notes plugin", step 4). **If the user said no to question 12,** leave all of this

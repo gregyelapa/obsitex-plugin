@@ -2,6 +2,7 @@
 
 ```remark
 Summarize the contribution, answer the research questions, and outline future work.
+The sections below are suggestions. Rename or remove them.
 ```
 
 Replace this paragraph with your conclusion.

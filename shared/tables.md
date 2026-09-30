@@ -111,7 +111,7 @@ back, or every later table is pinned too:
 Two things to check and to say out loud when you do this:
 
 - **`[H]` needs the `float` package. Read the user's own preamble before you assume it is
-  there.** All four `obsitex-init` templates load it, but a hand-built or older
+  there.** All three `obsitex-init` templates load it, but a hand-built or older
   `00 Document Setup.md` often does not (measured 29.08.2026). If it is missing, add
   `\usepackage{float}` with a `%` comment saying what it is for, and tell the user. Never
   silently — `obsitex-conventions.md`.

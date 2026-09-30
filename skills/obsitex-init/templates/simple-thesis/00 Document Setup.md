@@ -1,10 +1,10 @@
 ```remark
-This file configures the whole document and must stay FIRST - hence the 00 in its name.
+This file configures the whole document and must stay FIRST. That is what the 00 in its name is for.
 It holds two things: the dds block with the Obsitex converter settings (document class,
 heading levels, figure/table environments, quotation marks, citation command) and the
 latex-preamble block with the LaTeX packages. The converter reads the dds settings at the
 position where they stand, so a later position would leave every heading before it on the
-defaults. Every package line carries a comment saying what it is for - comment a line out
+defaults. Every package line carries a comment saying what it is for. Comment a line out
 with a leading % if you do not need it.
 ```
 

@@ -78,7 +78,8 @@ Images never hit this: without a caption the converter uses the file name as the
 open, so floats can never pile up into `Too many unprocessed floats`. **A bare `[h]` is the one
 to avoid** — LaTeX cannot honour it and silently rewrites it to `[ht]`, with a warning per
 float. If a user wants a figure or table nailed to the exact spot, `[H]` does that, but it
-needs `\usepackage{float}` in the preamble and leaves a gap when the object no longer fits
+needs the `float` package (all three templates load it; check the user's own preamble before
+you assume it is there) and leaves a gap when the object no longer fits
 the page. A large image is the usual reason a float travels: at `width=\textwidth` a square
 image is nearly page-high and fits nowhere in running text. Reducing the width helps more than
 any placement letter.
@@ -162,8 +163,11 @@ anatomy of a printed reference: `links.md`.
 | Field | Default | Effect |
 |---|---|---|
 | `convertQuotationMarks` | `true` | Off: a straight `"` stays straight |
-| `openingQuotationMark` | `"` | Inserted for every **odd** `"` |
-| `closingQuotationMark` | `"` | Inserted for every **even** `"` |
+| `openingQuotationMark` | `“` | Inserted for every **odd** `"` |
+| `closingQuotationMark` | `”` | Inserted for every **even** `"` |
+
+These are the English defaults of all three templates. A German document gets `„` and `“`;
+`obsitex-init` sets them when the document language is German.
 
 The counting mechanism and its traps: `quotation-marks.md`. Note that these keys do **not**
 affect `\enquote{}` — that takes its characters from the babel language.

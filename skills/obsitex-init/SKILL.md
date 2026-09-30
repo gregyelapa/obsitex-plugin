@@ -258,8 +258,8 @@ on its own.
      of the splitting question in block 3) is built from it by rule.
    - without chapters → `simple-thesis` (cover page, table of contents, lists of figures
      and tables, chapters, bibliography, appendix — for seminar papers and shorter
-     theses) or `academic-paper` (lean: abstract, chapters, bibliography — no cover
-     page, no table of contents).
+     theses) or `academic-paper` (lean: title block on the first page, abstract with
+     keywords, sections, bibliography — no separate title page, no table of contents).
 5. **Numbering depth** — how deep should headings be numbered? Default and recommendation:
    up to `1.1.1` in every class. **The option list differs with and without chapters** —
    see "Sectioning depth" below for both tables, the reasoning, and the cross-reference
@@ -278,8 +278,11 @@ on its own.
    `style=` option in the preamble. Send this tip with the question (see "Tips" below):
    *"💡 **Tip:** If your university asks for a different style, just tell me. It is one word
    in the setup and every citation in the document follows."*
-8. **Cover data** (professional-thesis and simple-thesis) — title, subtitle, document
-   type (e.g. Seminar Paper / Master Thesis), degree program, author, supervisor. Offer
+8. **Cover data** (every template) — for professional-thesis and simple-thesis: title,
+   subtitle, document type (e.g. Seminar Paper / Master Thesis), degree program, author,
+   supervisor. For academic-paper (since 30.09.2026): title, subtitle, the authors with
+   their institution, the corresponding author's e-mail, date. A paper has no document type,
+   degree program or supervisor, so do not ask for them. Offer
    to keep the placeholders if the user does not want to decide now. Send this tip with the
    question (see "Tips" below): *"💡 **Tip:** No final title yet? Leave the placeholders
    standing. Tell me any time and I will fill them in."*
@@ -414,7 +417,7 @@ rest.
 | | A | B |
 |---|---|---|
 | File names | no number prefixes — **except `00 Document Setup.md`**, which keeps its `00 ` | number prefixes in steps of ten, as the templates carry them |
-| Flexplorer | plugin files + seed `data.json`, then guided activation | not installed at all, no `data.json`, no existing-vault question |
+| Flexplorer | plugin files + seed `data.json`, then guided activation | not installed at all, no `data.json` |
 | Folder notes | on a yes to question 12: downloaded from its author, then guided activation | the same: it does not depend on the ordering |
 | Reordering | drag & drop in Obsidian | rename the file (see the renaming rules in the report) |
 
@@ -643,6 +646,19 @@ nested one had sections the flat one lacked), and every change had to be made tw
 template now carries every section as `##`, so the rules give exactly the old nested shape:
 measured with the converter, the LaTeX of both shapes is identical apart from the labels.
 
+**Every file that becomes a folder carries at least two `##` blocks, in all three templates**
+(since 27.09.2026). The rules only move text, they never invent it. Before, most body files of
+`simple-thesis` and `academic-paper` had no `##`, and the skill made up two placeholder
+sections per folder, so the result changed from run to run. A new body file in a template
+needs its `##` blocks too, or it becomes a folder with nothing but its folder note.
+
+**The third level is in the templates as well** (since 30.09.2026), but in **one section per
+template only**, so users with one or two levels do not have to delete a pile of `###`:
+`professional-thesis` Methodology → Data Collection (Interviews, Survey), `simple-thesis`
+Literature Review → Current State of Research (Topic A, Topic B), `academic-paper` Methods →
+Data (Sample, Variables). That matches the option C sketch: only a section that grew gets a
+folder. No fourth level: the skill builds at most three, so a `####` would only be clutter.
+
 **Why it matters — say this, in plain words:** a part grows. Once a file holds fifty
 pages, the smallest thing you can move around is the whole part, and rearranging your
 argument means cutting and pasting inside a wall of text. With a folder per part each
@@ -739,8 +755,8 @@ are called `Switch to Front Matter` and `Switch to Main Matter`, never just `Fro
 - **Three levels.** As above, plus: a section that has subsections of its own becomes a
   folder with its folder note, and its subsections are files inside it, so it takes its parts
   along when moved.
-  → as above; the template ships with two levels of headings, so the third level is built on
-  top after copying.
+  → as above; the template carries the third level as `###` in one section per template, so
+  the rules build it too (step 4 of "Building it by rule").
 
 **A "level" here is a heading level that gets its own files** — not a folder in the tree.
 `Front Matter`, `Main Matter` and `Back Matter` are grouping folders and never count.
@@ -906,7 +922,7 @@ folder are **subsections**. When you talk about them, use the word that fits, ne
 |---|---|---|
 | `professional-thesis` | in `Main Matter/`: `30 Introduction`, `40 Background and Related Work`, `50 Methodology`, `60 Results`, `70 Discussion` | `Switch to Main Matter`, `80 Conclusion and Future Work`, everything in `Front Matter/` and `Back Matter/` |
 | `simple-thesis` | `60 Introduction`, `70 Literature Review` | Cover Page, Abstract, the three lists, `80 Conclusion`, Bibliography, Appendix |
-| `academic-paper` | `20 Introduction`, `30 Methods`, `40 Results`, `50 Discussion` | Abstract, `60 Conclusion`, Bibliography |
+| `academic-paper` | `30 Introduction`, `40 Methods`, `50 Results`, `60 Discussion` | Title, Abstract, `70 Conclusion`, Bibliography |
 
 In `professional-thesis` the chapter folders are built **inside `Main Matter/`**, where the
 chapter files already lie. `Main Matter/` is a grouping folder and stays one; it never gets a
@@ -927,11 +943,15 @@ inside (see "When an appendix outgrows one file" in `shared/headings.md`).
    heading of that level (R3). Its single `#` stays a single `#`: a file that becomes a
    folder keeps its level (R2).
 3. Move each `##` block out of the folder note into its own file **next to it, in the same
-   folder**, named after the heading, and **turn the `##` into a single `#`** (R1). Anything
-   above the first `##` — the lead-in — stays in the folder note. No extra folder in between.
-4. If the file has no `##` blocks (in `simple-thesis` and `academic-paper` most of them do
-   not; in `professional-thesis` every one has them), create two placeholder section files in
-   the same style the template uses elsewhere, so the user sees the shape and can fill it.
+   folder**, named after the heading, and **turn the `##` into a single `#`** (R1). Every
+   heading inside the block loses one `#` the same way: a `###` under it becomes `##`.
+   Anything above the first `##` — the lead-in — stays in the folder note. No extra folder in
+   between.
+4. **Three levels (option C) only:** repeat steps 1 to 3 one level down, for every section
+   file from step 3 that now holds `##` blocks (they were `###` in the template). Its folder
+   goes **inside the chapter folder**, and the section file becomes its folder note. Sections
+   without `##` stay files. For one or two levels skip this step: the `##` stays inside the
+   section file.
 5. **`professional-thesis` only: two remarks change with the shape.** In the flat template
    they explain the `##`; in the folder shape they must explain the folder. Write them in the
    chat language, like every remark.
@@ -1049,7 +1069,8 @@ Number prefixes follow the ordering variant, decided in question 11: variant B n
 the new files `10 `, `20 `, `30 ` in steps of ten; variant A leaves them without prefixes.
 
 **Check before you finish:** every file starts with exactly one `#`, every new folder holds a
-file of the same name, and no structure folder sits inside another one: two levels is
+file of the same name, and no structure folder sits inside another one, except with three
+levels, where exactly the sections from step 4 have one: two levels is
 the whole budget here (`#` in the folder note = the part itself, the other files in the folder
 = one level below). The area folders `Front Matter`, `Main Matter` and `Back Matter` are storage
 folders and do not count; a chapter folder inside `Main Matter` is where it belongs.
@@ -1415,12 +1436,14 @@ ever sees them. The numbers below apply to **variant B**; in variant A drop them
      14.08.2026): `authoryear` prints `… a long tradition Knuth 1984.` with no parentheses,
      and `verbose` prints the **entire reference inside the sentence** — "… a long tradition
      Donald E. Knuth. The TeXbook. Reading, MA: Addison-Wesley, 1984." Nothing warns.
-   - **Cover data** (professional-thesis / simple-thesis): replace the placeholders inside
-     the `latex` block of the Cover Page file.
+   - **Cover data:** replace the placeholders inside the `latex` block of the Cover Page
+     file (professional-thesis / simple-thesis) or of the Title file (academic-paper). For a
+     single author in the paper, delete the `\and` line and the two lines after it; keep
+     the closing `}`. For more authors, repeat the `\and` block.
    - **Document language German:** apply the table below.
    - **Chat language German, whatever the document language:** translate **every**
      ` ```remark ` block of the copied template into German, completely: the one in
-     `00 Document Setup.md`, the cover page, the lists, the bibliography, the appendix
+     `00 Document Setup.md`, the cover page or title block, the lists, the bibliography, the appendix
      examples, the declaration, all of them. The four structure files take the agreed wording
      verbatim (see "The remarks of the four structure files in a German chat"). Only the
      remarks change. Headings, placeholder texts and the ` ```latex ` / ` ```latex-preamble `
@@ -1435,7 +1458,9 @@ ever sees them. The numbers below apply to **variant B**; in variant A drop them
 3. **File names according to the ordering variant:** in **B** keep the number prefixes of
    the templates (`00 `, `10 `, `20 `, … in steps of ten — the gaps are there so a chapter
    can be inserted as `25` without renaming the rest); in **A** strip them everywhere
-   except from `00 Document Setup.md`.
+   except from `00 Document Setup.md`. `simple-thesis` ends with `100 Appendix.md`: Obsitex
+   sorts numbers naturally, so `100` follows `90` (a plain `ls` shows it after `10`; that is
+   the listing, not the document).
 
 ### professional-thesis specifics (scrbook)
 
@@ -1475,8 +1500,8 @@ ever sees them. The numbers below apply to **variant B**; in variant A drop them
 - Prefixless front matter chapters (`# Abstract`, `# Acknowledgements`, `# List of
   Abbreviations`) are automatically unnumbered with a ToC entry — do **not** add `{-}`
   there. In the back matter, `{-}` on a chapter heading emits KOMA's `\addchap`
-  (unnumbered + ToC + running header) — used by References, Appendix and Declaration.
-- `simple-thesis` has none of this. Its `95 Appendix.md` is an ordinary unnumbered section
+  (unnumbered + ToC + running header) — used by Bibliography, Appendix and Declaration.
+- `simple-thesis` has none of this. Its `100 Appendix.md` is an ordinary unnumbered section
   without `\appendix` (the `article` class has no front and main matter), and it stays that way.
 
 ### German adaptation
@@ -1487,7 +1512,7 @@ ever sees them. The numbers below apply to **variant B**; in variant A drop them
 | `00 Document Setup.md`, **varioref/cleveref** | option `english` → `ngerman` (these two really do switch over) |
 | `00 Document Setup.md`, **`\crefname` in the sectioning-depth block** | `{paragraph}{paragraph}{paragraphs}` → `{paragraph}{Absatz}{Absätze}`, and `{subparagraph}{subparagraph}{subparagraphs}` → `{subparagraph}{Unterabsatz}{Unterabsätze}`. These two words are **printed**, unlike the comments around them. Applies whether the lines are commented out or live — a commented line is the one someone uncomments later. All other levels need nothing: `cleveref` ships the German names and prints `Abschnitt 1.1.1` by itself. Measured 26.08.2026. |
 | `00 Document Setup.md`, dds block | `openingQuotationMark` → `„` and `closingQuotationMark` → `“` (German quotes) |
-| Visible headings in the chapter files | Abstract → Zusammenfassung · Acknowledgements → Danksagung · List of Abbreviations → Abkürzungsverzeichnis · Introduction → Einleitung · Motivation → Motivation · Background / Context → Hintergrund und Kontext · Background and Related Work → Hintergrund und Forschungsstand · Problem Statement → Problemstellung · Research Questions → Forschungsfragen · Literature Review → Literaturübersicht · Methods / Methodology → Methodik · Results → Ergebnisse · Discussion → Diskussion · Conclusion → Fazit · Conclusion and Future Work → Fazit und Ausblick · Bibliography / References → Literaturverzeichnis · Appendix → Anhang · Survey Questionnaire → Fragebogen · Interview Transcripts → Interviewtranskripte · Declaration of Authorship → Selbstständigkeitserklärung |
+| Visible headings in the chapter files | **Complete list, use it verbatim** (every heading of all three templates, checked 30.09.2026; a heading added to a template needs its line here too). Front and back: Abstract → Zusammenfassung · Acknowledgements → Danksagung · List of Abbreviations → Abkürzungsverzeichnis · Bibliography → Literaturverzeichnis · Appendix → Anhang · Survey Questionnaire → Fragebogen · Interview Transcripts → Interviewtranskripte · Declaration of Authorship → Selbstständigkeitserklärung. Introduction: Introduction → Einleitung · Motivation → Motivation · Background → Hintergrund · Problem Statement → Problemstellung · Research Questions → Forschungsfragen · Contribution → Beitrag. Literature: Background and Related Work → Hintergrund und Forschungsstand · Literature Review → Literaturübersicht · Theoretical Background → Theoretischer Hintergrund · Related Work → Verwandte Arbeiten · Current State of Research → Forschungsstand · Topic A → Thema A · Topic B → Thema B. Method: Methodology → Methodik · Methods → Methodik · Research Design → Forschungsdesign · Data → Daten · Sample → Stichprobe · Variables → Variablen · Data Collection → Datenerhebung · Interviews → Interviews · Survey → Umfrage · Procedure → Vorgehen · Analysis → Auswertung · Data Analysis → Datenauswertung. Results: Results → Ergebnisse · Descriptive Results → Deskriptive Ergebnisse · Main Findings → Zentrale Ergebnisse. Discussion: Discussion → Diskussion · Interpretation → Interpretation · Limitations → Grenzen der Arbeit. Conclusion: Conclusion → Fazit · Conclusion and Future Work → Fazit und Ausblick · Summary of Contributions → Zusammenfassung der Beiträge · Future Work → Ausblick. In `academic-paper` also: **Keywords:** → **Schlüsselwörter:** and, in the Title file, "Corresponding author:" → "Kontakt:" |
 | Visible **placeholder texts** in the manuscript | translate to German — they are draft body text and will be printed |
 | ` ```remark ` blocks | follow the **chat language**, not this table. They are never printed; the author reads them. If the chat is English and the document German, leave them English. |
 | Auto-generated titles (ToC, List of Figures, List of Tables) | **do not touch** — the latex blocks stay as they are; babel translates the printed titles itself |

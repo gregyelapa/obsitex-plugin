@@ -1,0 +1,3 @@
+# Obsidian writes this folder when a template is opened as a vault to look at it.
+# It holds only the maintainer's window state and must never reach users.
+skills/obsitex-init/templates/*/.obsidian/

@@ -1,8 +1,8 @@
 ```remark
-Inserts the automatically generated list of tables. Note: only tables with a
-caption appear here - the default table environment in the dds settings has none,
-so Markdown tables stay out of this list unless you add a caption line to the
-tableEnvironmentText. Delete this file if you do not need the list.
+Inserts the automatically generated list of tables. A table appears here when it
+has a caption: write it on the line directly below the table, starting with
+"table: ". A table without a caption stays out of the list. Delete this file if
+you do not need the list.
 ```
 
 ```latex

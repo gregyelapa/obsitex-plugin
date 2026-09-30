@@ -2,13 +2,13 @@
 
 ```remark
 Introduce the topic: why it matters, what problem you address, and how the document
-is structured. The subsections below are suggestions - rename or remove them freely.
+is structured. The subsections below are suggestions. Rename or remove them.
 One # creates a section, ## a subsection, ### a subsubsection.
 ```
 
 Replace this paragraph with your introduction.
 
-## Background / Context
+## Background
 
 Replace this paragraph with the context of your work.
 

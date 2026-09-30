@@ -2,6 +2,7 @@
 
 ```remark
 Present your findings. Markdown tables become LaTeX tables; use figures for charts.
+The sections below are suggestions. Rename or remove them.
 ```
 
 Replace this paragraph with a short overview of your findings.

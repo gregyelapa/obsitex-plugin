@@ -78,7 +78,7 @@ afterwards. `/clear` does not do it — that empties the conversation, not the l
 |---|---|---|
 | `professional-thesis` | scrbook | chapters in three areas: front matter, main matter, back matter |
 | `simple-thesis` | article | a flat sequence of sections |
-| `academic-paper` | article | abstract, methods, results, discussion |
+| `academic-paper` | article | title block, abstract with keywords, methods, results, discussion |
 
 Each of them can be set up with one file per chapter (or section), or with a folder per
 chapter and its sections as files inside.
@@ -106,7 +106,7 @@ shared/                         what the plugin knows about the converter
 skills/
 ├── obsitex-init/               the setup command
 │   ├── assets/flexplorer/      pinned copy of the Flexplorer plugin
-│   └── templates/              the four scaffolds
+│   └── templates/              the three scaffolds
 └── obsitex-assistant/          the writing companion
 ```
 

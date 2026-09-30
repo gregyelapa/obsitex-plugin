@@ -1,7 +1,7 @@
 # Survey Questionnaire
 
 ```remark
-Example appendix chapter - it becomes Appendix A. Rename it, add more appendix
+Example appendix chapter. It becomes Appendix A. Rename it, add more appendix
 chapters after it, or delete it. Embedded PDFs (![[file.pdf]]) work here too.
 ```
 

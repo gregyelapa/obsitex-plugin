@@ -41,8 +41,8 @@ you usually have it already.
   wins. Never "correct" a folder to match the file.
 - **Before you create a file or a folder inside the manuscript**, count its levels on disk
   and compare them with `obsitex-levels`. **Count the way the setup question did, not
-  folders:** take the deepest Markdown file and count the folders above it that have a heading
-  file (a file with the folder's own name inside), then add one. A folder note does not count
+  folders:** take the deepest Markdown file and count the folders above it that have a folder
+  note (a file with the folder's own name inside), then add one. A folder note does not count
   its own folder. Grouping folders (`Subchapters`, `Unterkapitel`, …) and the area folders
   (`Front Matter`, `Main Matter`, `Back Matter`, in older vaults `Frontmatter`/`Backmatter`)
   have none, so they never count. So `Einleitung/Unterkapitel/Motivation.md` is 2,

@@ -77,6 +77,23 @@ Two rules follow, and both are there because a violation already cost real work:
 Full reasoning, the measured token costs and the incidents behind these rules:
 `PLUGIN_WISSENSARCHITEKTUR.md` in the Obsidian docs.
 
+### The template preamble is an original, not a copy
+
+Since 30.09.2026 the ` ```latex-preamble ` block of the templates is the **source** for the
+Obsitex app as well (its Iron Rule 4). The app's regression fixture
+(`dev/Obsitex/dev/fixtures/TestVault/00 Document Setup.md`) and the SpecialTopicsVault copy the
+`simple-thesis` preamble character for character. So when a preamble line changes here:
+
+1. change it in **all three** templates (`academic-paper` is identical to `simple-thesis`,
+   `professional-thesis` adds the KOMA part);
+2. copy the new `simple-thesis` block into the app's fixture, run
+   `node dev/vaultPipelineHarness.mjs --pdf`, then `--update` if only the preamble moved;
+3. carry it into the SpecialTopicsVault (German: `english, main=ngerman` for babel, `ngerman`
+   for varioref and cleveref).
+
+The DDS block is different: its original stays in the app (`defaultDdsSettings`, mirrored in
+`STANDARD_DOCUMENT_SETUP.md`), and the templates deviate from it on purpose in three fields.
+
 ## Two repositories — the workbench and the shop window
 
 | | Repo | Holds | Who sees it |

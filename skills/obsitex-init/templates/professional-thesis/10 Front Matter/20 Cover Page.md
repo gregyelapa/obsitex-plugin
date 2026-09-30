@@ -1,11 +1,11 @@
 ```remark
-Cover page as a raw LaTeX block - replace the placeholders (title, degree, author,
+Cover page as a raw LaTeX block. Replace the placeholders (title, degree, author,
 supervisor, date). This file has no Markdown heading on purpose: the title page
 layout comes entirely from the LaTeX block below.
 ```
 
 ```latex
-% Cover page (titlepage environment) - edit the placeholder texts below
+% Cover page (titlepage environment). Edit the placeholder texts below.
 \begin{titlepage}
 \hrule
 \vspace{1.8cm}

@@ -1,6 +1,6 @@
 ---
 name: obsitex-assistant
-description: Formatting and writing help inside an Obsidian vault that Obsitex converts to LaTeX/PDF. Use when the user asks how to write something so the converter handles it (table, image, citation, footnote, heading, list, cross-reference), when they want a specific look in the finished PDF, or when text is about to be written into a manuscript file. Also use it, instead of a general Obsidian or Obsidian CLI skill, when the user points at a spot in an open Obsidian note ("here", "at my cursor", "where the cursor is") and wants something written there: it carries the tested way to read that cursor from outside Obsidian. Not for discussing the content or the argument of the work itself.
+description: Formatting and writing help inside an Obsidian vault that Obsitex converts to LaTeX/PDF. Use when the user asks how to write something so the converter handles it (table, image, citation, footnote, heading, list, cross-reference), when they want a specific look in the finished PDF, or when text is about to be written into a manuscript file. Also use it, instead of a general Obsidian or Obsidian CLI skill, when the user points at a spot in an open Obsidian note ("here", "at my cursor", "where the cursor is", "the table where my cursor stands in Obsidian", "the text I selected in Obsidian") and wants something written or changed there: it carries the tested way to read that cursor from outside Obsidian. Not for discussing the content or the argument of the work itself.
 ---
 
 # Obsitex assistant
@@ -21,15 +21,35 @@ files is something the converter actually understands.
 
    **Never answer from the template you remember.** The user has been editing this file for
    months. Reading it costs about ninety lines; guessing costs a broken PDF.
-2. **Read `shared/obsitex-conventions.md`** from this plugin. **Go up two folders from this
+2. **Read `shared/obsitex-conventions.md` from this plugin, every time, like step 1.** **Go up two folders from this
    skill's base directory** (the "Base directory for this skill" shown when it loaded, ending
    in `skills/obsitex-assistant`): `…/obsitex/<version>/skills/obsitex-assistant` →
    `…/obsitex/<version>/shared/obsitex-conventions.md`. There is **no** `shared/` folder inside
    the skill folder, though a session tried exactly that first (02.10.2026). It carries the
    overview, the signpost to the topic files, and the list of constructs that silently go
    wrong.
-3. **Follow the signpost.** When the request is about a specific element, read that topic
-   file before answering. Do not answer a table question from memory when `tables.md` exists.
+3. **Then read the topic file for the task, before the first edit or answer.** It sits next to
+   `obsitex-conventions.md` in `shared/`. The rules further down in this file are excerpts that
+   remind you; they never replace the topic file. Feeling that you already know enough is
+   exactly what skipped this step on 02.10.2026: three heading tasks came out right by luck,
+   while the traps (a grouping folder, a folder note, a file that starts with `##`) are spelled
+   out in `headings.md` only.
+
+   | The task … | Read first |
+   |---|---|
+   | adds a heading, a note or a folder, or changes a heading's level or place | `headings.md` |
+   | writes or changes a table | `tables.md` |
+   | writes or changes an image or a figure | `images.md` |
+   | embeds a PDF | `pdf-embeds.md` |
+   | writes a wikilink or a cross-reference, or renames a note | `links.md` |
+   | writes a citation | `bibliography.md` |
+   | writes a footnote | `footnotes.md` |
+   | writes a list | `lists.md` |
+   | says "here", "at my cursor", "the text I selected" | `cursor.md` |
+   | anything else | the signpost table in `obsitex-conventions.md` |
+
+   Several rows apply? Read each file. This holds even when the vault looks simple enough to
+   work out the answer from it.
 4. **Never invent syntax.** If a construct appears in neither the overview nor a topic file,
    say plainly that Obsitex does not support it and offer the nearest thing that works.
 
@@ -97,11 +117,13 @@ you usually have it already.
   name, so search the disk for it instead (**`shared/pdf-embeds.md`**). Never answer "I cannot
   save the file" without having tried. Saving it and stopping there is no better: the same
   file then goes on to the branch above — which note does it belong in.
-- **"Here", "at my cursor", "an dieser Stelle": read the cursor, do not ask where.** A
-  running Obsidian can tell you the file and the spot, even while it is not focused. The
-  obvious ways to ask it fail quietly, and a text sent through the shell loses its
-  backslashes, so use exactly the procedure in **`shared/cursor.md`**. A marker in the vault
-  still wins over the cursor.
+- **"Here", "at my cursor", "an dieser Stelle", "the table where my cursor stands in Obsidian", "the text I
+  selected in Obsidian": read the cursor, do not ask where.** A running Obsidian can tell you
+  the file, the spot, the table and the marked text, even while it is not focused. The
+  obvious ways to ask it fail quietly (inside a table the plain cursor can name the wrong
+  cell), and a text sent through the shell loses its backslashes, so use exactly the
+  procedure in **`shared/cursor.md`**. A marker in the vault still wins over the cursor,
+  unless the request itself names the cursor.
 - Editing the **content** of an existing file is fine.
 - **Match the file naming you find.** Number prefixes (`30 Methodology.md`) mean the order is
   carried by the names; no prefixes mean the Flexplorer plugin in Obsidian carries it. Never

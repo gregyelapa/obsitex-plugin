@@ -90,12 +90,17 @@ file name does not fix it either: one note can hold three tables. The Blueprints
 app solves this with markers, and the prompts it hands out carry them. A running Obsidian can
 be asked for its cursor (`cursor.md`), but the marker comes first.
 
+**Unless the request points with Obsidian instead.** The same tool can hand out prompts that
+say "where my cursor stands in Obsidian", "the table where my cursor stands in Obsidian" or "the text I selected in
+Obsidian". Then there is no marker: do not search for one, read the cursor (`cursor.md`).
+
 There are two, and they answer different questions:
 
 | Marker | Question it answers | Written by the user |
 |---|---|---|
 | `TABLE HERE` on a line of its own | where a **new** element goes | before asking |
 | a short marker beside an element | which **existing** element is meant | before asking |
+| the same short marker inside a sentence | where something that sits **in running text** goes (a cross-reference) | before asking |
 
 **The second marker is the user's own setting, and the prompt always names it.** The tool
 suggests `<<<`, but anyone can change it, so a prompt may say `@@@`, `yyy` or something
@@ -112,6 +117,10 @@ element off what surrounds them:
 
 A marker inside a table cell means the table, not the cell. A marker on the line of an image
 means that figure, not the paragraph around it.
+
+**The request says which of the two it is.** "The table marked with `<<<`" means the element;
+"where the mark `<<<` stands in my text" means **that exact spot**: write the new text in place
+of the characters, keeping the spaces around them, so the sentence reads on.
 
 **Four rules, and they do not change with the element:**
 

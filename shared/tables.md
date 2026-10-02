@@ -394,6 +394,8 @@ for 160 notes on OneDrive.
   so the question can be answered without scrolling.
 - The marker is plain text. Obsidian shows it as text, Obsitex would convert it as text, and
   nothing else in the chain reacts to it.
+- **The request says "where my cursor stands in Obsidian" instead?** Then there is no marker
+  line. Read the cursor (`cursor.md`) and write the table there, without asking first.
 
 The second way is a described spot: "after the heading Results", "after the sentence about
 the sample size". It arrives when the author answers the question above, so it needs no

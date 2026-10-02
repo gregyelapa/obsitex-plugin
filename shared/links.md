@@ -23,6 +23,14 @@ A number prefix may stay in (`[[01 Methods#Design]]`); it does not appear in the
 Resolution is **path/file-name based only** (relPath · relPath without `.md` · basename,
 lowercased). `title:` and `aliases:` do **not** count — there is no need to set them.
 
+**Where the reference goes** comes with the request: the short marker in the sentence (put the
+link in place of it, `obsitex-conventions.md`) or the cursor in Obsidian (`cursor.md`, step 3,
+inserted as part of the sentence, with a leading space if the cursor follows a word). **What it
+points to** is named in words, often loosely ("the chapter on methods", "the survey table").
+Find the target in the vault and use the form this file gives for it: a heading directly, a
+table or a figure by its caption. A table without a caption cannot be reached; say so and offer
+to give it one, do not link to a heading near it instead.
+
 ## What it produces
 
 `\vref{label}` via the DDS field `crossReferenceCmdText`; with an alias, `\hyperref`. The

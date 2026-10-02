@@ -57,8 +57,11 @@ manuscript at once — then just say "your folder".
 
 ## Before you start
 
-1. Read `shared/obsitex-conventions.md` from this plugin — the `shared/` folder sits in the
-   plugin root, one level above the `skills/` folder this file is in. It defines the Markdown
+1. Read `shared/obsitex-conventions.md` from this plugin. **Go up two folders from this
+   skill's base directory** (the "Base directory for this skill" shown when it loaded, ending
+   in `skills/obsitex-init`): `…/obsitex/<version>/skills/obsitex-init` →
+   `…/obsitex/<version>/shared/obsitex-conventions.md`. There is **no** `shared/` folder
+   inside the skill folder, though a session tried exactly that first (02.10.2026). It defines the Markdown
    dialect the Obsitex converter understands, and it lists the topic files to consult when a
    specific element comes up. **Never write Markdown constructs outside those conventions** —
    Obsidian may render them, but the converter will not.

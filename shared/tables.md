@@ -18,6 +18,11 @@ Obsitex turns them into a LaTeX `tabular`.
 
 - **First row** = column headers.
 - **Second row** = the separator. It is mandatory — without it the block is not a table.
+- **An empty line above the table is mandatory too.** A table directly under a line of text
+  is not a table: Obsidian shows the pipes as text, and Obsitex appends the rows to the
+  paragraph above, `|---|---|` included, each with a forced line break. No warning. Measured
+  02.10.2026 against a control with the empty line, which converted to a normal `table`. It
+  happens most easily when inserting at a cursor or a marker, see `cursor.md`.
 - Colons in the separator set the alignment per column:
   `:---` left · `:--:` centred · `---:` right.
 - Cells take normal inline formatting: `**bold**`, `*italic*`, `` `code` ``, citations,
@@ -367,8 +372,8 @@ do not care, but the author edits this file for months.
 
 ### Where the table goes: the marker line
 
-**Claude Code cannot see the cursor in Obsidian.** The two programs share nothing but the
-files on disk. So a table with no stated position lands wherever you judge best, and a
+**Claude Code does not see the cursor in Obsidian by itself.** The two programs share nothing
+but the files on disk. So a table with no stated position lands wherever you judge best, and a
 correct table in the wrong section still reads as a failure to the author.
 
 The standard way, and the one the Blueprints tool hands the user, is a **marker line**: the
@@ -383,7 +388,8 @@ for 160 notes on OneDrive.
 
 - **No marker anywhere? Then ask**, for the file and the spot in one question. Never fall
   back to the end of a file, and never pick a spot out of the surrounding prose on your own.
-  One short question costs less than a table that has to be moved.
+  One short question costs less than a table that has to be moved. If Obsidian is running,
+  read its cursor first and offer that spot in the question (`cursor.md`).
 - **More than one marker?** Ask which one, and name the file and the heading each sits under
   so the question can be answered without scrolling.
 - The marker is plain text. Obsidian shows it as text, Obsitex would convert it as text, and

@@ -78,15 +78,17 @@ Read the matching file **when the topic comes up** — not in advance. Each is s
 | Escaping, rules, dashes, emoji | `special-characters.md` |
 | The 22 document settings, field by field | `dds.md` |
 | Constructs that silently go wrong, and what to write instead | `not-supported.md` |
+| "Here", "at my cursor": finding and writing at the cursor in a running Obsidian | `cursor.md` |
 | Anything the plain syntax cannot express | see "Answering a formatting wish" below |
 | Which table, image or heading the user means, and how far a change reaches | see "Which element the user means" below |
 
 ## Which element the user means: the marker
 
-**Claude Code cannot see the cursor in Obsidian.** The two programs share nothing but the
-files on disk. So "make the table narrower" names a wish, not a table, and a file name does
-not fix it either: one note can hold three tables. The Blueprints tool in the app solves
-this with markers, and the prompts it hands out carry them.
+**Claude Code does not see the cursor in Obsidian by itself.** The two programs share
+nothing but the files on disk. So "make the table narrower" names a wish, not a table, and a
+file name does not fix it either: one note can hold three tables. The Blueprints tool in the
+app solves this with markers, and the prompts it hands out carry them. A running Obsidian can
+be asked for its cursor (`cursor.md`), but the marker comes first.
 
 There are two, and they answer different questions:
 
@@ -119,7 +121,9 @@ means that figure, not the paragraph around it.
    pointer, not content. Left behind it reaches the PDF, because the converter treats it as
    ordinary text.
 3. **No marker anywhere? Then ask** and name the candidates you found, each with its file
-   and the heading it sits under, so the question can be answered without scrolling.
+   and the heading it sits under, so the question can be answered without scrolling. For a
+   **new** element, read the cursor first if Obsidian is running (`cursor.md`) and offer
+   that spot in the question.
 4. **More than one marker? Ask which one**, the same way.
 
 **The reach of a change is in the prompt too, and it stands at the front.** The same tool has

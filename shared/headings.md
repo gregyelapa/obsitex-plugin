@@ -85,8 +85,49 @@ sections. Follow what the vault does: where the sibling sections sit in `Subchap
 one goes there too. Never create such a folder between a chapter and its sections in a vault
 that has none, and never remove one unasked.
 
-A section that gets subsections of its own becomes a folder with its own folder note — so it
-takes its children along when moved.
+### Where a new heading goes: follow the folders, down to the project's depth
+
+**The depth of the project** is the number of heading levels that get files of their own:
+
+1. `obsitex-levels` in the project `CLAUDE.md` (`1`, `2` or `3`), if it is there.
+2. Otherwise measure it on disk: take the deepest Markdown file in the manuscript, count the
+   folders above it that have a folder note, and add one. A flat manuscript is `1`.
+
+If the two disagree, the assistant skill says what to do (say so and ask). Grouping folders
+never count, so the area folders of a professional thesis do not raise the depth.
+
+**Then work out the level of the new heading**, counted the same way: a top heading of the
+manuscript is `1` (whether its `#` becomes `\chapter` or `\section`), one below it `2`. Then
+place it:
+
+| New heading's level | Where it goes |
+|---|---|
+| within the depth | **a file of its own**, starting with a single `#`, in the folder of the heading above it |
+| below the depth | `##` / `###` inside the file of the heading above it, after that heading's last subheading |
+
+**If the heading above is still a single file, it becomes a folder first.** `X.md` becomes
+`X/X.md`: the same name, now the folder note, its `#` unchanged, so the PDF does not move. Then
+the new file goes in next to it. In a professional thesis the folder is built where the file
+lay, inside `Main Matter`.
+
+- **Headings already inside `X.md` stay there.** Its `##` blocks are not cut out into files of
+  their own unless the user asks. The folder note comes first in its folder, so the new file
+  still lands after them in the document: the new heading becomes the last subheading. Say
+  once, in the answer, that the old sections could become files too.
+- **A file cannot go between two `##` blocks.** If the new heading has to sit between headings
+  that stay inside the folder note, write it there as `##`, at its place, and say why.
+- **The file order goes along.** With number prefixes the names carry it: give the new file a
+  number after its siblings. With the Flexplorer plugin in Obsidian, the parent folder's
+  `customOrder` names files with `.md` and folders without (`"80 Conclusion.md"` →
+  `"80 Conclusion"`, same position), and the new folder gets its own entry with the folder note
+  first. Procedure and the running-Obsidian case: the assistant skill, "Entering a new note in
+  the Flexplorer order".
+- **Wikilinks survive the move** when they name the note only (`[[80 Conclusion]]`), because
+  the file name stays the same. A link that spells the folder path out must be updated
+  (`links.md`).
+
+A flat chapter in a deeper project is no mistake. `/obsitex:obsitex-init` leaves the last
+chapter flat on purpose, and it stays flat until it gets a new heading within the depth.
 
 **Both styles produce identical LaTeX.** `## Background` inside the folder note and
 `# Background` in a file next to it (or in its `Subchapters`) are the same thing. Moving a

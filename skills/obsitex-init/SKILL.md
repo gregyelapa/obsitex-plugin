@@ -1051,18 +1051,17 @@ inside (see "When an appendix outgrows one file" in `shared/headings.md`).
      its remark:
 
      ```
-     This chapter is deliberately a single file, not a folder. Short chapters do not need
-     one. You can mix both styles in the same thesis: a folder where a chapter grows long,
-     a plain file where it stays short. Both start with one # and both become a chapter,
-     because a file that becomes a folder keeps its level.
+     This chapter is a single file, not a folder. Both work: a chapter
+     can be a folder or a plain file. Both start with one # and both
+     become a chapter, because a file that becomes a folder keeps its
+     level.
 
-     Its two sections live inside this file as ##. That is allowed and often the better
-     choice for a short chapter: fewer files, everything on one screen.
+     Its two sections live inside this file as ##. That is allowed.
 
-     If it does grow: make a folder named like this file, move the file into it, and move
-     each ## section into its own file in that folder, dropping one # on the way. This
-     file's own # stays exactly as it is: in the folder it becomes the folder note and
-     keeps the chapter level.
+     When it gets a new section, it becomes a folder: a folder named
+     like this file, with this file inside it. This file's own # stays
+     exactly as it is, and the ## inside it may stay too. The new
+     section becomes a file of its own in that folder.
      ```
 
    All other remarks keep their content. Their language still follows the chat language

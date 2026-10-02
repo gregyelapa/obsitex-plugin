@@ -251,6 +251,9 @@ What must hold without looking anything up:
   note's `#` is its folder's own level, every other file's `#` sits one level below the folder
   note of its folder. A file starting with `##` works but can never become a folder without a
   text edit.
+- **A new heading within the project's depth (`obsitex-levels`) gets a file of its own**, and a
+  single file above it becomes a folder first (`X.md` → `X/X.md`). Only below that depth does
+  it go into an existing file as `##`. Procedure: `headings.md`, "Where a new heading goes".
 - **A heading needs no blank line before it** — except directly under a **list item**, where
   the list swallows it.
 - Attributes at the end of the line: `# Title {-}` → unnumbered but in the table of contents ·

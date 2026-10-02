@@ -76,6 +76,10 @@ you usually have it already.
   ask before writing — a flat manuscript can be a decision or an oversight, and only the user
   knows which. Update the file with their answer. **Only there:** a question about a table or
   a footnote does not touch the structure and needs no check.
+- **`obsitex-levels` is also where a new heading goes.** Within that depth it gets a file of its
+  own, and a single file above it becomes a folder first; below it, it goes into a file as
+  `##`. Without the value, the depth you counted above decides. Procedure:
+  `shared/headings.md`, "Where a new heading goes".
 - **`00 Document Setup.md` stays the truth** for everything about the document itself. The
   `CLAUDE.md` never repeats it; if it seems to, read the setup file.
 - **No such file?** Then the decisions live in the file tree alone, and you measure. Offer

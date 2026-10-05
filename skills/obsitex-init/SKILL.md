@@ -57,11 +57,9 @@ manuscript at once — then just say "your folder".
 
 ## Before you start
 
-1. Read `shared/obsitex-conventions.md` from this plugin. **Go up two folders from this
-   skill's base directory** (the "Base directory for this skill" shown when it loaded, ending
-   in `skills/obsitex-init`): `…/obsitex/<version>/skills/obsitex-init` →
-   `…/obsitex/<version>/shared/obsitex-conventions.md`. There is **no** `shared/` folder
-   inside the skill folder, though a session tried exactly that first (02.10.2026). It defines the Markdown
+1. Read `shared/obsitex-conventions.md` **inside this skill's own folder**, next to this
+   `SKILL.md` (`obsitex-init/shared/obsitex-conventions.md`). Every `shared/…` file named
+   further down sits in that same folder. It defines the Markdown
    dialect the Obsitex converter understands, and it lists the topic files to consult when a
    specific element comes up. **Never write Markdown constructs outside those conventions** —
    Obsidian may render them, but the converter will not.
@@ -160,7 +158,7 @@ packages, environments or DDS. Where a technical name is unavoidable, put it in
 parentheses after the plain wording.
 
 **Block 1 — languages first.** Before anything else, ask these two questions together in a
-single AskUserQuestion dialog:
+single AskUserQuestion dialog (no such tool? see "When there is no question tool" below):
 
 1. **Chat language** — which language should the conversation use? **Always ask this, and
    always inside the same dialog as the document language.** If the user has already written
@@ -189,6 +187,36 @@ decision, and after it the interview is over, so it reads like a natural closing
 not one. It says what the document *is*, which is block 2, and block 3's whole promise is that
 the document is settled before the files come up. Measured 26.08.2026: it was asked after
 question 11, as "almost done, one more thing".
+
+### When there is no question tool
+
+This file is written for Claude Code, where questions go through **AskUserQuestion**: a box with
+clickable options, and a sketch beside them (`preview`). Other tools may have a similar tool
+under another name. **Use it if you have one.** If you have none, ask in plain chat text. Every
+rule in this file still holds, only the form changes:
+
+- **"Dialog"** means one chat message that ends with the question and waits for the answer.
+  One question per message, as below; the language pair shares one message.
+- **The options** stand as a list under the question, each with its letter, its label and its
+  `description` on one line: `A: With chapters (recommended). Each part is a chapter …`. Close
+  with one line saying how to answer, e.g. "Reply with the letter." Letters always, also where
+  the dialog would have no letters, never numbers (see "Option letters" below).
+- **A `preview`** goes into a fenced code block above the list, one per option, each headed by
+  its letter. The comparison that the chat message gives anyway stays where it is.
+- **The recommended option comes first**, as in the dialog, and is marked "(recommended)".
+- **Wait for the answer.** Never fill in an answer and move on; a question you skip is a
+  decision made behind the user's back. A free-text answer ("the second one", "with chapters")
+  is fine; read it, and ask again only if it is truly unclear. The one exception: when your
+  instructions already supply the answers (an automated run with an answer sheet), take them
+  from there and do not ask at all.
+
+```
+Which document language?
+A: English
+B: German
+C: Another language (untested, I will adapt it as well as I can)
+Reply with the letter.
+```
 
 ### One question per dialog
 

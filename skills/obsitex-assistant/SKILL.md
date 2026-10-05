@@ -21,11 +21,9 @@ files is something the converter actually understands.
 
    **Never answer from the template you remember.** The user has been editing this file for
    months. Reading it costs about ninety lines; guessing costs a broken PDF.
-2. **Read `shared/obsitex-conventions.md` from this plugin, every time, like step 1.** **Go up two folders from this
-   skill's base directory** (the "Base directory for this skill" shown when it loaded, ending
-   in `skills/obsitex-assistant`): `…/obsitex/<version>/skills/obsitex-assistant` →
-   `…/obsitex/<version>/shared/obsitex-conventions.md`. There is **no** `shared/` folder inside
-   the skill folder, though a session tried exactly that first (02.10.2026). It carries the
+2. **Read `shared/obsitex-conventions.md` every time, like step 1.** It sits **inside this
+   skill's own folder**, next to this `SKILL.md` (`obsitex-assistant/shared/obsitex-conventions.md`).
+   Every `shared/…` file named further down sits in that same folder. It carries the
    overview, the signpost to the topic files, and the list of constructs that silently go
    wrong.
 3. **Then read the topic file for the task, before the first edit or answer.** It sits next to

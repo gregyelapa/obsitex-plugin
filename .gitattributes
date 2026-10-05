@@ -1,2 +1,7 @@
-# Maintainer tooling that must not reach the public repo (publish-release.sh uses git archive)
-tools/init-tests export-ignore
+# Maintainer files that must not reach the public repo (publish-release.sh uses git archive).
+# The public repo should read as a set of plain skills, not as this workbench.
+# The leading slash matters: without it, "shared" would also hide the copies inside the skills.
+/tools export-ignore
+/CLAUDE.md export-ignore
+# shared/ is the source the maintainer edits; every skill carries its own copy (tools/sync-shared.mjs)
+/shared export-ignore

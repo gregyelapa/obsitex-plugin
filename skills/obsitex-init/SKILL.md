@@ -1603,8 +1603,8 @@ In a German document the heading above reads `# Anhang {-}`; then write "Anhang"
 
 ## Install the Flexplorer plugin
 
-The thesis itself is written **in Obsidian** — Claude Code is the technical layer beside
-it, working on the same files — so every scaffold gets the vault layer. Obsidian's core
+The thesis itself is written **in Obsidian** — the AI tool (Claude Code, OpenCode, …) is the
+technical layer beside it, working on the same files — so every scaffold gets the vault layer. Obsidian's core
 file explorer always lists folders above files, so the visible order would not match the
 document order (confusing especially for professional-thesis, where each switch file must
 sit first in its folder, above the chapter folders). Flexplorer fixes the display and adds
@@ -1833,7 +1833,7 @@ Obsidian's community store, so Obsidian's plugin manager offers updates once the
 switched it on. Change the pinned version only for a reason, and change the three hashes in
 the same edit.
 
-## The project `CLAUDE.md` — what the next session will not know
+## The project `AGENTS.md` — what the next session will not know
 
 Everything you learned in the interview lives in **this session only**. The next one starts
 cold: it finds the result on disk and nothing about the decisions that produced it. Two
@@ -1842,8 +1842,11 @@ things follow, and the second is the one that bites.
 1. **The assistant may not start at all.** It is triggered by its description. "Write me
    chapter 3" reads as a content request, so the skill can stay silent and the session then
    writes into a manuscript file without knowing any convention — wrapped paragraphs, typed
-   quotation marks. A `CLAUDE.md` in the project folder is loaded by Claude Code on its own,
-   independently of that matching.
+   quotation marks. An `AGENTS.md` in the project folder is loaded on its own, independently
+   of that matching: by Codex, OpenCode and other tools, and by Claude Code since v2.1.277.
+   **One catch in Claude Code:** it skips `AGENTS.md` as soon as a `CLAUDE.md` sits in the
+   project folder or anywhere above it. That case is handled in "Never overwrite an existing
+   `AGENTS.md` or `CLAUDE.md`" below.
 2. **A file tree shows a state, never a rule.** A later session sees flat files and cannot
    tell "deliberately flat" from "nobody has tidied up yet". It helpfully creates a subfolder
    and breaks a decision it never saw.
@@ -1854,8 +1857,8 @@ end of the wrap-up, with **both** reasons, because each one is a benefit the use
 "So it does not have to guess" was too weak: it named neither reason, and the first one is the
 bigger one. The wording, translated into the chat language:
 
-> Last, I clearly recommend one more file: `CLAUDE.md` in the project folder. Claude reads it
-> first whenever a new chat starts in this folder. It does two things:
+> Last, I clearly recommend one more file: `AGENTS.md` in the project folder. Your AI
+> assistant reads it first whenever a new chat starts in this folder. It does two things:
 > - **Every new chat knows the key facts of your work:** its structure, its levels, its order,
 >   and what we decided today.
 > - **Every new chat knows that I am here as your Obsitex assistant.** So you get the right
@@ -1863,10 +1866,11 @@ bigger one. The wording, translated into the chat language:
 >
 > Shall I create it?
 
-The German original (agreed 27.09.2026), for a German chat:
+The German original (agreed 27.09.2026, file name and reader changed 06.10.2026), for a
+German chat:
 
-> Zum Schluss empfehle ich dir klar die Datei `CLAUDE.md` im Projektordner. Claude liest sie
-> bei jedem neuen Chat in diesem Ordner zuerst. Sie sorgt für zwei Dinge:
+> Zum Schluss empfehle ich dir klar die Datei `AGENTS.md` im Projektordner. Dein
+> KI-Assistent liest sie bei jedem neuen Chat in diesem Ordner zuerst. Sie sorgt für zwei Dinge:
 > - **Jeder neue Chat kennt die Eckwerte deiner Arbeit:** Aufbau, Ebenen, Reihenfolge und was
 >   wir heute entschieden haben.
 > - **Jeder neue Chat weiss, dass es mich als Obsitex-Assistenten gibt.** So bekommst du die
@@ -1956,8 +1960,8 @@ teaches:
 2. **Only the Markdown files inside the manuscript become the document.** Name the folder.
 3. `00 Document Setup.md` decides how the document looks. **It is the truth, read it, never
    answer from a remembered template.**
-4. For anything about formatting there is the Obsitex plugin for Claude Code. Use it instead
-   of guessing.
+4. For anything about formatting there is the Obsitex skill `obsitex-assistant`. Use it
+   instead of guessing.
 5. The intention behind the structure decisions, in one sentence each, and only where there
    was one. *"The user deliberately chose no subfolders."* Skip a decision that was just the
    default.
@@ -1981,50 +1985,74 @@ Point 8 needs the trigger. Without it the check either never happens or happens 
 question about a table, and both are wrong: the ordering and the depth matter when something
 is **created**, not when something is explained.
 
-### Never overwrite an existing `CLAUDE.md`
+### Never overwrite an existing `AGENTS.md` or `CLAUDE.md`
 
-The user may have written their own, before or after the scaffold. The "project folder
+**The Obsitex facts always go into `AGENTS.md`.** A `CLAUDE.md` is never written in full: it is
+the user's own file (Claude Code reads it, and the user may have put anything about their
+thesis there). It only ever gets one line, `@AGENTS.md`, which makes Claude Code read
+`AGENTS.md` as well. That keeps the two apart: Obsitex in `AGENTS.md`, the user's own notes in
+`CLAUDE.md`.
+
+The user may have written either file, before or after the scaffold. The "project folder
 already holds `.md` files" stop at the top of this skill does **not** catch the second case,
 and their file may hold months of their own instructions. Losing it is the worst outcome this
 section can produce, so the procedure is fixed:
 
-**Step 1 — look, always.** Before anything else, list the project folder and check for a
-`CLAUDE.md`. Not from memory, not from what the scaffold wrote: read the directory. **Look
-one level up as well** — with the box shape (a project folder inside a larger vault) the
-user's own `CLAUDE.md` can sit in the parent. A file up there is never touched; if one is
-found, say so and write yours in the project folder as usual, so the two do not contradict
-each other.
+**Step 1 — look, always.** Before anything else, list the project folder and check for an
+`AGENTS.md` and a `CLAUDE.md`. Not from memory, not from what the scaffold wrote: read the
+directory. **Look in every folder above it as well, up to the drive** — with the box shape (a
+project folder inside a larger vault) the user's own files can sit in a parent. A file up there
+is never touched. The personal `~/.claude/CLAUDE.md` does not count here: it sits in the
+`.claude` folder, not on the path, and does not stop Claude Code from reading `AGENTS.md`.
 
-**Step 2 — pick the branch by what you found, and with it the tool.**
+**Step 2 — `AGENTS.md` in the project folder, by what you found.**
 
 | Found | What you write | Tool |
 |---|---|---|
-| no `CLAUDE.md` in the project folder | the whole file as above | `Write` |
-| a `CLAUDE.md` is there | **only** a block between two markers | `Read` first, then `Edit` |
+| no `AGENTS.md` | the whole file as above | `Write` |
+| an `AGENTS.md` is there | **only** a block between two markers | `Read` first, then `Edit` |
 
-- **`Write` on an existing `CLAUDE.md` is forbidden.** It replaces the file completely, and
-  the user's own instructions are gone without a trace. The same goes for any shell
-  redirection (`>`, `>>`, `tee`) — the "never write a `.md` through the shell" rule below
-  covers that anyway, and here the reason is a second one.
-- **On an existing file:** leave every line of it untouched. Append the marker block at the
-  end. On a later run, replace what is between the markers and nothing else, never the file
-  around them. Their own frontmatter stays theirs, so put the facts as a small table inside
-  the block instead, and say in one sentence that `skip: true` belongs in their frontmatter
-  if the file sits inside the manuscript.
-- **Markers already present?** Then a previous run wrote them. Replace only what is between
-  them and leave the rest, however much of it there is.
+**Step 3 — the `@AGENTS.md` line, so Claude Code reads it too.** Claude Code reads `AGENTS.md`
+on its own only while there is no `CLAUDE.md` in the project folder or above it.
+
+| Found | What you do |
+|---|---|
+| no `CLAUDE.md` anywhere (project folder or above) | nothing. No `CLAUDE.md` is needed |
+| a `CLAUDE.md` in the project folder | `Read` it. Holds `@AGENTS.md` already (inside or outside the markers)? Leave it. Otherwise `Edit`: append the marker block with the one line `@AGENTS.md` |
+| a `CLAUDE.md` only in a folder **above** | `Write` a new `CLAUDE.md` in the project folder holding only the marker block with `@AGENTS.md`. The one above stays untouched; Claude Code reads both |
 
 ```
 <!-- obsitex:start -->
-… the Obsitex lines …
+@AGENTS.md
 <!-- obsitex:end -->
 ```
 
+**Projects from before 06.10.2026** have the Obsitex facts in a marker block inside
+`CLAUDE.md`. On such a project, write `AGENTS.md` as in step 2, then replace what is between
+the markers in `CLAUDE.md` with the one line `@AGENTS.md`. Everything outside the markers stays.
+
+Rules for both files:
+
+- **`Write` on an existing file is forbidden.** It replaces the file completely, and the
+  user's own instructions are gone without a trace. The same goes for any shell redirection
+  (`>`, `>>`, `tee`) — the "never write a `.md` through the shell" rule below covers that
+  anyway, and here the reason is a second one.
+- **On an existing file:** leave every line of it untouched. Append the marker block at the
+  end. On a later run, replace what is between the markers and nothing else, never the file
+  around them. Their own frontmatter stays theirs, so in an existing `AGENTS.md` put the facts
+  as a small table inside the block instead, and say in one sentence that `skip: true` belongs
+  in their frontmatter if the file sits inside the manuscript.
+- **Markers already present?** Then a previous run wrote them. Replace only what is between
+  them and leave the rest, however much of it there is.
+- **A new `CLAUDE.md` from step 3 gets `skip: true` frontmatter too**, above the marker block,
+  for the same reason as `AGENTS.md`: with the opt-out it sits inside the manuscript.
+
 Obsidian does not display HTML comments, so the two marker lines stay invisible to the user.
 
-**Step 3 — say which branch you took.** One sentence in the report: either "I wrote a new
-`CLAUDE.md`" or "you already had one, so I only appended a block to it and left the rest
-alone". The user cannot check what they cannot see.
+**Step 4 — say what you did, in one or two sentences.** For `AGENTS.md`: "I wrote a new
+`AGENTS.md`" or "you already had one, so I only appended a block to it". For `CLAUDE.md`, only
+if you touched or created one: "your `CLAUDE.md` stays yours; I only added the line
+`@AGENTS.md` so Claude Code reads both". The user cannot check what they cannot see.
 
 ## Hard rules
 
@@ -2046,16 +2074,17 @@ alone". The user cannot check what they cannot see.
   and for any body text written later. Wrapping is fine inside ` ```remark `, ` ```latex `
   and ` ```dds ` blocks. It applies to LIST ITEMS too - a wrapped item gets the same forced break.
 - **German is written with real umlauts: ä, ö, ü, Ä, Ö, Ü. Never ae, oe, ue.** This holds for
-  every file you write (remarks, READMEs, `CLAUDE.md`) and for the chat. The file tools write
+  every file you write (remarks, READMEs, `AGENTS.md`) and for the chat. The file tools write
   UTF-8 and handle umlauts correctly, so there is no reason to avoid them. **And translate the
   meaning, not the words:** "Introduce the topic" is "Führe in das Thema ein", never
   "Introduziere das Thema". Measured 27.09.2026: in one run two files came out in ae/oe/ue
   while all others had real umlauts, one of them with "Introduziere".
-- **Never `Write` over a `CLAUDE.md` that already exists.** Look for one before you write,
-  in the project folder and one level up. Found one? Then `Read` it and `Edit` only the block
-  between the two markers. It may hold months of the user's own instructions, and `Write`
-  replaces the whole file without a trace. Procedure: "Never overwrite an existing
-  `CLAUDE.md`" above.
+- **Never `Write` over an `AGENTS.md` or `CLAUDE.md` that already exists.** Look for both
+  before you write, in the project folder and above it. Found one? Then `Read` it and `Edit`
+  only the block between the two markers. It may hold months of the user's own instructions,
+  and `Write` replaces the whole file without a trace. The Obsitex facts go into `AGENTS.md`;
+  a `CLAUDE.md` only ever gets the line `@AGENTS.md`. Procedure: "Never overwrite an existing
+  `AGENTS.md` or `CLAUDE.md`" above.
 - **Ask the twelve questions in their numbered order.** No question is held back for the end
   because it feels like a good closing question. The cover data (8) is the one this happens to,
   and it happened: asked after question 11, as "almost done, one more thing". It belongs in
@@ -2230,6 +2259,6 @@ Projektordner                   ← Obsidian opens this one (the vault)
   suspiciously empty file with an old name turns up, that is what happened — delete it and
   fix the link.
 - A file is excluded from the document with `skip: true` in its frontmatter.
-- **Last, and as a question:** offer the project `CLAUDE.md`, clearly recommended, at the very
-  end, after everything else has been reported. Use the wording in "The project `CLAUDE.md`"
+- **Last, and as a question:** offer the project `AGENTS.md`, clearly recommended, at the very
+  end, after everything else has been reported. Use the wording in "The project `AGENTS.md`"
   above: both reasons, as two points. Write it only if they say yes.

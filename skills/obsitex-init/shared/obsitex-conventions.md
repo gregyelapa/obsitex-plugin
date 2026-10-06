@@ -34,7 +34,7 @@ What follows from the split — and what goes silently wrong when it is forgotte
 
 ### Moving a project into a vault the user already has
 
-`/obsitex:obsitex-init` always makes the project folder its own vault and never asks about this — the
+`obsitex-init` always makes the project folder its own vault and never asks about this — the
 question cannot be raised without explaining vaults to someone who may not need the concept.
 But the wish is legitimate and comes up: a thesis next to existing literature notes, or
 several projects sharing one Flexplorer installation. **Only act on it when the user asks.**
@@ -84,7 +84,7 @@ Read the matching file **when the topic comes up** — not in advance. Each is s
 
 ## Which element the user means: the marker
 
-**Claude Code does not see the cursor in Obsidian by itself.** The two programs share
+**Your AI tool (Claude Code, OpenCode, …) does not see the cursor in Obsidian by itself.** The two programs share
 nothing but the files on disk. So "make the table narrower" names a wish, not a table, and a
 file name does not fix it either: one note can hold three tables. The Blueprints tool in the
 app solves this with markers, and the prompts it hands out carry them. A running Obsidian can

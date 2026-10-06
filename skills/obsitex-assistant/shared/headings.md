@@ -76,7 +76,7 @@ rename the folder note in the same step.
 **A grouping folder only groups.** The three area folders `Front Matter`,
 `Main Matter` and `Back Matter` are the usual ones (in vaults set up before v1.47.0:
 `Frontmatter` and `Backmatter`, with the chapters directly in the manuscript); a user may add
-others just to keep files tidy. Vaults set up by `/obsitex:obsitex-init`
+others just to keep files tidy. Vaults set up by `obsitex-init`
 before v1.46.0 also keep their sections in a grouping folder called `Subchapters`
 (`Unterkapitel`, `Subsections`, … depending on the language); newer ones put the sections
 directly into the chapter folder. Either way such a folder adds no level and never appears in
@@ -89,7 +89,7 @@ that has none, and never remove one unasked.
 
 **The depth of the project** is the number of heading levels that get files of their own:
 
-1. `obsitex-levels` in the project `CLAUDE.md` (`1`, `2` or `3`), if it is there.
+1. `obsitex-levels` in the project `AGENTS.md` (`1`, `2` or `3`), if it is there. In projects set up before 06.10.2026 it sits in a marker block in `CLAUDE.md`.
 2. Otherwise measure it on disk: take the deepest Markdown file in the manuscript, count the
    folders above it that have a folder note, and add one. A flat manuscript is `1`.
 
@@ -126,7 +126,7 @@ lay, inside `Main Matter`.
   the file name stays the same. A link that spells the folder path out must be updated
   (`links.md`).
 
-A flat chapter in a deeper project is no mistake. `/obsitex:obsitex-init` leaves the last
+A flat chapter in a deeper project is no mistake. `obsitex-init` leaves the last
 chapter flat on purpose, and it stays flat until it gets a new heading within the depth.
 
 **Both styles produce identical LaTeX.** `## Background` inside the folder note and

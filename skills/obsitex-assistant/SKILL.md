@@ -51,12 +51,14 @@ files is something the converter actually understands.
 4. **Never invent syntax.** If a construct appears in neither the overview nor a topic file,
    say plainly that Obsitex does not support it and offer the nearest thing that works.
 
-## The project `CLAUDE.md`, if there is one
+## The project `AGENTS.md`, if there is one
 
-`/obsitex:obsitex-init` may have left a `CLAUDE.md` in the project folder holding the decisions from
+`obsitex-init` may have left an `AGENTS.md` in the project folder holding the decisions from
 the setup interview: `obsitex-manuscript`, `obsitex-ordering`, `obsitex-levels`,
-`obsitex-chat-language` and the intentions behind them. Claude Code loads it on its own, so
-you usually have it already.
+`obsitex-chat-language` and the intentions behind them. Most AI tools load it on their own,
+so you usually have it already. **Projects set up before 06.10.2026** keep these facts in a
+marker block inside `CLAUDE.md` instead; with no `AGENTS.md` in the project folder, read
+that block. Below, "the file" means whichever of the two holds the facts.
 
 - **It records what was agreed once, not what is true now.** On any disagreement the disk
   wins. Never "correct" a folder to match the file.
@@ -79,15 +81,16 @@ you usually have it already.
   `##`. Without the value, the depth you counted above decides. Procedure:
   `shared/headings.md`, "Where a new heading goes".
 - **`00 Document Setup.md` stays the truth** for everything about the document itself. The
-  `CLAUDE.md` never repeats it; if it seems to, read the setup file.
+  file never repeats it; if it seems to, read the setup file.
 - **No such file?** Then the decisions live in the file tree alone, and you measure. Offer
-  once to write one (contents: `obsitex-init/SKILL.md`, "The project `CLAUDE.md`"), do not
-  push, and never create it unasked.
-- **Never `Write` over a `CLAUDE.md` that exists** — not when you update a value, not when
-  you add one. `Read` it and `Edit` the one line. The file may hold the user's own
-  instructions, and `Write` replaces all of it without a trace. If it has no
+  once to write an `AGENTS.md` (contents and the `CLAUDE.md` rule: `obsitex-init/SKILL.md`,
+  "The project `AGENTS.md`" and "Never overwrite an existing `AGENTS.md` or `CLAUDE.md`"), do
+  not push, and never create it unasked.
+- **Never `Write` over an `AGENTS.md` or `CLAUDE.md` that exists** — not when you update a
+  value, not when you add one. `Read` it and `Edit` the one line. The file may hold the user's
+  own instructions, and `Write` replaces all of it without a trace. If it has no
   `<!-- obsitex:start -->` block, the whole file is theirs: append one rather than editing
-  their lines.
+  their lines. **A `CLAUDE.md` never receives Obsitex facts**, only the line `@AGENTS.md`.
 
 ## Working in the user's vault
 
@@ -227,9 +230,10 @@ it in parentheses after the plain wording.
 When you use a raw LaTeX block, say that Obsidian will show the source in its preview
 instead of a rendered table or figure. That surprises people.
 
-Two plugins come up in this project and they are different things — always name the
+Two add-ons come up in this project and they are different things — always name the
 environment: the **Flexplorer** plugin **in Obsidian** (file order) and the **Obsitex**
-plugin **in Claude Code** (this skill). Never say just "the plugin".
+skills **in your AI tool** (this skill; in Claude Code they come as a plugin). Never say just
+"the plugin".
 
 Write your answers without dashes, neither the long one (em dash) nor the short one (en dash).
 Use a full stop, a comma, a colon or brackets instead. A dash pushes a side thought into the

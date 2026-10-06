@@ -1603,7 +1603,7 @@ In a German document the heading above reads `# Anhang {-}`; then write "Anhang"
 
 ## Install the Flexplorer plugin
 
-The thesis itself is written **in Obsidian** — the AI tool (Claude Code, OpenCode, …) is the
+The thesis itself is written **in Obsidian** — the AI tool (Claude Code, Codex or OpenCode) is the
 technical layer beside it, working on the same files — so every scaffold gets the vault layer. Obsidian's core
 file explorer always lists folders above files, so the visible order would not match the
 document order (confusing especially for professional-thesis, where each switch file must
@@ -1665,7 +1665,7 @@ afterwards. Reason: if the plugin starts without a seed, it builds its own rever
 immediately, and the user would see exactly the broken state we are preventing (plus a
 restart, plus the risk that the running plugin overwrites our file).
 
-The clicks themselves are the user's — Claude has no access to Obsidian's UI. Walk them
+The clicks themselves are the user's — you have no access to Obsidian's UI. Walk them
 through it in the chat, in their language, and sketch the path so it is easy to follow:
 
 ```
@@ -1896,7 +1896,7 @@ and only two of them belong in the file:
 | Stands in `00 Document Setup.md` | document language, `documentLevelIndex`, numbering and contents depth, cover data | **no** — a pointer only |
 | Measurable on disk | ordering variant, folder depth, manuscript name, scaffold yes/no | yes, **with a date** |
 | Nowhere readable | chat language, the *intention* behind a choice | yes, it cannot go stale |
-| The conventions themselves | how to write a table, quotation marks, line breaks | **never** — the plugin carries those and can be updated, this file cannot |
+| The conventions themselves | how to write a table, quotation marks, line breaks | **never** — the Obsitex skills carry those and can be updated, this file cannot |
 
 The third row is the actual treasure, and the reason the file exists at all.
 
@@ -1952,8 +1952,8 @@ older vault `Einleitung/Unterkapitel/Motivation.md` → 2.
 
 ### The body — six to ten lines, in the chat language
 
-Write these points, no more. Plain sentences, no dashes, and nothing the plugin already
-teaches:
+Write these points, no more. Plain sentences, no dashes, and nothing the Obsitex skills already
+teach:
 
 1. This is an Obsitex project: the Markdown in the manuscript becomes a LaTeX document
    and a PDF.
@@ -2197,7 +2197,7 @@ Projektordner                   ← Obsidian opens this one (the vault)
   run Obsitex — sign in, **pick the manuscript** (`Manuscript` / `10 Manuscript`; with the
   opt-out, the project folder itself), Convert, and export (Overleaf / download).
 - **Variant A only — switching the add-on on:** the plugin files are copied in but Obsidian
-  will not run them until the user does this by hand (Claude cannot — no UI access to the app, only
+  will not run them until the user does this by hand (you cannot — no UI access to the app, only
   the filesystem). Give this exact sequence:
   1. Settings (gear icon, bottom left) → "Community plugins" ("Community-Erweiterungen")
      in the left sidebar.

@@ -27,7 +27,7 @@ found by accident.
 
 ## How it works
 
-Your AI tool (Claude Code, OpenCode, …) and Obsidian are two programs. Only the **running** Obsidian knows where the
+Your AI tool (Claude Code, Codex or OpenCode) and Obsidian are two programs. Only the **running** Obsidian knows where the
 cursor is; it is in no file on disk. Obsidian has a command line, and its `eval` command runs
 JavaScript inside Obsidian and prints the result. Everything below goes through it. Measured
 01.10.2026 and 02.10.2026, Claude Code in VS Code, Obsidian 1.13.7 beside it, never focused.

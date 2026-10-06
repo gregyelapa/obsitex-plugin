@@ -84,7 +84,7 @@ Read the matching file **when the topic comes up** — not in advance. Each is s
 
 ## Which element the user means: the marker
 
-**Your AI tool (Claude Code, OpenCode, …) does not see the cursor in Obsidian by itself.** The two programs share
+**Your AI tool (Claude Code, Codex or OpenCode) does not see the cursor in Obsidian by itself.** The two programs share
 nothing but the files on disk. So "make the table narrower" names a wish, not a table, and a
 file name does not fix it either: one note can hold three tables. The Blueprints tool in the
 app solves this with markers, and the prompts it hands out carry them. A running Obsidian can

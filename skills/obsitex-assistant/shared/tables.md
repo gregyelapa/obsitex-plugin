@@ -372,7 +372,7 @@ do not care, but the author edits this file for months.
 
 ### Where the table goes: the marker line
 
-**Your AI tool (Claude Code, OpenCode, …) does not see the cursor in Obsidian by itself.** The two programs share nothing
+**Your AI tool (Claude Code, Codex or OpenCode) does not see the cursor in Obsidian by itself.** The two programs share nothing
 but the files on disk. So a table with no stated position lands wherever you judge best, and a
 correct table in the wrong section still reads as a failure to the author.
 

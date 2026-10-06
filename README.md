@@ -57,7 +57,8 @@ command installs the one plugin on that list. `obsitex@obsitex` looks doubled be
 *plugin@marketplace*, and here both carry the same name. Claude Code asks you to trust the
 repository first. That is expected: a plugin brings code with it.
 
-**Start:** `/obsitex:obsitex-init` in the folder where the vault should be created.
+**Start:** `/obsitex-init` in the folder where the vault should be created. If another command
+already has that name, use the full form `/obsitex:obsitex-init`.
 
 **Update:** `claude plugin update obsitex@obsitex` (the full id; `obsitex` alone fails), then
 restart the session. `/clear` is not enough: it empties the conversation, not the loaded

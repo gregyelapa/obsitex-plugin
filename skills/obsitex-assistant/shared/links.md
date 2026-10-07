@@ -74,6 +74,13 @@ neither produces an error:
 - **`noabbrev` is not decoration.** Without it cleveref abbreviates: "tab. 1" instead of
   "table 1". The standard preamble sets it.
 
+**An appendix needs two lines after `\appendix`** (measured 07.10.2026). Without them a
+reference to an appendix says "chapter B" instead of "appendix B", in every class and every
+language. `Switch to Appendix` carries them since plugin v1.62.2; older vaults lack them. The
+names `appendix` and `subappendix` in them are internal; the printed word ("Anhang",
+"annexe") comes from the `cleveref` language option like every other type word. Details and
+what to offer the user: `headings.md`, "Switch to Appendix".
+
 External links: `[text](https://…)` → `\href`; a bare URL in running text → `\url`, clickable.
 
 ## What does not link — and stays as readable text

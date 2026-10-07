@@ -312,6 +312,25 @@ on its own.
    "&" between two authors). Send this tip with the question (see "Tips" below):
    *"💡 **Tip:** If your university asks for a different style, just tell me. It is one word
    in the setup and every citation in the document follows."*
+
+   **Labels and `description`, in dialog order.** Translate them into the chat language, but
+   keep the example citations exactly as they are:
+
+   - **`Numbers [1]` (default)** — "The source appears as a number in square brackets. Common
+     in engineering, computer science and the natural sciences."
+   - **`Author-year (Meier 2020)`** — "Name and year in parentheses. A good choice when your
+     university prescribes nothing."
+   - **`APA (Meier, 2020)`** — "The style of the American Psychological Association. Common in
+     psychology, education and the social sciences."
+   - **`Footnotes`** — "The full source in a footnote at the bottom of the page, shortened when
+     it comes again. Common in history, law and philosophy."
+
+   **Why the example sits in the label:** "numeric" and "verbose" mean nothing to a student,
+   and an example is understood at a glance. APA and author-year look almost alike in the text;
+   the comma and the line below are the only visible difference, so neither may be dropped.
+   **The subjects are a rule of thumb, never a rule.** Write "common in", never "required in"
+   or "used in", and never steer the user towards a style because of their subject. What their
+   university asks for decides, and the tip covers that.
 8. **Cover data** (every template) — for professional-thesis and simple-thesis: title,
    subtitle, document type (e.g. Seminar Paper / Master Thesis), degree program, author,
    supervisor. For academic-paper (since 30.09.2026): title, subtitle, the authors with
@@ -1461,10 +1480,10 @@ ever sees them. The numbers below apply to **variant B**; in variant A drop them
 
      | Answer | biblatex option | Extra line — **required** |
      |---|---|---|
-     | numeric (default) | `style=numeric-comp` | none |
-     | author–year | `style=authoryear` | `\let\cite\parencite % author-year: source in parentheses` |
-     | APA | `style=apa` | `\let\cite\parencite % APA: source in parentheses` |
-     | verbose | `style=verbose` | `\let\cite\footcite % verbose: source in a footnote` |
+     | numeric (default) — "Numbers [1]" | `style=numeric-comp` | none |
+     | author–year — "Author-year (Meier 2020)" | `style=authoryear` | `\let\cite\parencite % author-year: source in parentheses` |
+     | APA — "APA (Meier, 2020)" | `style=apa` | `\let\cite\parencite % APA: source in parentheses` |
+     | verbose — "Footnotes" | `style=verbose` | `\let\cite\footcite % verbose: source in a footnote` |
 
      **Without the extra line the output is broken, and it still compiles** (measured
      14.08.2026, APA 07.10.2026): `authoryear` prints `… a long tradition Knuth 1984.` with no

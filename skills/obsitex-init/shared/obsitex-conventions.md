@@ -317,6 +317,8 @@ Quotation forms, prenotes, locators and the `.bib` embed: `bibliography.md`.
 - `![[refs.bib]]` registers the file **and** prints the bibliography at that spot
 - **Never invent citation keys.** A key that is not in `refs.bib` turns into a question mark
   in the PDF — read the file or ask
+- **Under `style=apa` a `.bib` title loses its capitals** (proper nouns, foreign-language
+  titles) — writing or checking a `.bib` entry then means `bibliography.md`, "APA"
 
 ## Links and embeds
 

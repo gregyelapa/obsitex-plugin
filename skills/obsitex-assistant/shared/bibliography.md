@@ -29,10 +29,26 @@ means something different in every biblatex style:
 |---|---|---|
 | `numeric-comp` | none | `[1]` — correct |
 | `authoryear` | `\let\cite\parencite` | `Knuth 1984` — **no parentheses** |
+| `apa` | `\let\cite\parencite` | `Meier, 2020` — **no parentheses** |
 | `verbose` | `\let\cite\footcite` | the **whole reference inside the sentence** |
 
-Measured 14.08.2026. Both broken forms **compile without a warning** — they are only visible
-in the PDF. If a user asks to switch the citation style, add both lines and say why.
+Measured 14.08.2026 (`apa`: 07.10.2026). All broken forms **compile without a warning** — they
+are only visible in the PDF. If a user asks to switch the citation style, add both lines and
+say why.
+
+## APA: titles in the `.bib`
+
+APA writes the titles of articles and books in sentence case, and `style=apa` enforces it:
+**every word after the first is lowercased** in the reference list. The other styles leave
+titles alone. Two cases go wrong (measured 07.10.2026):
+
+| Case | `.bib` | In the PDF | Fix |
+|---|---|---|---|
+| Proper noun | `title = {Writing in Obsidian at the University of Zurich}` | "Writing in obsidian at the university of zurich" | braces around it: `{Obsidian}`, `{University of Zurich}` |
+| Source in another language | a German title, English document | "Ein beispielartikel für den test-vault" | `langid = {ngerman}` in that entry |
+
+Braces protect only what they enclose, so put them around the name, not the whole title.
+When a user picks APA or adds a source under APA, check the titles for both cases.
 
 ## The three citation forms
 

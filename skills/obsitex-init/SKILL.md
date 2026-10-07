@@ -305,8 +305,11 @@ on its own.
 6. **Contents list depth** — same depth as the numbering, or one level shallower? Never
    deeper. Asked **after** answer 5 is in, because the option labels and the recommendation are
    both written out of it; see "Sectioning depth" below.
-7. **Citation style** — numeric (default), author–year, or verbose. Maps to the biblatex
-   `style=` option in the preamble. Send this tip with the question (see "Tips" below):
+7. **Citation style** — numeric (default), author–year, APA, or verbose. Maps to the biblatex
+   `style=` option in the preamble. **APA is an option of its own, not a flavour of
+   author–year:** psychology, education, the social sciences and often business ask for it by
+   name, and its reference list follows rules `authoryear` does not (titles in sentence case,
+   "&" between two authors). Send this tip with the question (see "Tips" below):
    *"💡 **Tip:** If your university asks for a different style, just tell me. It is one word
    in the setup and every citation in the document follows."*
 8. **Cover data** (every template) — for professional-thesis and simple-thesis: title,
@@ -1453,19 +1456,23 @@ ever sees them. The numbers below apply to **variant B**; in variant A drop them
 2. Then adapt in place **with the Edit tool, never through the shell** (see "Hard rules":
    the shell eats one backslash of every `\\` pair and silently flattens the cover page):
    - **Citation style:** in `00 Document Setup.md`, set the biblatex option — **and, for the
-     two non-default styles, add the matching redefinition on the next line.** The converter
+     three non-default styles, add the matching redefinition on the next line.** The converter
      always emits `\cite{…}`, and `\cite` means something different in every biblatex style:
 
      | Answer | biblatex option | Extra line — **required** |
      |---|---|---|
      | numeric (default) | `style=numeric-comp` | none |
      | author–year | `style=authoryear` | `\let\cite\parencite % author-year: source in parentheses` |
+     | APA | `style=apa` | `\let\cite\parencite % APA: source in parentheses` |
      | verbose | `style=verbose` | `\let\cite\footcite % verbose: source in a footnote` |
 
      **Without the extra line the output is broken, and it still compiles** (measured
-     14.08.2026): `authoryear` prints `… a long tradition Knuth 1984.` with no parentheses,
-     and `verbose` prints the **entire reference inside the sentence** — "… a long tradition
-     Donald E. Knuth. The TeXbook. Reading, MA: Addison-Wesley, 1984." Nothing warns.
+     14.08.2026, APA 07.10.2026): `authoryear` prints `… a long tradition Knuth 1984.` with no
+     parentheses, `apa` likewise prints `Meier, 2020` with none, and `verbose` prints the
+     **entire reference inside the sentence** — "… a long tradition Donald E. Knuth. The
+     TeXbook. Reading, MA: Addison-Wesley, 1984." Nothing warns. `style=apa` needs no extra
+     `\usepackage`: the style comes from the `biblatex-apa` bundle of the TeX distribution,
+     and it follows the babel language on its own ("References" / "Literatur").
    - **Cover data:** replace the placeholders inside the `latex` block of the Cover Page
      file (professional-thesis / simple-thesis) or of the Title file (academic-paper). For a
      single author in the paper, delete the `\and` line and the two lines after it; keep

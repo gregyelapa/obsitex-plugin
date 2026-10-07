@@ -291,13 +291,20 @@ Main Matter/
 Back Matter/
     About Back Matter.md             remark only, may be deleted
     Bibliography.md
-    Switch to Appendix.md            # Appendix {-} + ```latex \appendix
+    Switch to Appendix.md            # Appendix {-} + ```latex \appendix + two \crefalias
     Survey Questionnaire.md, …       appendix chapters A, B, C
 ```
 
 - **The switch files must stay where they are and must not be deleted.** They are raw LaTeX,
   and only their position makes them work: a chapter placed above `Switch to Main Matter`
   gets roman page numbers and no number of its own.
+- **`Switch to Appendix` has two lines after `\appendix`:** `\crefalias{chapter}{appendix}`
+  and `\crefalias{section}{subappendix}`. Never remove them. Without them a cross-reference
+  to an appendix says "chapter B" instead of "appendix B" (and "section B.1" instead of
+  "appendix B.1"), in every class and every language. Number and page stay right, only the
+  word is wrong. The cause is in LaTeX itself, not in Obsitex: the kernel's repair for the
+  old `cleveref` ignores what `\appendix` tells it. Vaults set up before plugin v1.62.2 lack
+  the two lines. When a user sees "chapter B" for an appendix, offer to add them there.
 - **`About Back Matter` only explains.** It produces nothing in the PDF.
 - **New chapters go into `Main Matter`**, below its switch file. New front matter (a preface, a
   list of symbols) goes into `Front Matter`; a new appendix into `Back Matter`, after
@@ -316,7 +323,7 @@ outgrows one file becomes a folder with its folder note, right where it is in `B
 
 ```
 Back Matter/
-    Switch to Appendix.md            ```latex \appendix
+    Switch to Appendix.md            ```latex \appendix + two \crefalias
     Interviews/
         Interviews.md                → # Interviews     (appendix chapter)
         Interview A.md               → # Interview A    (section)

@@ -1535,7 +1535,7 @@ ever sees them. The numbers below apply to **variant B**; in variant A drop them
   90 Back Matter/
       10 About Back Matter.md           explains only, may be deleted
       20 Bibliography.md
-      30 Switch to Appendix.md          \appendix      before the first appendix
+      30 Switch to Appendix.md          \appendix      before the first appendix (+ two \crefalias)
       40 Survey Questionnaire.md … 60 Declaration of Authorship.md
   ```
 

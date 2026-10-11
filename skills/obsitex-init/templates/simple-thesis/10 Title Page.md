@@ -1,11 +1,11 @@
 ```remark
-Cover page as a raw LaTeX block. Replace the placeholders (title, degree, author,
+Title page as a raw LaTeX block. Replace the placeholders (title, degree, author,
 supervisor, date). This file has no Markdown heading on purpose: the title page
 layout comes entirely from the LaTeX block below.
 ```
 
 ```latex
-% Cover page (titlepage environment). Edit the placeholder texts below.
+% Title page (titlepage environment). Edit the placeholder texts below.
 \begin{titlepage}
 \hrule
 \vspace{1.8cm}
@@ -17,7 +17,7 @@ layout comes entirely from the LaTeX block below.
 \textbf{Your Subtitle of the Thesis}\\
 
 \vspace{2cm}
-\textbf{Master Thesis}\\
+\textbf{Seminar Paper}\\
 
 \vfill
 \normalsize

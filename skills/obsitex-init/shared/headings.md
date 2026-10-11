@@ -141,7 +141,7 @@ one `#`.
   and `Foundations.md` loses its place at the front. Always rename folder and folder note
   together.
 - **A file named like a grouping folder turns it into a level.** `Front Matter/Front Matter.md`
-  would push the cover page, the abstract and everything else in `Front Matter` one level
+  would push the title page, the abstract and everything else in `Front Matter` one level
   down. Never give a file inside a grouping folder that folder's name.
   This is why the switch files are called `Switch to Front Matter` and `Switch to Main Matter`.
 
@@ -284,7 +284,7 @@ The names are written as two words; together only as the LaTeX commands.
 00 Document Setup.md
 Front Matter/
     Switch to Front Matter.md        ```latex \frontmatter      first in the folder
-    Cover Page.md, Abstract.md, … the lists
+    Title Page.md, Abstract.md, … the lists
 Main Matter/
     Switch to Main Matter.md         ```latex \mainmatter       first in the folder
     Introduction/ … Conclusion.md    the chapters

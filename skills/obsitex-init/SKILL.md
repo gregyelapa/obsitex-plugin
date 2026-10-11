@@ -287,7 +287,7 @@ on its own.
      currently the only one; skip the question and say in one sentence what they get.
      It ships as one template with one file per chapter; a folder per chapter (the default
      of the splitting question in block 3) is built from it by rule.
-   - without chapters → `simple-thesis` (cover page, table of contents, lists of figures
+   - without chapters → `simple-thesis` (title page, table of contents, lists of figures
      and tables, chapters, bibliography, appendix — for seminar papers and shorter
      theses) or `academic-paper` (lean: title block on the first page, abstract with
      keywords, sections, bibliography — no separate title page, no table of contents).
@@ -688,7 +688,7 @@ Every template therefore has two kinds of files:
 | **Fixed** | `00 Document Setup.md`, and in `professional-thesis` everything in `Front Matter/` and `Back Matter/` plus `Switch to Main Matter.md` | the shape never changes. Only the gaps are filled in (cover data, citation style, language) |
 | **Chapters** (sections without chapters) | the body files: in `professional-thesis` the other files in `Main Matter/`, in the flat templates the files named in the table under "Building it by rule" | stay as they are for one file per part; become folders by rule for two or three levels |
 
-The fixed files hold the raw LaTeX (cover page, lists, bibliography, the switches). They are
+The fixed files hold the raw LaTeX (title page, lists, bibliography, the switches). They are
 copied and never rebuilt, because a model rewriting them loses backslashes (see "Hard
 rules"). The chapter files hold only headings and placeholder text, and nothing is lost when
 they are split.
@@ -974,7 +974,7 @@ folder are **subsections**. When you talk about them, use the word that fits, ne
 | Template | becomes a folder | stays a single file |
 |---|---|---|
 | `professional-thesis` | in `Main Matter/`: `30 Introduction`, `40 Background and Related Work`, `50 Methodology`, `60 Results`, `70 Discussion` | `Switch to Main Matter`, `80 Conclusion and Future Work`, everything in `Front Matter/` and `Back Matter/` |
-| `simple-thesis` | `60 Introduction`, `70 Literature Review` | Cover Page, Abstract, the three lists, `80 Conclusion`, Bibliography, Appendix |
+| `simple-thesis` | `60 Introduction`, `70 Literature Review` | Title Page, Abstract, the three lists, `80 Conclusion`, Bibliography, Appendix |
 | `academic-paper` | `30 Introduction`, `40 Methods`, `50 Results`, `60 Discussion` | Title, Abstract, `70 Conclusion`, Bibliography |
 
 In `professional-thesis` the chapter folders are built **inside `Main Matter/`**, where the
@@ -1473,7 +1473,7 @@ ever sees them. The numbers below apply to **variant B**; in variant A drop them
    **verbatim first** — the templates are tested wholes; do not improvise structure.
    Copy with a plain `cp`, never by reading a template and writing its content out again.
 2. Then adapt in place **with the Edit tool, never through the shell** (see "Hard rules":
-   the shell eats one backslash of every `\\` pair and silently flattens the cover page):
+   the shell eats one backslash of every `\\` pair and silently flattens the title page):
    - **Citation style:** in `00 Document Setup.md`, set the biblatex option — **and, for the
      three non-default styles, add the matching redefinition on the next line.** The converter
      always emits `\cite{…}`, and `\cite` means something different in every biblatex style:
@@ -1492,14 +1492,14 @@ ever sees them. The numbers below apply to **variant B**; in variant A drop them
      TeXbook. Reading, MA: Addison-Wesley, 1984." Nothing warns. `style=apa` needs no extra
      `\usepackage`: the style comes from the `biblatex-apa` bundle of the TeX distribution,
      and it follows the babel language on its own ("References" / "Literatur").
-   - **Cover data:** replace the placeholders inside the `latex` block of the Cover Page
+   - **Cover data:** replace the placeholders inside the `latex` block of the Title Page
      file (professional-thesis / simple-thesis) or of the Title file (academic-paper). For a
      single author in the paper, delete the `\and` line and the two lines after it; keep
      the closing `}`. For more authors, repeat the `\and` block.
    - **Document language German:** apply the table below.
    - **Chat language German, whatever the document language:** translate **every**
      ` ```remark ` block of the copied template into German, completely: the one in
-     `00 Document Setup.md`, the cover page or title block, the lists, the bibliography, the appendix
+     `00 Document Setup.md`, the title page or title block, the lists, the bibliography, the appendix
      examples, the declaration, all of them. The four structure files take the agreed wording
      verbatim (see "The remarks of the four structure files in a German chat"). Only the
      remarks change. Headings, placeholder texts and the ` ```latex ` / ` ```latex-preamble `
@@ -1528,7 +1528,7 @@ ever sees them. The numbers below apply to **variant B**; in variant A drop them
   ```
   10 Front Matter/
       10 Switch to Front Matter.md      \frontmatter   first in the folder
-      20 Cover Page.md … 80 List of Abbreviations.md
+      20 Title Page.md … 80 List of Abbreviations.md
   20 Main Matter/
       10 Switch to Main Matter.md       \mainmatter    first in the folder
       30 Introduction.md … 80 Conclusion and Future Work.md
@@ -1759,7 +1759,7 @@ the plugin's own defaults on first load, so leaving it out is both correct and s
     },
     "Manuscript/Front Matter": {
       "sortOrder": "custom",
-      "customOrder": ["Switch to Front Matter.md", "Cover Page.md", "Abstract.md"]
+      "customOrder": ["Switch to Front Matter.md", "Title Page.md", "Abstract.md"]
     },
     "Manuscript/Main Matter": {
       "sortOrder": "custom",
@@ -2086,7 +2086,7 @@ if you touched or created one: "your `CLAUDE.md` stays yours; I only added the l
   `printf` or a `sed` replacement eats one backslash of every pair: `\\` silently becomes
   `\`. In a ` ```latex ` block that deletes the forced line break the `\\` stands for, and in
   a ` ```dds ` block it breaks the JSON. **Nothing warns**, because damaged LaTeX still
-  compiles: on the cover page the three `tabbing` lines then print on top of each other
+  compiles: on the title page the three `tabbing` lines then print on top of each other
   (measured 24.08.2026, professional-thesis). Use the file tools (Write, Edit) for every
   `.md` file. Copy templates with a plain `cp`, which does not touch the content, and edit
   the copy afterwards. Whenever you touched a file that holds a ` ```latex ` or ` ```dds `

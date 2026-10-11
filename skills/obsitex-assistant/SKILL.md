@@ -183,7 +183,7 @@ within a second too.
   `printf` or a `sed` replacement eats one backslash of every pair: `\\` silently becomes
   `\`. In a ` ```latex ` block that deletes the forced line break the `\\` stands for, and in
   a ` ```dds ` block it breaks the JSON. **Nothing warns**, because damaged LaTeX still
-  compiles: on a cover page the `tabbing` lines then print on top of each other (measured
+  compiles: on a title page the `tabbing` lines then print on top of each other (measured
   24.08.2026). Use the file tools (Write, Edit) for every `.md` file. After editing a file
   that holds a ` ```latex ` or ` ```dds ` block, check that the backslash pairs survived:
   `grep -c '\\\\' "<file>"`.

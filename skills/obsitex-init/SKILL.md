@@ -2288,3 +2288,26 @@ Projektordner                   ← Obsidian opens this one (the vault)
 - **Last, and as a question:** offer the project `AGENTS.md`, clearly recommended, at the very
   end, after everything else has been reported. Use the wording in "The project `AGENTS.md`"
   above: both reasons, as two points. Write it only if they say yes.
+- **After that answer, and only then: a new chat for the writing** (since 12.10.2026, v1.65.0).
+  This chat is now full of the interview, and everything in it is carried along with every later
+  message: slower and more expensive, with nothing gained for the writing. Nobody tells the user
+  this on their own. **What you say depends on the answer to the `AGENTS.md` question**, because
+  a new chat only knows today's decisions if that file exists:
+  - **Yes, the file was written:** recommend it plainly, in the chat language:
+
+    > For the writing itself, close this chat and start a new one in the project folder. It
+    > knows everything we decided today from `AGENTS.md`, and it is faster and cheaper than
+    > this long one.
+
+    German original:
+
+    > Zum Schreiben schliesst du diesen Chat am besten und startest einen neuen im
+    > Projektordner. Er kennt alles, was wir heute entschieden haben, aus der `AGENTS.md`, und
+    > er ist schneller und günstiger als dieser lange Chat.
+
+  - **No file:** do not recommend a new chat. Say in one sentence that a new chat would not
+    know today's decisions, and that they can still ask for the `AGENTS.md` any time.
+
+  **"In the project folder" is the point, not a detail:** `AGENTS.md` is read only by a chat
+  that starts there. Never name a command for it (`/clear` and its kind differ between AI tools
+  and may not reload the file).

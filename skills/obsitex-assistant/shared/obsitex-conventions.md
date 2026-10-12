@@ -77,6 +77,7 @@ Read the matching file **when the topic comes up** — not in advance. Each is s
 | Quotation marks, nesting, the apostrophe | `quotation-marks.md` |
 | Escaping, rules, dashes, emoji | `special-characters.md` |
 | The 22 document settings, field by field | `dds.md` |
+| A different font, the line spacing | `page-look.md` |
 | Constructs that silently go wrong, and what to write instead | `not-supported.md` |
 | "Here", "at my cursor": finding and writing at the cursor in a running Obsidian | `cursor.md` |
 | Anything the plain syntax cannot express | see "Answering a formatting wish" below |

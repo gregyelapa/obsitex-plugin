@@ -41,8 +41,12 @@ Pick your tool. The easiest way is one message in its chat; the exact commands a
 Send this message in a Claude Code chat:
 
 ```
-Install the Obsitex plugin for Claude Code from this repository: https://github.com/gregyelapa/obsitex-plugin
+Install the Obsitex plugin for Claude Code. Run these two commands, nothing else: claude plugin marketplace add gregyelapa/obsitex-plugin and then claude plugin install obsitex@obsitex. Do not download or clone the repository.
 ```
+
+The message names the commands on purpose. A message that only gives the repository leaves
+Claude to choose the way, and one way (downloading the repository into a local folder)
+installs a copy that never sees an update.
 
 Or run these two commands in a terminal:
 

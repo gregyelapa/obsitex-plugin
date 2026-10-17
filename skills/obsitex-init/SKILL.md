@@ -404,9 +404,12 @@ cover data. Each one is written out at its own question.
 
 ## Ordering: variant A or B (question 11)
 
-Obsidian shows the files of the vault in one list, and Obsitex converts them in exactly
-that order. There are two ways to control it, and they lead to different file names — so
-the answer must be known before any file is written.
+Obsitex converts the files in a set order. There are two ways to control it, and they lead
+to different file names — so the answer must be known before any file is written.
+
+**Do not tell the user that Obsitex converts "in the order Obsidian shows".** That holds
+for A only. With B, Obsidian's file list and the PDF disagree (folders on top, see below),
+and that sentence is exactly what made a user think the B sketch was a mistake.
 
 **Recommend A clearly** — not only as a parenthesis in the option label, but in the
 message next to the question ("I'd strongly recommend the first one"). Still no automatic
@@ -428,45 +431,63 @@ the call, and as `preview` on both options** (never only in `description`):
 *A — drag & drop:*
 
 ```
-┌────────────────────────────┐
-│  00 Document Setup         │
-│  Front Matter         ›    │
-│  Main Matter          ▾    │
-│     Switch to Main Matter  │
-│     Introduction      ›    │
-│     Methodology       ›    │
-│     Conclusion             │
-│  Back Matter          ›    │
-└────────────────────────────┘
- exactly the document order,
- rearrange by dragging
+Obsidian shows = PDF gets
+    00 Document Setup
+[F] Front Matter
+[F] Main Matter
+        Switch to Main Matter
+    [F] Introduction
+    [F] Methodology
+        Conclusion
+[F] Back Matter
+
+[F] = folder
 ```
 
 *B — numbers in the file names:*
 
 ```
-┌────────────────────────────┐
-│  10 Front Matter      ›    │
-│  20 Main Matter       ▾    │
-│     30 Introduction   ›    │
-│     50 Methodology    ›    │
-│     10 Switch to Main…     │
-│     80 Conclusion          │
-│  90 Back Matter       ›    │
-│  00 Document Setup         │
-└────────────────────────────┘
- folders always on top,
- rest sorted by number
+Obsidian shows             PDF gets
+[F] 10 Front Matter        00 Document Setup
+[F] 20 Main Matter         10 Front Matter
+    [F] 30 Introduction    20 Main Matter
+    [F] 50 Methodology        10 Switch to Main…
+        10 Switch to Main…    30 Introduction
+        80 Conclusion         50 Methodology
+[F] 90 Back Matter            80 Conclusion
+    00 Document Setup      90 Back Matter
+
+[F] = folder
 ```
 
-Variant B's mockup must show the folders on top — that is what Obsidian really does
-without the add-on, and the user should see it before choosing, not afterwards.
+Mark folders with `[F]` and nothing else. An emoji such as 📁 shifts the columns in a
+terminal, and the old `›` arrow at the line end was too easy to miss. Files carry four
+spaces in its place, so the names of one level stay aligned.
+
+Variant B's mockup must show **both columns**: Obsidian's list with the folders on top
+(that is what Obsidian really does without the add-on: folders first, files after them,
+each group sorted by name) and next to it the order the PDF gets. Side by side, the user
+sees the mismatch before choosing, not afterwards.
+
+**Below the two sketches, write this block in the chat message** (translated into the chat
+language, no dashes). It names the two costs of B separately, because they are of a
+different kind: one can be fixed by hand, the other never.
+
+> **With B you accept two things:**
+>
+> 1. **Reordering means renaming.** To move a chapter, you change the number in its name.
+>    That is work, but you can always do it.
+> 2. **Folders always sit on top.** Obsidian lists folders first and files after them. You
+>    cannot change this. So your file list never shows the real order. The PDF is still
+>    correct.
+>
+> With A, neither happens.
 
 Say in the option descriptions, short and in plain words: with A the names stay clean and
 reordering is one drag; the order then lives in a settings file of the add-on. With B
-nothing extra is installed and the order is visible in the names themselves; the gaps
-between 10, 20, 30 exist so a new chapter can be squeezed in as 25 without renaming the
-rest.
+nothing extra is installed, reordering means renaming, and the file list in Obsidian shows
+the folders on top, not in the real order. The gaps between 10, 20, 30 exist so a new
+chapter can be squeezed in as 25 without renaming the rest.
 
 **What follows from the answer**
 

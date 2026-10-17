@@ -233,6 +233,18 @@ AskUserQuestion can hold four questions at once, and bundling would save clicks.
 belongs to all of them, and the second question arrives with nothing in front of it. The user
 reads a message and answers the question that message prepared. That is the whole mechanism.
 
+**What the message must be:**
+
+- **Visible text in your reply, written before the dialog call.** Text in your thinking is
+  never shown to the user. A message you only thought counts as no message at all. This is not
+  hypothetical: in a test run on 17.10.2026 (Sonnet 5.5), the messages for questions 5 to 9 all
+  went into thinking. The user saw five dialogs in a row with nothing in front of them, and the
+  session afterwards believed it had sent them.
+- **It names every option with its description.** The dialog repeats them; the message is where
+  they are read. A tip alone is not a message, and neither is one sentence.
+- **Never invent an option the skill does not name.** Where the skill offers free text or
+  keeping the placeholders, offer exactly that.
+
 **Why the languages may share one dialog:** they are one decision in two halves, asked before
 any explanation exists, and neither carries a sketch. Nothing precedes them that could get lost.
 
@@ -2143,6 +2155,10 @@ if you touched or created one: "your `CLAUDE.md` stays yours; I only added the l
   well they seem to pair. Each one is prepared by a chat message written for it; a second tab
   arrives with nothing in front of it. The language pair is the only exception, and it is the
   next rule.
+- **Before every question from 3 on, write its own chat message as visible text in your
+  reply, before the dialog call.** Text in your thinking is never shown to the user. The
+  message names every option with its description. A tip alone is not a message. Never invent
+  an option the skill does not name. (Details: "One question per dialog".)
 - **The first dialog always carries both language questions.** Chat language and document
   language, together, before anything else. Reading the chat language off what the user has
   written so far is an offer for the top option, never a reason to drop the question: it also

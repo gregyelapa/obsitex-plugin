@@ -265,6 +265,23 @@ the user, not by review:
 **One tip per dialog** still holds (see "Tips" below) — with one question per dialog it is
 simply never in question again.
 
+### Question cards — the wording comes ready-made
+
+**Some questions have a card: a file under `questions/` with the finished wording.** Today
+that is question 5 (`questions/05-numbering.md`). For a question with a card:
+
+1. **Read the card immediately before the dialog**, not at the start of the interview. Its
+   text must be fresh when you ask.
+2. **Ask it exactly as written.** Translate into the chat language; do not shorten, merge,
+   reword or add options.
+3. **The dialog carries everything.** The card puts the recommendation, the reason, the
+   limitation and the reassurance into the question text, the descriptions and the previews.
+   A chat message before it is welcome but optional, because what is only in a message can
+   be lost: runs on 17.10.2026, with Sonnet 5.5 and with Opus 5.5, opened five dialogs in a
+   row with no visible message between them.
+
+Questions without a card follow the rest of this file as before.
+
 ### Option letters — the anchor between the message and the dialog
 
 **Every question that carries a mockup labels its options `A`, `B`, `C`, in the chat message
@@ -306,17 +323,11 @@ on its own.
      and tables, chapters, bibliography, appendix — for seminar papers and shorter
      theses) or `academic-paper` (lean: title block on the first page, abstract with
      keywords, sections, bibliography — no separate title page, no table of contents).
-5. **Numbering depth** — how deep should headings be numbered? Default and recommendation:
-   up to `1.1.1` in every class. **The option list differs with and without chapters** —
-   see "Sectioning depth" below for both tables, the reasoning, and the cross-reference
-   limitation that has to be named with the recommendation. **Before the dialog, a short chat
-   message:** the recommendation with its reason (beyond three numbered levels, only the length
-   of the number tells the levels apart) and the limitation (at `1.1.1`, links work down to
-   `1.1.1` and no deeper). Measured 27.09.2026: one run asked the question with no message at
-   all. Send this tip with the question (see "Tips" below): *"💡 **Tip:** Numbers that run
-   deep quickly make a text look technical. If it bothers you once you see the PDF, tell me and
-   I will change the depth."* Two runs out of two left this tip out while it stood only in
-   "Sectioning depth".
+5. **Numbering depth** — how deep should headings be numbered? **Read
+   `questions/05-numbering.md` immediately before asking, and ask it exactly as written
+   there** (see "Question cards" above). The card holds the wording, both option sets and the
+   previews. The reasoning behind it and what the answer writes into the preamble stay in
+   "Sectioning depth" below.
 6. **Contents list depth** — same depth as the numbering, or one level shallower? Never
    deeper. Asked **after** answer 5 is in, because the option labels and the recommendation are
    both written out of it; see "Sectioning depth" below.
@@ -1209,6 +1220,10 @@ past the line. In a flat template it takes one `#` more: `####` lands on `\parag
 this in plain words; it is the whole reason for the question.
 
 ### Question A — numbering depth
+
+**The wording the user sees is on the card `questions/05-numbering.md`.** This section is the
+reasoning behind it. Change the card when the wording changes, and this section when the
+reasoning does.
 
 Offer **every level the class can number** — the recommendation steers, it does not restrict.
 The reason is the cross-reference: a user can write `#####` whether we offer it or not, and a
@@ -2169,7 +2184,9 @@ if you touched or created one: "your `CLAUDE.md` stays yours; I only added the l
 - **Before every question from 3 on, write its own chat message as visible text in your
   reply, before the dialog call.** Text in your thinking is never shown to the user. The
   message names every option with its description. A tip alone is not a message. Never invent
-  an option the skill does not name. (Details: "One question per dialog".)
+  an option the skill does not name. (Details: "One question per dialog".) **A question with a
+  card under `questions/` is the exception:** its dialog carries everything, and the message
+  is optional (see "Question cards").
 - **The first dialog always carries both language questions.** Chat language and document
   language, together, before anything else. Reading the chat language off what the user has
   written so far is an offer for the top option, never a reason to drop the question: it also

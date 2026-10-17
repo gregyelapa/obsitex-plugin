@@ -14,6 +14,28 @@ Obsitex is a web app that converts an Obsidian vault (Markdown on OneDrive) into
 document and PDF. This skill lays down everything the converter needs — document settings
 (DDS), LaTeX preamble, and an ordered set of chapter files — so the user only fills in content.
 
+## Every question starts with a visible intro text
+
+**Before every dialog of the interview, write that question's intro text in the chat. Never open
+a dialog without it.** This holds for every question, also the short ones, also the tenth.
+
+- **Visible text in your reply, written before the dialog call.** Text in your thinking is never
+  shown to the user. An intro you only thought counts as no intro at all.
+- **The intro is where the user reads; the dialog is where they click.** Keep the dialog short:
+  labels and one line of description. The explanation, the sketch and the tip belong in the
+  intro.
+- **Where the intro comes from:** a question with a card under `questions/` (see "Question
+  cards") has its intro written out there, ready to send. A question with a sketch sends the
+  sketch and the text around it. Any other question: at least the recommendation and its reason,
+  never a tip alone, never one bare sentence.
+- **Never invent an option the skill does not name.**
+
+Why this rule stands first: runs on 02.10.2026 and 17.10.2026, with Sonnet 5.5 and with Opus 5.5,
+opened the dialogs for questions 5 to 7 (and later ones) with no visible text in front of them.
+In one run the intros went into thinking, and the session afterwards believed it had sent them.
+Questions with a sketch kept their intro every time. The ones that only had a sentence to write
+lost it.
+
 ## Two words, used everywhere
 
 Use exactly these two terms — in this file, in the chat, in the report and in the READMEs.
@@ -232,18 +254,8 @@ AskUserQuestion can hold four questions at once, and bundling would save clicks.
 — a sketch, a comparison, a tip. A bundled dialog opens on the first tab while the message
 belongs to all of them, and the second question arrives with nothing in front of it. The user
 reads a message and answers the question that message prepared. That is the whole mechanism.
-
-**What the message must be:**
-
-- **Visible text in your reply, written before the dialog call.** Text in your thinking is
-  never shown to the user. A message you only thought counts as no message at all. This is not
-  hypothetical: in a test run on 17.10.2026 (Sonnet 5.5), the messages for questions 5 to 9 all
-  went into thinking. The user saw five dialogs in a row with nothing in front of them, and the
-  session afterwards believed it had sent them.
-- **It names every option with its description.** The dialog repeats them; the message is where
-  they are read. A tip alone is not a message, and neither is one sentence.
-- **Never invent an option the skill does not name.** The cover data (question 8) has its
-  own two options, written out at the question.
+(What the message must contain: "Every question starts with a visible intro text", at the top
+of this file.)
 
 **Why the languages may share one dialog:** they are one decision in two halves, asked before
 any explanation exists, and neither carries a sketch. Nothing precedes them that could get lost.
@@ -270,15 +282,15 @@ simply never in question again.
 **Some questions have a card: a file under `questions/` with the finished wording.** Today
 that is question 5 (`questions/05-numbering.md`). For a question with a card:
 
-1. **Read the card immediately before the dialog**, not at the start of the interview. Its
+1. **Read the card immediately before the question**, not at the start of the interview. Its
    text must be fresh when you ask.
-2. **Ask it exactly as written.** Translate into the chat language; do not shorten, merge,
+2. **Send the card's intro text first, as visible text in your reply.** It is written out like
+   a sketch: send it whole, translated into the chat language.
+3. **Then open the dialog exactly as the card gives it.** Translate; do not shorten, merge,
    reword or add options.
-3. **The dialog carries everything.** The card puts the recommendation, the reason, the
-   limitation and the reassurance into the question text, the descriptions and the previews.
-   A chat message before it is welcome but optional, because what is only in a message can
-   be lost: runs on 17.10.2026, with Sonnet 5.5 and with Opus 5.5, opened five dialogs in a
-   row with no visible message between them.
+
+The card exists so that no question depends on wording you have to invent. The questions that
+lost their intro in test runs were exactly the ones whose intro had to be invented.
 
 Questions without a card follow the rest of this file as before.
 
@@ -325,9 +337,9 @@ on its own.
      keywords, sections, bibliography — no separate title page, no table of contents).
 5. **Numbering depth** — how deep should headings be numbered? **Read
    `questions/05-numbering.md` immediately before asking, and ask it exactly as written
-   there** (see "Question cards" above). The card holds the wording, both option sets and the
-   previews. The reasoning behind it and what the answer writes into the preamble stay in
-   "Sectioning depth" below.
+   there** (see "Question cards" above). The card holds the intro text with its sketch and the
+   short dialog, for both option sets. The reasoning behind it and what the answer writes into
+   the preamble stay in "Sectioning depth" below.
 6. **Contents list depth** — same depth as the numbering, or one level shallower? Never
    deeper. Asked **after** answer 5 is in, because the option labels and the recommendation are
    both written out of it; see "Sectioning depth" below.
@@ -2181,12 +2193,9 @@ if you touched or created one: "your `CLAUDE.md` stays yours; I only added the l
   well they seem to pair. Each one is prepared by a chat message written for it; a second tab
   arrives with nothing in front of it. The language pair is the only exception, and it is the
   next rule.
-- **Before every question from 3 on, write its own chat message as visible text in your
-  reply, before the dialog call.** Text in your thinking is never shown to the user. The
-  message names every option with its description. A tip alone is not a message. Never invent
-  an option the skill does not name. (Details: "One question per dialog".) **A question with a
-  card under `questions/` is the exception:** its dialog carries everything, and the message
-  is optional (see "Question cards").
+- **Every question starts with a visible intro text in the chat, before its dialog.** Never
+  only in your thinking, never a dialog without it. Details: the section of that name at the
+  top of this file.
 - **The first dialog always carries both language questions.** Chat language and document
   language, together, before anything else. Reading the chat language off what the user has
   written so far is an offer for the top option, never a reason to drop the question: it also

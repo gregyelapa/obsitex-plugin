@@ -1,109 +1,79 @@
 # Question 5 · Numbering depth
 
-**Read this card immediately before you ask question 5, and ask it exactly as written here.**
-Translate every text into the chat language. Keep the numbers (`1.1.1`, …) exactly as they are.
-Do not shorten, merge or reword the options, and do not add any.
+**Read this card immediately before question 5. Then do two things, in this order:**
 
-**Everything the user needs is inside the dialog.** The question text, the option labels, the
-descriptions and the previews carry the recommendation, the reason, the limitation and the
-reassurance. A chat message before the dialog is welcome, but nothing depends on it. If you
-send one, send it as visible text in your reply, before the dialog call, never only in your
-thinking.
+1. **Send the intro text below as visible text in your reply.** Whole, translated into the
+   chat language. Keep the numbers (`1.1.1`, …), the sketch and its arrow exactly as they are;
+   translate only the words. Never only in your thinking.
+2. **Then open the dialog** exactly as given further down. Translate; do not shorten, merge,
+   reword or add options.
 
-Pick the option set by the answer to question 3: **with chapters** (`professional-thesis`) or
-**without chapters** (`simple-thesis`, `academic-paper`).
-
----
-
-## The dialog
-
-The letters in the first column only name the rows of this card. The labels in the dialog
-carry no letter.
-
-**header:** `Numbering`
-
-**question:** `How deep should headings be numbered? You can change this later.`
-
-### Option set: with chapters (four options)
-
-| # | label | description |
-|---|---|---|
-| A | `Up to 1.1.1 (recommended)` | `Chapter, section and one level below get a number. A link to a deeper heading points to the wrong place, so links work down to 1.1.1.` |
-| B | `Up to 1.1.1.1` | `One more numbered level. From here on the levels look alike (same font size), only the length of the number tells them apart.` |
-| C | `Up to 1.1.1.1.1` | `Two more numbered levels. Same drawback as above, with longer numbers.` |
-| D | `Up to 1.1.1.1.1.1` | `The deepest numbering possible. Same drawback as above, with the longest numbers.` |
-
-### Option set: without chapters (three options)
-
-| # | label | description |
-|---|---|---|
-| A | `Up to 1.1.1 (recommended)` | `Section and two levels below get a number. A link to a deeper heading points to the wrong place, so links work down to 1.1.1.` |
-| B | `Up to 1.1.1.1` | `One more numbered level. That heading runs into the first line of its paragraph instead of standing on its own line. This layout cannot change that.` |
-| C | `Up to 1.1.1.1.1` | `The deepest numbering possible. Two levels run into their paragraph, as above.` |
-
-### Previews (the same for both sets)
-
-Put each preview on its option, in a code block. Translate the headings, keep the numbers and
-the arrow.
-
-**A**
-
-```
-1  Introduction
-1.1  Background
-1.1.1  Earlier studies
-       Survey design        ← no number
-```
-
-**B**
-
-```
-1  Introduction
-1.1  Background
-1.1.1  Earlier studies
-1.1.1.1  Survey design
-```
-
-**C**
-
-```
-1  Introduction
-1.1  Background
-1.1.1  Earlier studies
-1.1.1.1  Survey design
-1.1.1.1.1  Sample
-```
-
-**D** (with chapters only)
-
-```
-1  Introduction
-1.1  Background
-1.1.1  Earlier studies
-1.1.1.1  Survey design
-1.1.1.1.1  Sample
-1.1.1.1.1.1  Selection
-```
+Pick the version by the answer to question 3: **with chapters** (`professional-thesis`) or
+**without chapters** (`simple-thesis`, `academic-paper`). The intro is the same for both
+except for one sentence, marked below.
 
 ---
 
-## Optional chat message before the dialog
+## 1 · Intro text (send first)
 
-Two short paragraphs, in the chat language. Send them as visible text, then open the dialog.
-
-> Next: how deep your headings are numbered. I recommend up to 1.1.1. Below that, all headings
-> look the same and only the length of the number tells them apart.
+> **How deep should your headings be numbered?**
+>
+> I recommend **up to 1.1.1**. Below that, every heading looks the same (same font size), and
+> only the length of the number tells the levels apart.
+>
+> ```
+> Up to 1.1.1 (recommended)        Up to 1.1.1.1
+>
+> 1  Introduction                  1  Introduction
+> 1.1  Background                  1.1  Background
+> 1.1.1  Earlier studies           1.1.1  Earlier studies
+>        Survey design  ← no no.   1.1.1.1  Survey design
+> ```
+>
+> **One thing to know:** a link to a heading without a number points to the wrong place. So at
+> 1.1.1, links work down to 1.1.1. If you want to link to finer headings, pick a deeper option.
+>
+> *Without chapters only, add this sentence:* From 1.1.1.1 on, the deepest heading runs into
+> the first line of its paragraph instead of standing on its own line. This layout cannot
+> change that.
 >
 > 💡 **Tip:** Numbers that run deep quickly make a text look technical. If it bothers you once
 > you see the PDF, tell me and I will change the depth.
 
 ---
 
+## 2 · Dialog (open after the intro)
+
+The letters in the first column only name the rows of this card. The labels in the dialog
+carry no letter. No previews: the sketch is in the intro.
+
+**header:** `Numbering`
+
+**question:** `How deep should headings be numbered?`
+
+### With chapters (four options)
+
+| # | label | description |
+|---|---|---|
+| A | `Up to 1.1.1 (recommended)` | `Chapter, section and one level below.` |
+| B | `Up to 1.1.1.1` | `One more numbered level.` |
+| C | `Up to 1.1.1.1.1` | `Two more numbered levels.` |
+| D | `Up to 1.1.1.1.1.1` | `The deepest numbering possible.` |
+
+### Without chapters (three options)
+
+| # | label | description |
+|---|---|---|
+| A | `Up to 1.1.1 (recommended)` | `Section and two levels below.` |
+| B | `Up to 1.1.1.1` | `One more numbered level.` |
+| C | `Up to 1.1.1.1.1` | `The deepest numbering possible.` |
+
+---
+
 ## Without a question tool
 
-Write the question, then each option on one line as `A: label. description`, then the previews
-as code blocks headed by their letter, then "Reply with the letter." (see "When there is no
-question tool" in `SKILL.md`).
+Send the intro text, then each option on one line as `A: label. description`, then "Reply with
+the letter." (see "When there is no question tool" in `SKILL.md`).
 
 ## What happens with the answer
 

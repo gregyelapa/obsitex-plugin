@@ -98,6 +98,10 @@ manuscript at once — then just say "your folder".
    the bundled Flexplorer plugin files and its seed `data.json` ("Install the Flexplorer
    plugin" below) and the three Folder notes files downloaded from their author ("Install the
    Folder notes plugin" below).
+5. Read the file `VERSION` next to this `SKILL.md`. It holds one line, the installed version
+   (for example `1.69.0`). The greeting names it, so the user sees at a glance which version
+   runs. Skills have no version command of their own, and in testing this question came up
+   again and again. If the file is missing, write `unknown` instead of guessing.
 
 ## Open with this
 
@@ -106,8 +110,10 @@ English wording here is the original; translate it, never paste it untranslated 
 conversation. This is the one place where the two central terms are introduced, so do not
 shorten it away and do not fold it into the first question.
 
-Five things to adapt, then send it as one message:
+Six things to adapt, then send it as one message:
 
+- **The version line under the heading** carries the number from `VERSION` (see "Before you
+  start"), exactly as it stands in the file. Never leave the placeholder, never round it.
 - **The address `www.obsitex.com` is translated into nothing and dropped from nothing.** It is
   the one place the user is told where the app actually lives, and someone who reads the
   greeting and then looks for Obsitex has no other pointer.
@@ -126,6 +132,7 @@ The wording:
 <!-- greeting -->
 
 **Setting up your writing project**
+*obsitex-init <VERSION>*
 
 I am your personal Obsitex assistant. AI-supported writing starts before the first word here,
 and it does not stop until the PDF is done. I know the logic of the converter: which Markdown

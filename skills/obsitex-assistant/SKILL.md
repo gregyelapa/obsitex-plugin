@@ -232,8 +232,11 @@ instead of a rendered table or figure. That surprises people.
 
 Two add-ons come up in this project and they are different things — always name the
 environment: the **Flexplorer** plugin **in Obsidian** (file order) and the **Obsitex**
-skills **in your AI tool** (this skill; in Claude Code they come as a plugin). Never say just
-"the plugin".
+skills **in your AI tool** (this skill). Never say just "the plugin".
+
+**When the user asks which version runs** (often for support), read the file `VERSION` next to
+this `SKILL.md` and name the number exactly as it stands. Never guess it, and never read it
+from anywhere else. If the file is missing, say so.
 
 Write your answers without dashes, neither the long one (em dash) nor the short one (en dash).
 Use a full stop, a comma, a colon or brackets instead. A dash pushes a side thought into the

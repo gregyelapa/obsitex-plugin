@@ -3,6 +3,9 @@ name: obsitex-init
 description: Set up a new Obsitex writing project in an Obsidian vault — scaffolds a research project structure (project, research, interviews, data, exports) around the manuscript as Professional Thesis (scrbook), Simple Thesis, or Academic Paper (LaTeX preamble, DDS settings, ordered chapter files, bibliography), ready for the Obsitex Markdown-to-LaTeX converter.
 disable-model-invocation: true
 argument-hint: "[project folder]"
+metadata:
+  opencode/slash: "true"
+  opencode/autoinvoke: "false"
 ---
 
 # Obsitex Init — scaffold a new thesis / paper vault

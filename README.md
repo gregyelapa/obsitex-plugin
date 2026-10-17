@@ -79,8 +79,9 @@ Or by hand: download this repository and copy the two folders `skills/obsitex-in
 
 Then restart the tool, so that it loads the new skills.
 
-**Start:** in Codex, `$obsitex-init`. In OpenCode, ask for it by name: "Use the obsitex-init
-skill to set up my thesis." Do this in the folder where the vault should be created.
+**Start:** in Codex, `$obsitex-init` (or `/skills` and pick it from the list). In OpenCode,
+`/obsitex-init`. Do this in the folder where the vault should be created. Neither tool starts
+it on its own when you only describe what you want.
 
 **Update:** send the same message again. It replaces the two folders.
 

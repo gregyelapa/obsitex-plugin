@@ -34,60 +34,53 @@ understands, which is not always the Markdown Obsidian renders.
 
 ## Install
 
-Pick your tool. The easiest way is one message in its chat; the exact commands are below it.
+Pick your tool. The easiest way is one message in its chat. **You do not need git.** The
+message downloads this repository as a zip archive and copies two folders out of it.
+
+**Updating works the same way:** send the same message again. It replaces the two folders.
+Then restart the tool, so that it loads the new version.
+
+Each skill folder holds a file `VERSION` with the installed version number.
 
 ### Claude Code
 
-Send this message in a Claude Code chat:
+Claude Code reads skills from the folder `~/.claude/skills/`. Send this message in a Claude
+Code chat:
 
 ```
-Install the Obsitex plugin for Claude Code. Run these two commands, nothing else: claude plugin marketplace add gregyelapa/obsitex-plugin and then claude plugin install obsitex@obsitex. Do not download or clone the repository.
+Install the Obsitex skills for Claude Code. No git is needed. Download https://github.com/gregyelapa/obsitex-plugin/archive/refs/heads/main.zip, unpack it, and copy the folders skills/obsitex-init and skills/obsitex-assistant into ~/.claude/skills/, replacing older copies. If claude plugin list shows an Obsitex plugin, remove it first with claude plugin uninstall obsitex@obsitex and claude plugin marketplace remove obsitex. At the end, show the contents of ~/.claude/skills/obsitex-init/VERSION.
 ```
 
-The message names the commands on purpose. A message that only gives the repository leaves
-Claude to choose the way, and one way (downloading the repository into a local folder)
-installs a copy that never sees an update.
+**If you installed Obsitex as a Claude Code plugin before** (up to version 1.66): the message
+removes the old plugin first, so the skills do not exist twice. The plugin needed git, and a
+plugin installed without git never received an update.
 
-Or run these two commands in a terminal:
-
-```
-claude plugin marketplace add gregyelapa/obsitex-plugin
-claude plugin install obsitex@obsitex
-```
-
-The first command installs nothing. It only makes this repository known as a source of
-plugins (a *marketplace*, which is no more than a list of what is on offer here). The second
-command installs the one plugin on that list. `obsitex@obsitex` looks doubled because it reads
-*plugin@marketplace*, and here both carry the same name. Claude Code asks you to trust the
-repository first. That is expected: a plugin brings code with it.
-
-**Start:** `/obsitex-init` in the folder where the vault should be created. If another command
-already has that name, use the full form `/obsitex:obsitex-init`.
-
-**Update:** `claude plugin update obsitex@obsitex` (the full id; `obsitex` alone fails), then
-restart the session. `/clear` is not enough: it empties the conversation, not the loaded
-plugin.
+**Start:** `/obsitex-init` in the folder where the vault should be created.
 
 ### Codex and OpenCode
 
 Both read skills from the folder `~/.agents/skills/`. Send this message in the chat:
 
 ```
-Install the Obsitex skills from https://github.com/gregyelapa/obsitex-plugin. Copy the folders skills/obsitex-init and skills/obsitex-assistant into ~/.agents/skills/ and replace older copies.
+Install the Obsitex skills. No git is needed. Download https://github.com/gregyelapa/obsitex-plugin/archive/refs/heads/main.zip, unpack it, and copy the folders skills/obsitex-init and skills/obsitex-assistant into ~/.agents/skills/, replacing older copies. At the end, show the contents of ~/.agents/skills/obsitex-init/VERSION.
 ```
-
-Or by hand: download this repository and copy the two folders `skills/obsitex-init` and
-`skills/obsitex-assistant` into `~/.agents/skills/` (on Windows
-`C:\Users\<you>\.agents\skills\`). Copy each folder as a whole. Each one carries its own
-`shared/` folder with the converter knowledge, and does not work without it.
-
-Then restart the tool, so that it loads the new skills.
 
 **Start:** in Codex, `$obsitex-init` (or `/skills` and pick it from the list). In OpenCode,
 `/obsitex-init`. Do this in the folder where the vault should be created. Neither tool starts
 it on its own when you only describe what you want.
 
-**Update:** send the same message again. It replaces the two folders.
+### By hand
+
+1. Download https://github.com/gregyelapa/obsitex-plugin/archive/refs/heads/main.zip and
+   unpack it.
+2. Copy the two folders `skills/obsitex-init` and `skills/obsitex-assistant` into your tool's
+   skills folder:
+   - Claude Code: `~/.claude/skills/` (on Windows `C:\Users\<you>\.claude\skills\`)
+   - Codex and OpenCode: `~/.agents/skills/` (on Windows `C:\Users\<you>\.agents\skills\`)
+3. Restart the tool.
+
+Copy each folder as a whole. Each one carries its own `shared/` folder with the converter
+knowledge, and does not work without it.
 
 ## What you get
 
@@ -124,13 +117,15 @@ line, `@AGENTS.md`, so that Claude Code reads both.
 skills/
 ├── obsitex-init/               the setup skill
 │   ├── SKILL.md
+│   ├── VERSION                 the version number
 │   ├── shared/                 what the skills know about the converter
 │   ├── assets/flexplorer/      pinned copy of the Flexplorer plugin
 │   └── templates/              the three scaffolds
 └── obsitex-assistant/          the writing companion
     ├── SKILL.md
+    ├── VERSION
     └── shared/                 the same converter knowledge
-.claude-plugin/                 only for Claude Code: makes this repo installable as a plugin
+.claude-plugin/                 kept for earlier plugin installations, so they still update
 ```
 
 ## Terms used throughout

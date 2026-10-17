@@ -242,8 +242,8 @@ reads a message and answers the question that message prepared. That is the whol
   session afterwards believed it had sent them.
 - **It names every option with its description.** The dialog repeats them; the message is where
   they are read. A tip alone is not a message, and neither is one sentence.
-- **Never invent an option the skill does not name.** Where the skill offers free text or
-  keeping the placeholders, offer exactly that.
+- **Never invent an option the skill does not name.** The cover data (question 8) has its
+  own two options, written out at the question.
 
 **Why the languages may share one dialog:** they are one decision in two halves, asked before
 any explanation exists, and neither carries a sketch. Nothing precedes them that could get lost.
@@ -350,10 +350,21 @@ on its own.
    subtitle, document type (e.g. Seminar Paper / Master Thesis), degree program, author,
    supervisor. For academic-paper (since 30.09.2026): title, subtitle, the authors with
    their institution, the corresponding author's e-mail, date. A paper has no document type,
-   degree program or supervisor, so do not ask for them. Offer
-   to keep the placeholders if the user does not want to decide now. Send this tip with the
+   degree program or supervisor, so do not ask for them. Send this tip with the
    question (see "Tips" below): *"💡 **Tip:** No final title yet? Leave the placeholders
    standing. Tell me any time and I will fill them in."*
+
+   **Ask it in two steps, the first one always as a dialog.** The data itself is free text,
+   and a dialog needs options to click. Left open, runs did both wrong things: one asked in
+   plain chat with no dialog at all, one built a dialog around an invented option ("Master
+   Thesis, details via Other", 17.10.2026). So:
+
+   1. **Dialog with exactly these two options**, in this order: `A: Fill in now` and
+      `B: Keep the placeholders for now`. The chat message before it names the fields of
+      this template, so the user knows what "now" means. Nothing else goes into the dialog.
+   2. **On A**, ask for the fields in plain chat, as a short list, and wait for the reply. A
+      field the user leaves out keeps its placeholder; do not ask again for it. **On B**, go
+      straight on to question 9.
 
 **Block 3 — how Obsitex lays the files out and orders them**
 

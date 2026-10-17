@@ -48,7 +48,7 @@ Claude Code reads skills from the folder `~/.claude/skills/`. Send this message 
 Code chat:
 
 ```
-Install the Obsitex skills for Claude Code. No git is needed. Download https://github.com/gregyelapa/obsitex-plugin/archive/refs/heads/main.zip, unpack it, and copy the folders skills/obsitex-init and skills/obsitex-assistant into ~/.claude/skills/, replacing older copies. If claude plugin list shows an Obsitex plugin, remove it first with claude plugin uninstall obsitex@obsitex and claude plugin marketplace remove obsitex. If no download tool works, tell me how to do it by hand. At the end, show the contents of ~/.claude/skills/obsitex-init/VERSION.
+Install the Obsitex skills for Claude Code. No git is needed. Download https://github.com/gregyelapa/obsitex-plugin/archive/refs/heads/main.zip, unpack it, and copy the folders skills/obsitex-init and skills/obsitex-assistant into ~/.claude/skills/, replacing older copies. If claude plugin list shows an Obsitex plugin, remove it first with claude plugin uninstall obsitex@obsitex and claude plugin marketplace remove obsitex. If no download tool works, tell me how to do it by hand. At the end, show the contents of ~/.claude/skills/obsitex-init/VERSION. Then tell me to restart Claude Code before I use the skills.
 ```
 
 **If you installed Obsitex as a Claude Code plugin before** (up to version 1.66): the message
@@ -62,7 +62,7 @@ plugin installed without git never received an update.
 Both read skills from the folder `~/.agents/skills/`. Send this message in the chat:
 
 ```
-Install the Obsitex skills. No git is needed. Download https://github.com/gregyelapa/obsitex-plugin/archive/refs/heads/main.zip, unpack it, and copy the folders skills/obsitex-init and skills/obsitex-assistant into ~/.agents/skills/, replacing older copies. If no download tool works, tell me how to do it by hand. At the end, show the contents of ~/.agents/skills/obsitex-init/VERSION.
+Install the Obsitex skills. No git is needed. Download https://github.com/gregyelapa/obsitex-plugin/archive/refs/heads/main.zip, unpack it, and copy the folders skills/obsitex-init and skills/obsitex-assistant into ~/.agents/skills/, replacing older copies. If no download tool works, tell me how to do it by hand. At the end, show the contents of ~/.agents/skills/obsitex-init/VERSION. Then tell me to restart this tool before I use the skills.
 ```
 
 **Start:** in Codex, `$obsitex-init` (or `/skills` and pick it from the list). In OpenCode,
